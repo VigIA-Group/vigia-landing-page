@@ -1,27 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Blinker:wght@100;200;300;400;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
 @import "tailwindcss";
 
-@import "tailwindcss/preflight";
-@tailwind utilities;
+@theme {
+  /* ── Colores personalizados ── */
+  --color-primary: #6366f1;
+  --color-primary-dark: #4f46e5;
+  --color-background: #0f0f13;
+  --color-surface: #1a1a24;
+  --color-text: #f4f4f5;
+  --color-muted: #71717a;
 
-:root {
-  --color-accent: #a855f7;
-  --color-accent-alt: #7c3aed;
-  --font-display: "Google Sans Flex", sans-serif;
-  --font-body: "Inter", sans-serif;
+  /* ── Fuentes personalizadas ── */
+  --font-sans: 'Inter', sans-serif;
+  --font-display: 'Blinker', sans-serif;
 }
 
-.font-display {
-  font-family: var(--font-display);
-}
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
 
-.font-body {
-  font-family: var(--font-body);
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family: var(--font-body);
+  body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+  }
 }
