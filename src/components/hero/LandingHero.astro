@@ -3,34 +3,21 @@ import ServicesDb from "../../database/services.json";
 import type { Services } from "../../models/Service";
 const services = ServicesDb as Services;
 
-// Gather one image per service for the grid rectangles
-const serviceImages = services.map((s) =>
-  s.features?.[0]?.images?.[0] ?? null
-);
-
-// Fill grid to at least 6 rectangles for visual density
+// Phase 2: usa service.image como tile principal de cada servicio
 const GRID_COUNT = Math.max(6, services.length);
 ---
-
-<!-- ============================================================
-     PHASE 1 — HERO (fullscreen, zooms out on scroll)
-     PHASE 2 — GRID REVEAL (tiled rectangles appear around hero)
-     PHASE 3 — FEATURE STICKY (left rect + right scrolling info)
-================================================================= -->
 
 <div id="scroll-root" class="relative">
 
   <!-- ── PHASE 1 & 2 wrapper ── -->
   <div id="hero-section" class="relative" style="height: 350vh;">
-
-    <!-- Sticky container that stays in view while we scroll through phases 1→2 -->
     <div id="hero-sticky" class="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center" style="background: var(--color-background);">
 
-      <!-- Grid of rectangles (hidden initially, revealed on zoom-out) -->
       <div id="rect-grid" class="absolute inset-0 flex items-center justify-center pointer-events-none">
         {Array.from({ length: GRID_COUNT }).map((_, i) => {
           const svc = services[i % services.length];
-          const img = serviceImages[i % serviceImages.length];
+          // ✅ Phase 2 ahora usa service.image en lugar de feat.images[0]
+          const img = svc?.image ?? null;
           const isHero = i === Math.floor(GRID_COUNT / 2) - (GRID_COUNT % 2 === 0 ? 1 : 0);
           return (
             <div
@@ -43,7 +30,6 @@ const GRID_COUNT = Math.max(6, services.length);
                 ? <img src={img} alt={svc?.name ?? ""} class="w-full h-full object-cover opacity-70" />
                 : <div class="w-full h-full" style={`background: hsl(${260 + i * 22}deg 60% ${14 + i * 3}%);`} />
               }
-              <!-- subtle label -->
               <div class="absolute bottom-0 left-0 right-0 p-3" style="background: linear-gradient(to top, rgba(5,1,10,0.85), transparent);">
                 <span class="font-sans text-xs" style="color: var(--color-muted);">{svc?.name ?? `Servicio ${i + 1}`}</span>
               </div>
@@ -52,30 +38,19 @@ const GRID_COUNT = Math.max(6, services.length);
         })}
       </div>
 
-      <!-- Hero content (centered, on top of grid) -->
       <div id="hero-content" class="relative z-10 flex flex-col items-center justify-center text-center px-6 pointer-events-none select-none">
-        <h1
-          id="hero-title"
-          class="font-display font-bold leading-none tracking-tight"
-          style="font-size: clamp(4rem, 12vw, 10rem); color: var(--color-text);"
-        >
+        <h1 id="hero-title" class="font-display font-bold leading-none tracking-tight"
+          style="font-size: clamp(4rem, 12vw, 10rem); color: var(--color-text);">
           VigIA
         </h1>
-        <p
-          id="hero-sub"
-          class="font-display mt-3"
-          style="font-size: clamp(1rem, 2.5vw, 1.5rem); color: var(--color-muted); letter-spacing: 0.04em;"
-        >
+        <p id="hero-sub" class="font-display mt-3"
+          style="font-size: clamp(1rem, 2.5vw, 1.5rem); color: var(--color-muted); letter-spacing: 0.04em;">
           La diferencia entre mirar y entender.
         </p>
-        <p
-          id="hero-body"
-          class="font-sans mt-4 max-w-lg"
-          style="font-size: clamp(0.85rem, 1.4vw, 1.05rem); color: var(--color-text); opacity: 0.7; line-height: 1.7;"
-        >
+        <p id="hero-body" class="font-sans mt-4 max-w-lg"
+          style="font-size: clamp(0.85rem, 1.4vw, 1.05rem); color: var(--color-text); opacity: 0.7; line-height: 1.7;">
           Transforma cada cámara en un sistema de inteligencia.
         </p>
-        <!-- scroll hint -->
         <div id="scroll-hint" class="mt-10 flex flex-col items-center gap-2">
           <span class="font-sans text-xs" style="color: var(--color-muted); letter-spacing: 0.15em; text-transform: uppercase;">Scroll</span>
           <div class="w-px h-10 relative overflow-hidden" style="background: rgba(167,139,250,0.2);">
@@ -87,62 +62,217 @@ const GRID_COUNT = Math.max(6, services.length);
     </div>
   </div>
 
-  <!-- ── PHASE 3 — Feature sticky section ── -->
+  <!-- ══════════════════════════════════════════════════════════════
+       PHASE 3 — Layout nuevo:
+       LEFT (sticky 44vw): textos con transición
+       RIGHT (56vw): imagen principal + flotantes de feature
+  ═══════════════════════════════════════════════════════════════ -->
   <div id="features-section" style="background: var(--color-background);">
     {services.map((service, si) => {
-      const heroImg = service.features?.[0]?.images?.[0] ?? null;
+      const featCount = service.features?.length ?? 0;
       return (
-        <div class="feature-block relative" data-service-index={si} style="min-height: 100vh;">
-          <!-- Sticky left image panel -->
-          <div class="feature-sticky-wrap sticky top-0 h-screen flex items-stretch pointer-events-none" style="z-index: 5;">
-            <div
-              class="feature-left-rect"
-              data-service-index={si}
-              style="width: 42vw; position: absolute; left: 0; top: 0; height: 100vh; overflow: hidden;"
-            >
-              <div class="w-full h-full relative" style="background: var(--color-surface);">
-                {heroImg
-                  ? <img src={heroImg} alt={service.name} class="w-full h-full object-cover" style="opacity: 0.85;" />
-                  : <div class="w-full h-full" style={`background: hsl(${260 + si * 35}deg 55% 14%);`} />
-                }
-                <!-- overlay label -->
-                <div class="absolute inset-0 flex flex-col justify-end p-8" style="background: linear-gradient(to top, rgba(5,1,10,0.7) 0%, transparent 60%);">
-                  <span class="font-sans text-xs mb-2" style="color: var(--color-muted); letter-spacing: 0.15em; text-transform: uppercase;">Servicio {String(si + 1).padStart(2, "0")}</span>
-                  <h3 class="font-display font-bold" style="font-size: clamp(1.5rem, 3vw, 2.5rem); color: var(--color-text);">{service.name}</h3>
-                </div>
+        <div
+          class="service-block"
+          data-service-index={si}
+          style={`position: relative; min-height: ${(featCount + 0.5) * 100}vh;`}
+        >
+
+          <!-- ── LEFT: sticky panel con textos ── -->
+          <div
+            class="service-left-panel"
+            data-service-index={si}
+            style="position: sticky; top: 0; left: 0; width: 44vw; height: 100vh; float: left;
+                   display: flex; flex-direction: column; justify-content: center;
+                   padding: 0 4vw 0 5vw; z-index: 5;"
+          >
+            <!-- Número de servicio -->
+            <div style="margin-bottom: 2.5rem;">
+              <span class="font-sans" style="font-size: 0.65rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--color-primary); opacity: 0.85;">
+                {String(si + 1).padStart(2, "0")} / {String(services.length).padStart(2, "0")}
+              </span>
+            </div>
+
+            <!-- Nombre del SERVICIO (pequeño, muted — transición al cambiar de servicio) -->
+            <div class="svc-name-wrap" style="overflow: hidden; height: 1.8em; margin-bottom: 0.6rem; position: relative;">
+              <div
+                class="svc-name-text font-sans"
+                style="font-size: clamp(0.8rem, 1.2vw, 1rem); letter-spacing: 0.04em; color: var(--color-muted); opacity: 0.8; line-height: 1.8;"
+              >
+                {service.name}
               </div>
             </div>
-          </div>
 
-          <!-- Right scrolling content -->
-          <div class="feature-right-content" style="margin-left: 46vw; padding: 10vh 4vw 10vh 2vw; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; gap: 3rem;">
-            <!-- Service header -->
-            <div>
-              <div class="font-sans text-xs mb-3" style="color: var(--color-primary); letter-spacing: 0.2em; text-transform: uppercase;">Servicio {String(si + 1).padStart(2, "0")}</div>
-              <h2 class="font-display font-bold mb-4" style="font-size: clamp(2rem, 4vw, 3.5rem); color: var(--color-text); line-height: 1.1;">{service.name}</h2>
-              <p class="font-sans" style="font-size: 1.05rem; color: var(--color-muted); line-height: 1.75; max-width: 38ch;">{service.description}</p>
-            </div>
-
-            <!-- Features list -->
-            <div class="flex flex-col gap-6">
+            <!-- Nombre del FEATURE (grande — transición al cambiar de feature) -->
+            <div class="feat-title-wrap" style="position: relative; overflow: hidden; min-height: 3.5em; margin-bottom: 1.25rem;">
               {service.features?.map((feat, fi) => (
                 <div
-                  class="feature-item rounded-xl p-5"
-                  style="background: var(--color-surface); border: 1px solid rgba(124,58,237,0.15);"
+                  class="feat-title-slot font-display font-bold"
+                  data-service={si}
+                  data-feat={fi}
+                  style={`
+                    font-size: clamp(2rem, 3.5vw, 3rem);
+                    color: var(--color-text);
+                    line-height: 1.05;
+                    position: ${fi === 0 ? 'relative' : 'absolute'};
+                    top: 0; left: 0;
+                    opacity: ${fi === 0 ? 1 : 0};
+                    transform: translateY(${fi === 0 ? '0' : '60px'});
+                    will-change: transform, opacity;
+                  `}
                 >
-                  <div class="flex items-start gap-4">
-                    <div class="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold font-display" style="background: rgba(124,58,237,0.2); color: var(--color-primary);">
-                      {String(fi + 1).padStart(2, "0")}
-                    </div>
-                    <div>
-                      <h4 class="font-display font-semibold mb-1" style="color: var(--color-text); font-size: 1.05rem;">{feat.name}</h4>
-                      <p class="font-sans text-sm" style="color: var(--color-muted); line-height: 1.65;">{feat.description}</p>
-                    </div>
-                  </div>
+                  {feat.name}
                 </div>
               ))}
             </div>
+
+            <!-- Línea divisora accent -->
+            <div class="feat-divider" style="width: 2.5rem; height: 2px; background: var(--color-primary); border-radius: 2px; margin-bottom: 1.25rem; opacity: 0.7;"></div>
+
+            <!-- Descripción del FEATURE (transición al cambiar) -->
+            <div class="feat-desc-wrap" style="position: relative; overflow: hidden; min-height: 7em;">
+              {service.features?.map((feat, fi) => (
+                <div
+                  class="feat-desc-slot font-sans"
+                  data-service={si}
+                  data-feat={fi}
+                  style={`
+                    font-size: clamp(0.85rem, 1.1vw, 0.98rem);
+                    color: var(--color-muted);
+                    line-height: 1.8;
+                    max-width: 38ch;
+                    position: ${fi === 0 ? 'relative' : 'absolute'};
+                    top: 0; left: 0;
+                    opacity: ${fi === 0 ? 1 : 0};
+                    transform: translateY(${fi === 0 ? '0' : '40px'});
+                    will-change: transform, opacity;
+                  `}
+                >
+                  {feat.description}
+                </div>
+              ))}
+            </div>
+
+            <!-- Dot indicators -->
+            <div style="display: flex; gap: 6px; margin-top: 2.5rem;">
+              {service.features?.map((_, fi) => (
+                <div
+                  class="feat-dot"
+                  data-service={si}
+                  data-feat={fi}
+                  style={`
+                    height: 5px; border-radius: 3px;
+                    width: ${fi === 0 ? 20 : 6}px;
+                    background: ${fi === 0 ? 'var(--color-primary)' : 'rgba(167,139,250,0.3)'};
+                    transition: none;
+                  `}
+                />
+              ))}
+            </div>
+
           </div>
+
+          <!-- ── RIGHT: imagen principal + flotantes ── -->
+          <div
+            class="service-right-panel"
+            data-service-index={si}
+            style="margin-left: 44vw; min-height: inherit; position: relative;"
+          >
+            <!-- Panel sticky con las imágenes -->
+            <div
+              style="position: sticky; top: 0; height: 100vh; width: 100%;
+                     display: flex; align-items: center; justify-content: center;
+                     padding: 3vh 3vw 3vh 2vw; overflow: hidden;"
+            >
+
+              <!-- Gradiente de transición izquierda (merge con el panel left) -->
+              <div style="position: absolute; inset: 0; pointer-events: none; z-index: 10;
+                           background: linear-gradient(to right, var(--color-background) 0%, transparent 18%);"></div>
+
+              <!-- Contenedor de imágenes relativo al panel derecho -->
+              <div style="position: relative; width: 100%; height: 88vh; max-height: 720px;">
+
+                <!-- FLOTANTES: imágenes del feature actual (capas detrás) -->
+                {service.features?.map((feat, fi) => {
+                  const floatImgs = feat.images ?? [];
+                  return floatImgs.slice(0, 4).map((img, ii) => {
+                    // Posiciones predefinidas para flotar naturalmente
+                    const positions = [
+                      { top: '6%',  right: '2%',  width: '52%', height: '38%', rot:  3.5, zIndex: 1 },
+                      { top: '55%', left:  '4%',  width: '46%', height: '32%', rot: -2.5, zIndex: 1 },
+                      { top: '62%', right: '3%',  width: '40%', height: '28%', rot:  2,   zIndex: 1 },
+                      { top: '3%',  left:  '2%',  width: '36%', height: '26%', rot: -3,   zIndex: 1 },
+                    ];
+                    const pos = positions[ii % positions.length];
+                    return (
+                      <div
+                        class="float-feat-img"
+                        data-service={si}
+                        data-feat={fi}
+                        data-img-idx={ii}
+                        style={`
+                          position: absolute;
+                          top: ${pos.top ?? 'auto'};
+                          bottom: ${(pos as any).bottom ?? 'auto'};
+                          left: ${pos.left ?? 'auto'};
+                          right: ${pos.right ?? 'auto'};
+                          width: ${pos.width};
+                          height: ${pos.height};
+                          border-radius: 0.75rem;
+                          overflow: hidden;
+                          border: 1px solid rgba(124,58,237,0.22);
+                          box-shadow: 0 12px 40px rgba(0,0,0,0.55);
+                          transform: rotate(${pos.rot}deg);
+                          z-index: ${pos.zIndex};
+                          opacity: ${fi === 0 ? 0.55 : 0};
+                          will-change: opacity, transform;
+                        `}
+                      >
+                        <img src={img} alt="" class="w-full h-full object-cover" style="opacity: 0.85;" />
+                      </div>
+                    );
+                  });
+                })}
+
+                <!-- PRINCIPAL: service.image (siempre visible, centrada) -->
+                <div
+                  class="main-service-img"
+                  data-service-index={si}
+                  style="
+                    position: absolute;
+                    top: 50%; left: 50%;
+                    transform: translate(-50%, -50%);
+                    width: 72%; height: 70%;
+                    border-radius: 1.25rem;
+                    overflow: hidden;
+                    border: 1px solid rgba(124,58,237,0.25);
+                    box-shadow: 0 24px 80px rgba(0,0,0,0.65), 0 0 0 1px rgba(124,58,237,0.1);
+                    z-index: 2;
+                    will-change: opacity;
+                  "
+                >
+                  {service.image
+                    ? <img src={service.image} alt={service.name} class="w-full h-full object-cover" style="opacity: 0.8;" />
+                    : <div class="w-full h-full" style={`background: hsl(${260 + si * 35}deg 50% 12%);`} />
+                  }
+                  <!-- overlay sutil en la imagen principal -->
+                  <div style="position: absolute; inset: 0; background: linear-gradient(160deg, rgba(124,58,237,0.08) 0%, transparent 60%), linear-gradient(to top, rgba(5,1,10,0.5) 0%, transparent 50%);"></div>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Scroll spacer: un bloque por feature para avanzar el scroll -->
+            {service.features?.map((_, fi) => (
+              <div
+                class="feature-scroll-step"
+                data-service={si}
+                data-feat={fi}
+                style="height: 100vh; position: relative; pointer-events: none;"
+              />
+            ))}
+          </div>
+
+          <div style="clear: both;"></div>
         </div>
       );
     })}
@@ -150,22 +280,13 @@ const GRID_COUNT = Math.max(6, services.length);
 
 </div>
 
-<!-- ============================================================  STYLES -->
+<!-- ============================================================ STYLES -->
 <style>
-  :root {
-    scroll-behavior: auto; /* GSAP handles smooth */
-  }
+  :root { scroll-behavior: auto; }
 
-  #hero-sticky {
-    will-change: transform;
-  }
+  #hero-sticky { will-change: transform; }
+  .rect-tile { will-change: transform, opacity; transform-origin: center center; }
 
-  .rect-tile {
-    will-change: transform, opacity;
-    transform-origin: center center;
-  }
-
-  /* Scroll line animation */
   #scroll-line {
     animation: scrollPulse 1.6s ease-in-out infinite;
   }
@@ -174,206 +295,229 @@ const GRID_COUNT = Math.max(6, services.length);
     100% { transform: translateY(300%);  opacity: 0; }
   }
 
-  .feature-item {
-    transition: border-color 0.3s ease;
-  }
-  .feature-item:hover {
-    border-color: rgba(124, 58, 237, 0.4);
+  .feat-title-slot,
+  .feat-desc-slot,
+  .feat-dot,
+  .float-feat-img,
+  .main-service-img {
+    will-change: transform, opacity;
   }
 </style>
 
-<!-- ============================================================  GSAP -->
+<!-- ============================================================ GSAP -->
 <script>
   import { gsap } from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
 
   gsap.registerPlugin(ScrollTrigger);
 
-  // ── helpers ──────────────────────────────────────────────────────────────
   const vw = () => window.innerWidth;
   const vh = () => window.innerHeight;
 
-  // ── tile layout config ────────────────────────────────────────────────────
-  // Build a layout for N tiles around a central hero tile.
-  // We'll position them in a rough 3-column grid with the hero in the center.
-
+  // ─────────────────────────────────────────────────────────────────────────
+  // TILE LAYOUT (Phase 1 → 2)
+  // ─────────────────────────────────────────────────────────────────────────
   function buildTileLayout() {
     const tiles = document.querySelectorAll<HTMLElement>(".rect-tile");
     const n     = tiles.length;
     const W     = vw();
     const H     = vh();
-
-    const COLS = 3;
-    const ROWS = Math.ceil(n / COLS);
-
-    // Final (grid) rect size
+    const COLS  = 3;
+    const ROWS  = Math.ceil(n / COLS);
     const GAP   = 16;
     const TW    = (W - GAP * (COLS + 1)) / COLS;
     const TH    = (H - GAP * (ROWS + 1)) / ROWS;
 
-    // Pre-compute final positions (center of each cell relative to viewport center)
     const layout: { fx: number; fy: number; fw: number; fh: number }[] = [];
     for (let i = 0; i < n; i++) {
       const col = i % COLS;
       const row = Math.floor(i / COLS);
-      const fx  = GAP + col * (TW + GAP) + TW / 2 - W / 2;
-      const fy  = GAP + row * (TH + GAP) + TH / 2 - H / 2;
-      layout.push({ fx, fy, fw: TW, fh: TH });
+      layout.push({
+        fx: GAP + col * (TW + GAP) + TW / 2 - W / 2,
+        fy: GAP + row * (TH + GAP) + TH / 2 - H / 2,
+        fw: TW,
+        fh: TH,
+      });
     }
-
-    // Hero tile index (center of grid)
     const heroIdx = Math.floor(ROWS / 2) * COLS + Math.floor(COLS / 2);
-
     return { tiles, n, layout, heroIdx, TW, TH, W, H };
   }
 
-  // ── Phase 1 → 2: set initial state (hero = large, others = scattered) ───
   function initTiles() {
-    const { tiles, n, layout, heroIdx, TW, TH, W, H } = buildTileLayout();
-
-    // Hero tile starts fullscreen with hero content overlay
-    const heroTile = tiles[heroIdx] as HTMLElement;
-
+    const { tiles, layout, heroIdx, TW, TH, W, H } = buildTileLayout();
     tiles.forEach((tile, i) => {
       if (i === heroIdx) {
-        // Start: fullscreen-ish
         gsap.set(tile, {
-          x:       0,
-          y:       0,
-          width:   W * 0.72,
-          height:  H * 0.78,
-          xPercent: -50,
-          yPercent: -50,
-          left: "50%",
-          top:  "50%",
-          rotation: 0,
-          opacity: 1,
-          borderRadius: "1.25rem",
+          x: 0, y: 0, width: W * 0.72, height: H * 0.78,
+          xPercent: -50, yPercent: -50, left: "50%", top: "50%",
+          rotation: 0, opacity: 1, borderRadius: "1.25rem",
         });
       } else {
-        // Start: scattered around the hero with tilt (image2 stacked look)
         const angle   = i % 2 === 0 ? -6 : 6;
         const offsetX = (i % 3 - 1) * W * 0.3;
         const offsetY = (Math.floor(i / 3) - 0.5) * H * 0.35;
         gsap.set(tile, {
-          x:       offsetX,
-          y:       offsetY,
-          width:   TW * 1.1,
-          height:  TH * 1.1,
-          xPercent: -50,
-          yPercent: -50,
-          left: "50%",
-          top:  "50%",
-          rotation: angle,
-          opacity: 0,
-          borderRadius: "1.25rem",
+          x: offsetX, y: offsetY, width: TW * 1.1, height: TH * 1.1,
+          xPercent: -50, yPercent: -50, left: "50%", top: "50%",
+          rotation: angle, opacity: 0, borderRadius: "1.25rem",
         });
       }
     });
   }
 
-  // ── Build phase 1→2 ScrollTrigger ────────────────────────────────────────
   function buildHeroPhase() {
-    const { tiles, n, layout, heroIdx, TW, TH, W, H } = buildTileLayout();
-
+    const { tiles, layout, heroIdx } = buildTileLayout();
     const heroContent = document.getElementById("hero-content")!;
     const scrollHint  = document.getElementById("scroll-hint")!;
 
-    // Master timeline scrubbed to scroll
     const tl = gsap.timeline({
       scrollTrigger: {
-        trigger:  "#hero-section",
-        start:    "top top",
-        end:      "bottom bottom",
-        scrub:    1.2,
-        pin:      false, // sticky is CSS-handled
+        trigger: "#hero-section",
+        start: "top top",
+        end: "bottom bottom",
+        scrub: 1.2,
       },
     });
 
-    // Step 1 (0→30%): fade hero content out + reveal side tiles with rotation
     tl.to(heroContent, { opacity: 0, y: -30, duration: 0.3 }, 0);
     tl.to(scrollHint,  { opacity: 0, duration: 0.15 }, 0);
 
     tiles.forEach((tile, i) => {
       if (i !== heroIdx) {
-        // Bring scattered tiles into view with rotation preserved
         tl.to(tile, { opacity: 1, duration: 0.25 }, 0.05 * (i % 4));
       }
     });
 
-    // Step 2 (30→70%): zoom-out hero tile + straighten all tiles → grid positions
     const { fx: hfx, fy: hfy, fw: hfw, fh: hfh } = layout[heroIdx];
-
     tl.to(tiles[heroIdx], {
-      x:        hfx,
-      y:        hfy,
-      width:    hfw,
-      height:   hfh,
-      xPercent: -50,
-      yPercent: -50,
-      rotation: 0,
-      duration: 0.5,
-      ease:     "none",
+      x: hfx, y: hfy, width: hfw, height: hfh,
+      xPercent: -50, yPercent: -50, rotation: 0, duration: 0.5, ease: "none",
     }, 0.3);
 
     tiles.forEach((tile, i) => {
       if (i === heroIdx) return;
       const { fx, fy, fw, fh } = layout[i];
       tl.to(tile, {
-        x:        fx,
-        y:        fy,
-        width:    fw,
-        height:   fh,
-        xPercent: -50,
-        yPercent: -50,
-        rotation: 0,
-        opacity:  1,
-        duration: 0.5,
-        ease:     "none",
+        x: fx, y: fy, width: fw, height: fh,
+        xPercent: -50, yPercent: -50, rotation: 0, opacity: 1,
+        duration: 0.5, ease: "none",
       }, 0.3 + 0.03 * i);
     });
   }
 
-  // ── Phase 3: feature sticky panels ───────────────────────────────────────
+  // ─────────────────────────────────────────────────────────────────────────
+  // PHASE 3 — Feature scroll steps
+  // ─────────────────────────────────────────────────────────────────────────
   function buildFeaturePhase() {
-    const blocks = document.querySelectorAll<HTMLElement>(".feature-block");
+    const serviceBlocks = document.querySelectorAll<HTMLElement>(".service-block");
 
-    blocks.forEach((block, bi) => {
-      const leftRect = block.querySelector<HTMLElement>(".feature-left-rect");
-      const items    = block.querySelectorAll<HTMLElement>(".feature-item");
+    serviceBlocks.forEach((block) => {
+      const si    = Number(block.dataset.serviceIndex);
+      const steps = block.querySelectorAll<HTMLElement>(".feature-scroll-step");
 
-      // Animate feature items in as they scroll into view
-      items.forEach((item, ii) => {
-        gsap.fromTo(item,
-          { opacity: 0, x: 40 },
+      const titleSlots = block.querySelectorAll<HTMLElement>(".feat-title-slot");
+      const descSlots  = block.querySelectorAll<HTMLElement>(".feat-desc-slot");
+      const dots       = block.querySelectorAll<HTMLElement>(".feat-dot");
+      const floatImgs  = block.querySelectorAll<HTMLElement>(".float-feat-img");
+
+      // Init: asegurar que el primer feature sea visible, el resto oculto
+      titleSlots.forEach((el, fi) => {
+        if (fi !== 0) {
+          gsap.set(el, { opacity: 0, y: 60, position: "absolute", top: 0, left: 0 });
+        }
+      });
+      descSlots.forEach((el, fi) => {
+        if (fi !== 0) {
+          gsap.set(el, { opacity: 0, y: 40, position: "absolute", top: 0, left: 0 });
+        }
+      });
+
+      // ── Activar feature: cambia textos, dots e imágenes flotantes ──
+      function activateFeature(fi: number) {
+        // Textos: título del feature
+        titleSlots.forEach((slot, ni) => {
+          if (ni === fi) {
+            gsap.set(slot, { position: ni === 0 ? "relative" : "absolute" });
+            gsap.fromTo(slot,
+              { opacity: 0, y: 50 },
+              { opacity: 1, y: 0, duration: 0.55, ease: "power3.out" }
+            );
+          } else {
+            const dir = ni < fi ? -50 : 50;
+            gsap.to(slot, { opacity: 0, y: dir, duration: 0.4, ease: "power3.in" });
+          }
+        });
+
+        // Textos: descripción del feature
+        descSlots.forEach((slot, ni) => {
+          if (ni === fi) {
+            gsap.fromTo(slot,
+              { opacity: 0, y: 35 },
+              { opacity: 1, y: 0, duration: 0.55, ease: "power3.out", delay: 0.08 }
+            );
+          } else {
+            const dir = ni < fi ? -35 : 35;
+            gsap.to(slot, { opacity: 0, y: dir, duration: 0.35, ease: "power3.in" });
+          }
+        });
+
+        // Dots
+        dots.forEach((dot, di) => {
+          gsap.to(dot, {
+            width:      di === fi ? 20 : 6,
+            background: di === fi ? "var(--color-primary)" : "rgba(167,139,250,0.3)",
+            duration: 0.35, ease: "power2.out",
+          });
+        });
+
+        // Imágenes flotantes: mostrar las del feature activo, ocultar el resto
+        floatImgs.forEach((img) => {
+          const imgFi = Number(img.dataset.feat);
+          if (imgFi === fi) {
+            gsap.to(img, { opacity: 0.55, duration: 0.6, ease: "power2.inOut" });
+          } else {
+            gsap.to(img, { opacity: 0, duration: 0.4, ease: "power2.inOut" });
+          }
+        });
+      }
+
+      // ── ScrollTrigger por cada step ──
+      steps.forEach((step, fi) => {
+        ScrollTrigger.create({
+          trigger: step,
+          start: "top 55%",
+          end: "bottom 45%",
+          onEnter:     () => activateFeature(fi),
+          onEnterBack: () => activateFeature(fi),
+        });
+      });
+
+      // ── Entrance del bloque completo ──
+      const svcName = block.querySelector<HTMLElement>(".svc-name-text");
+      if (svcName) {
+        gsap.fromTo(svcName,
+          { opacity: 0, y: 16 },
           {
-            opacity:  1,
-            x:        0,
-            duration: 0.6,
-            ease:     "power2.out",
+            opacity: 0.8, y: 0, duration: 0.7, ease: "power3.out",
             scrollTrigger: {
-              trigger: item,
-              start:   "top 85%",
-              end:     "top 60%",
-              scrub:   false,
+              trigger: block,
+              start: "top 80%",
               toggleActions: "play none none reverse",
             },
           }
         );
-      });
+      }
 
-      // Left rect: subtle scale-in when block enters
-      if (leftRect) {
-        gsap.fromTo(leftRect,
+      // Fade in la imagen principal del servicio al entrar al bloque
+      const mainImg = block.querySelector<HTMLElement>(".main-service-img");
+      if (mainImg) {
+        gsap.fromTo(mainImg,
           { opacity: 0, scale: 0.96 },
           {
-            opacity:  1,
-            scale:    1,
-            duration: 0.8,
-            ease:     "power2.out",
+            opacity: 1, scale: 1, duration: 0.9, ease: "power3.out",
             scrollTrigger: {
               trigger: block,
-              start:   "top 80%",
+              start: "top 75%",
               toggleActions: "play none none reverse",
             },
           }
@@ -382,7 +526,9 @@ const GRID_COUNT = Math.max(6, services.length);
     });
   }
 
-  // ── init ─────────────────────────────────────────────────────────────────
+  // ─────────────────────────────────────────────────────────────────────────
+  // INIT
+  // ─────────────────────────────────────────────────────────────────────────
   function init() {
     initTiles();
     buildHeroPhase();
@@ -390,14 +536,12 @@ const GRID_COUNT = Math.max(6, services.length);
     ScrollTrigger.refresh();
   }
 
-  // Run after fonts + layout settle
   if (document.readyState === "complete") {
     init();
   } else {
     window.addEventListener("load", init);
   }
 
-  // Rebuild on resize (debounced)
   let resizeTimer: ReturnType<typeof setTimeout>;
   window.addEventListener("resize", () => {
     clearTimeout(resizeTimer);
