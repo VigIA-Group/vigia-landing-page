@@ -7,11 +7,11 @@ import ShaderBackground from "../hero/ShaderBackground";
 const GRID_COUNT = Math.max(6, services.length);
 
 // Pre-calcular posiciones del canvas para Phase 3
-const FEAT_HEIGHT = 520; // px por feature en el canvas — más distancia entre imágenes
+const FEAT_HEIGHT = 520;
 const IMG_SLOTS = [
-  { left: "10%", right: "auto", w: "52%", h: "200px", rot: 0, speed: 0.28 },
+  { left: "2%", right: "auto", w: "52%", h: "200px", rot: 0, speed: 0.28 },
   { left: "auto", right: "0%", w: "48%", h: "185px", rot: 0, speed: 0.42 },
-  { left: "10%", right: "auto", w: "44%", h: "172px", rot: 0, speed: 0.22 },
+  { left: "4%", right: "auto", w: "44%", h: "172px", rot: 0, speed: 0.22 },
   { left: "auto", right: "3%", w: "50%", h: "190px", rot: 0, speed: 0.35 },
 ];
 
@@ -37,7 +37,7 @@ for (let si = 0; si < services.length; si++) {
     const imgs = feats[fi].images ?? [];
     imgs.slice(0, 4).forEach((src, ii) => {
       const s = IMG_SLOTS[ii % IMG_SLOTS.length];
-      const topOffset = ii * 40; // más separación vertical entre imágenes del mismo feature
+      const topOffset = ii * 40;
       canvasImages.push({
         src,
         si,
@@ -68,18 +68,12 @@ const clientData = JSON.stringify(
 );
 ---
 
-<!-- ════════════════════════════════════════
-     SHADER GRADIENT BACKGROUND (fixed, no zoom)
-═════════════════════════════════════════ -->
 <ShaderBackground client:only="react" />
 <div id="shader-bg-wrapper">
   <div id="shader-bg-react"></div>
 </div>
 
 <div id="scroll-root" class="relative">
-  <!-- ══════════════════════════════════════════
-       PHASE 1 & 2 — Hero + grid reveal
-  ═══════════════════════════════════════════ -->
   <div id="hero-section" class="relative" style="height: 350vh;">
     <div
       id="hero-sticky"
@@ -129,25 +123,6 @@ const clientData = JSON.stringify(
         }
       </div>
 
-      <!-- Hero background image -->
-      <div
-        id="hero-bg-img"
-        class="absolute inset-0 pointer-events-none"
-        style="z-index: 1;"
-      >
-        <img
-          src="/images/camera.png"
-          alt=""
-          class="w-full h-full object-cover"
-          style="opacity: 0.18; mix-blend-mode: luminosity;"
-        />
-        <div
-          style="position: absolute; inset: 0;
-            background: radial-gradient(ellipse at center, transparent 30%, var(--color-background) 80%);"
-        >
-        </div>
-      </div>
-
       <div
         id="hero-content"
         class="relative flex flex-col items-center justify-center text-center px-6 pointer-events-none select-none"
@@ -193,11 +168,7 @@ const clientData = JSON.stringify(
     </div>
   </div>
 
-  <!-- ══════════════════════════════════════════
-       PHASE 3 — Sticky textos + canvas parallax
-  ═══════════════════════════════════════════ -->
   <div id="phase3-root" style="position: relative; background: transparent;">
-    <!-- STICKY UI -->
     <div
       id="phase3-sticky"
       style="
@@ -205,18 +176,29 @@ const clientData = JSON.stringify(
       display: flex; overflow: hidden; z-index: 1; pointer-events: none;
     "
     >
-      <!-- LEFT: textos -->
       <div
         style="
         width: 46%; height: 100%; flex-shrink: 0;
         display: flex; flex-direction: column; justify-content: center;
         padding: 0 4vw 0 5vw; z-index: 10;
-        background: linear-gradient(to right, var(--color-background) 70%, transparent);
         position: relative;
         pointer-events: none;
       "
       >
         <div style="position: relative; z-index: 2;">
+          <div
+            style="
+              position: absolute;
+              top: -2.5rem; bottom: -2.5rem; left: -10vw; right: -2rem;
+              background: var(--color-background);
+              box-shadow: 0 0 90px 70px var(--color-background);
+              border-radius: 4rem;
+              z-index: -1;
+              pointer-events: none;
+            "
+          >
+          </div>
+
           <div
             id="p3-counter"
             class="font-sans"
@@ -294,37 +276,24 @@ const clientData = JSON.stringify(
         </div>
       </div>
 
-      <!-- RIGHT: canvas + imagen principal -->
-      <div style="flex: 1; height: 100%; position: relative; overflow: hidden;">
-        <!-- merge izquierda -->
+      <div style="flex: 1; height: 100%; position: relative; overflow: clip;">
         <div
           style="
-          position: absolute; left: 0; top: 0; bottom: 0; width: 6%;
-          background: linear-gradient(to right, var(--color-background), transparent);
-          z-index: 20; pointer-events: none;
-        "
-        >
-        </div>
-        <!-- merge top -->
-        <div
-          style="
-          position: absolute; top: 0; left: 0; right: 0; height: 12%;
+          position: absolute; top: 0; left: 0; right: 0; height: 10%;
           background: linear-gradient(to bottom, var(--color-background), transparent);
           z-index: 20; pointer-events: none;
         "
         >
         </div>
-        <!-- merge bottom -->
         <div
           style="
-          position: absolute; bottom: 0; left: 0; right: 0; height: 12%;
+          position: absolute; bottom: 0; left: 0; right: 0; height: 10%;
           background: linear-gradient(to top, var(--color-background), transparent);
           z-index: 20; pointer-events: none;
         "
         >
         </div>
 
-        <!-- CANVAS PARALLAX -->
         <div
           id="p3-canvas"
           style="
@@ -365,7 +334,6 @@ const clientData = JSON.stringify(
           }
         </div>
 
-        <!-- Imagen principal del servicio activo — respeta su shape natural -->
         <div
           style="
           position: absolute; top: 50%; left: 50%;
@@ -386,7 +354,7 @@ const clientData = JSON.stringify(
               width: 100%;
               height: auto;
               display: block;
-              opacity: 0.88;
+              opacity: 0;
               will-change: opacity;
             "
           />
@@ -483,7 +451,6 @@ const clientData = JSON.stringify(
   }
 </style>
 
-<!-- ════════════════════════════════════════ GSAP ════ -->
 <script>
   import { gsap } from "gsap";
   import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -529,7 +496,7 @@ const clientData = JSON.stringify(
           left: "50%",
           top: "50%",
           rotation: 0,
-          opacity: 1,
+          opacity: 0, // Se inicializa en 0 para que no haya imágenes inicialmente
           borderRadius: "1.25rem",
         });
       } else {
@@ -583,6 +550,7 @@ const clientData = JSON.stringify(
         xPercent: -50,
         yPercent: -50,
         rotation: 0,
+        opacity: 1, // La imagen empieza a aparecer durante el scroll general
         duration: 0.5,
         ease: "none",
       },
@@ -609,6 +577,22 @@ const clientData = JSON.stringify(
         0.3 + 0.03 * i,
       );
     });
+
+    // ── Aparece imagen principal del servicio ──
+    const mainImg = document.getElementById("p3-main-img-el");
+    if (mainImg) {
+      gsap.set(mainImg, { opacity: 0 });
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: "#hero-section",
+            start: "65% top", // segunda mitad del hero-section
+            end: "bottom top",
+            scrub: 1.5,
+          },
+        })
+        .to(mainImg, { opacity: 0.88, ease: "power1.out", duration: 1 }, 0.1);
+    }
   }
 
   function buildPhase3() {
