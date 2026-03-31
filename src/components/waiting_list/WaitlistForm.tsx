@@ -95,8 +95,8 @@ export default function WaitlistForm() {
 
   if (status === "success") {
     return (
-      <div className="p-8 text-center rounded-2xl bg-[#0a0514] border border-purple-500/30 shadow-[0_0_40px_rgba(124,58,237,0.15)]">
-        <div className="w-16 h-16 mx-auto mb-4 text-purple-400 bg-purple-500/10 rounded-full flex items-center justify-center">
+      <div className="p-8 text-center rounded-2xl">
+        <div className="w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center">
           <svg
             className="w-8 h-8"
             fill="none"

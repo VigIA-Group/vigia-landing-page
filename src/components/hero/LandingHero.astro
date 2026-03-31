@@ -4,8 +4,14 @@ import type { Services } from "../../models/Service";
 const services = ServicesDb as Services;
 import ShaderBackground from "../hero/ShaderBackground";
 import WaitlistForm from "../waiting_list/WaitlistForm";
+import CompanyDb from "../../database/company.json";
+import type { Company } from "../../models/Company";
+import waitingListBenefitsDb from "../../database/waitingListBenefits.json";
+import type { WaitingList } from "../../models/WaitingList";
+const waitingListBenefits = waitingListBenefitsDb as WaitingList;
 
 const GRID_COUNT = Math.max(6, services.length);
+const company = CompanyDb as Company;
 
 // Pre-calcular posiciones del canvas para Phase 3
 const FEAT_HEIGHT = 520;

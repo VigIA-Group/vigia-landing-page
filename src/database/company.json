@@ -1,0 +1,20 @@
+{
+  "name": "VigIA",
+  "socialMedia": [
+    {
+      "name": "Facebook",
+      "url": "https://www.facebook.com",
+      "icon": "facebook"
+    },
+    {
+      "name": "Instagram",
+      "url": "https://www.instagram.com",
+      "icon": "instagram"
+    },
+    {
+      "name": "Tiktok",
+      "url": "https://www.tiktok.com",
+      "icon": "tiktok"
+    }
+  ]
+}
