@@ -3,6 +3,7 @@ import ServicesDb from "../../database/services.json";
 import type { Services } from "../../models/Service";
 const services = ServicesDb as Services;
 import ShaderBackground from "../hero/ShaderBackground";
+import WaitlistForm from "../waiting_list/WaitlistForm";
 
 const GRID_COUNT = Math.max(6, services.length);
 
@@ -385,6 +386,9 @@ const clientData = JSON.stringify(
     }
     <div style="height: 50vh;"></div>
   </div>
+  <section class="min-h-screen flex items-center justify-center bg-black p-4">
+    <WaitlistForm client:load />
+  </section>
 </div>
 
 <script id="p3-services-data" type="application/json" set:html={clientData} />
