@@ -1,0 +1,80 @@
+[
+  {
+    "name": "Deteccion de Intrusos",
+    "description": "Deteccion de intrusos con IA integrado a tus camaras.",
+    "features": [
+      {
+        "name": "Definicion de areas",
+        "description": "Define las areas que creas necesarias para que sean vigiladas por la IA",
+        "images": ["/images/services/area_selection.png"]
+      },
+      {
+        "name": "Horarios de deteccion",
+        "description": "Define horarios de deteccion de intrusos",
+        "images": ["/images/services/schedule.png"]
+      },
+      {
+        "name": "Camaras PTZ inteligentes",
+        "description": "Control automatico de camaras PTZ para seguimiento de intrusos",
+        "images": ["/images/services/ptz_tracking.png"]
+      },
+      {
+        "name": "Alertas en tiempo real",
+        "description": "Recibe notificaciones instantaneas ante detecciones sospechosas",
+        "images": ["/images/services/alerts.png"]
+      }
+    ]
+  },
+  {
+    "name": "Analitica de Personas",
+    "description": "Obtiene informacion valiosa sobre el flujo y comportamiento de personas.",
+    "features": [
+      {
+        "name": "Mapas de calor",
+        "description": "Visualiza las zonas con mayor concentracion de personas",
+        "images": ["/images/services/heatmap.png"]
+      },
+      {
+        "name": "Conteo de personas",
+        "description": "Conteo preciso de entradas y salidas en tiempo real",
+        "images": ["/images/services/people_count.png"]
+      },
+      {
+        "name": "Analisis de permanencia",
+        "description": "Mide el tiempo de permanencia en zonas especificas",
+        "images": ["/images/services/dwell_time.png"]
+      },
+      {
+        "name": "Reportes automatizados",
+        "description": "Genera reportes detallados para la toma de decisiones",
+        "images": ["/images/services/reports.png"]
+      }
+    ]
+  },
+  {
+    "name": "Deteccion de Objetos y Eventos",
+    "description": "Identifica objetos y eventos relevantes mediante modelos de IA como YOLO.",
+    "features": [
+      {
+        "name": "Deteccion de objetos",
+        "description": "Reconocimiento de objetos como vehiculos, mochilas o paquetes",
+        "images": ["/images/services/object_detection.png"]
+      },
+      {
+        "name": "Objetos abandonados",
+        "description": "Alerta ante objetos dejados en zonas sensibles",
+        "images": ["/images/services/abandoned_objects.png"]
+      },
+      {
+        "name": "Deteccion de comportamientos",
+        "description": "Identifica comportamientos sospechosos o inusuales",
+        "images": ["/images/services/behavior.png"]
+      },
+      {
+        "name": "Integracion con alarmas",
+        "description": "Activa sistemas externos ante eventos detectados",
+        "images": ["/images/services/integration.png"]
+      }
+    ]
+  }
+]

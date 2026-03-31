@@ -1,0 +1,27 @@
+@import "tailwindcss";
+
+@import "tailwindcss/preflight";
+@tailwind utilities;
+
+:root {
+  --color-accent: #a855f7;
+  --color-accent-alt: #7c3aed;
+  --font-display: "Google Sans Flex", sans-serif;
+  --font-body: "Inter", sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+}

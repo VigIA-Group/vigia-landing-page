@@ -1,0 +1,11 @@
+---
+import WaitingListDb from "../../database/waitingListBenefits.json";
+import type { WaitingList } from "../../models/WaitingList";
+
+const information = WaitingListDb as WaitingList;
+---
+
+<section>
+  <h1>{information.title}</h1>
+  <p>{information.description}</p>
+</section>
