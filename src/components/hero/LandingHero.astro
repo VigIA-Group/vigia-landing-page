@@ -58,10 +58,10 @@ for (let si = 0; si < services.length; si++) {
 
 const clientData = JSON.stringify(
   services.map((s) => ({
-    name: s.name,
+    name: s.serviceName,
     image: s.image,
     features: (s.features ?? []).map((f) => ({
-      name: f.name,
+      name: f.featureName,
       description: f.description,
     })),
   })),
@@ -97,7 +97,7 @@ const clientData = JSON.stringify(
                 {img ? (
                   <img
                     src={img}
-                    alt={svc?.name ?? ""}
+                    alt={svc?.serviceName ?? ""}
                     class="w-full h-full object-cover opacity-70"
                   />
                 ) : (
@@ -114,7 +114,7 @@ const clientData = JSON.stringify(
                     class="font-sans text-xs"
                     style="color: var(--color-muted);"
                   >
-                    {svc?.name ?? `Servicio ${i + 1}`}
+                    {svc?.serviceName ?? `Servicio ${i + 1}`}
                   </span>
                 </div>
               </div>
@@ -178,7 +178,7 @@ const clientData = JSON.stringify(
     >
       <div
         style="
-        width: 46%; height: 100%; flex-shrink: 0;
+        width: 50%; height: 100%; flex-shrink: 0;
         display: flex; flex-direction: column; justify-content: center;
         padding: 0 4vw 0 5vw; z-index: 10;
         position: relative;
@@ -190,8 +190,7 @@ const clientData = JSON.stringify(
             style="
               position: absolute;
               top: -2.5rem; bottom: -2.5rem; left: -10vw; right: -2rem;
-              background: var(--color-background);
-              box-shadow: 0 0 90px 70px var(--color-background);
+              box-shadow: 20 0 90px 70px var(--color-background);
               border-radius: 4rem;
               z-index: -1;
               pointer-events: none;
@@ -214,12 +213,12 @@ const clientData = JSON.stringify(
             id="p3-svc-name"
             class="font-sans"
             style="
-            font-size: clamp(0.85rem, 1.1vw, 1rem); color: var(--color-muted);
+            font-size: clamp(1rem, 1.5vw, 2rem); color: var(--color-muted);
             letter-spacing: 0.03em; margin-bottom: 0.5rem;
             will-change: transform, opacity;
           "
           >
-            {services[0]?.name}
+            {services[0]?.serviceName}
           </div>
 
           <div
@@ -229,11 +228,11 @@ const clientData = JSON.stringify(
               id="p3-feat-title"
               class="font-display font-bold"
               style="
-              font-size: clamp(2.2rem, 4vw, 3.2rem); color: var(--color-text);
+              font-size: clamp(4rem, 4vw, 3.2rem); color: var(--color-text);
               line-height: 1.05; will-change: transform, opacity;
             "
             >
-              {services[0]?.features?.[0]?.name}
+              {services[0]?.features?.[0]?.featureName}
             </div>
           </div>
 
@@ -349,7 +348,7 @@ const clientData = JSON.stringify(
           <img
             id="p3-main-img-el"
             src={services[0]?.image ?? ""}
-            alt={services[0]?.name ?? ""}
+            alt={services[0]?.serviceName ?? ""}
             style="
               width: 100%;
               height: auto;

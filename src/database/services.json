@@ -1,92 +1,77 @@
 [
   {
-    "name": "Deteccion de Intrusos",
-    "description": "Deteccion de intrusos con IA integrado a tus camaras.",
-    "image": "/images/services/intrusion_detection/image5.png",
+    "serviceName": "Deteccion de Intrusos",
+    "description": "Sistema avanzado de vigilancia con inteligencia artificial integrado a tus cámaras, diseñado para identificar y alertar sobre la presencia no autorizada en áreas protegidas. Ideal para mejorar la seguridad en tiempo real y reducir riesgos.",
+    "image": "/images/services/intrusion_detection/image1.png",
     "features": [
       {
-        "name": "Definicion de areas",
-        "description": "Define las areas que creas necesarias para que sean vigiladas por la IA",
-        "images": [
-          "/images/services/intrusion_detection/image1.jpg",
-          "/images/services/intrusion_detection/image2.jpg"
-        ]
+        "featureName": "Definicion de areas",
+        "description": "Personaliza las zonas de vigilancia según tus necesidades. Puedes delimitar áreas específicas (como entradas, estacionamientos o zonas restringidas) para que la IA monitoree solo lo relevante, evitando falsas alarmas y optimizando recursos.",
+        "images": ["/images/services/intrusion_detection/image1.png"]
       },
       {
-        "name": "Horarios de deteccion",
-        "description": "Define horarios de deteccion de intrusos",
-        "images": ["/images/services/intrusion_detection/image3.jpg"]
+        "featureName": "Horarios de deteccion",
+        "description": "Configura horarios específicos para la activación de la detección. Por ejemplo, puedes programar la vigilancia solo durante horas no laborales o en momentos críticos, adaptando el sistema a la rutina de tu negocio o propiedad.",
+        "images": ["/images/services/intrusion_detection/image1.png"]
       },
       {
-        "name": "Camaras PTZ inteligentes",
-        "description": "Control automatico de camaras PTZ para seguimiento de intrusos",
-        "images": ["/images/services/intrusion_detection/image1.jpg"]
+        "featureName": "Camaras PTZ inteligentes",
+        "description": "Las cámaras PTZ (Pan-Tilt-Zoom) se activan automáticamente para seguir a intrusos detectados, proporcionando un seguimiento en tiempo real y grabaciones más detalladas. Esto mejora la precisión de la identificación y facilita la respuesta rápida.",
+        "images": ["/images/services/intrusion_detection/image1.png"]
       },
       {
-        "name": "Alertas en tiempo real",
-        "description": "Recibe notificaciones instantaneas ante detecciones sospechosas",
-        "images": [
-          "/images/services/intrusion_detection/image3.jpg",
-          "/images/services/intrusion_detection/image4.jpg",
-          "/images/services/intrusion_detection/image5.png"
-        ]
+        "featureName": "Alertas en tiempo real",
+        "description": "Recibe notificaciones instantáneas en tu dispositivo móvil o correo electrónico cuando se detecte actividad sospechosa. Las alertas incluyen imágenes o videos del evento, permitiéndote actuar de inmediato o coordinar con equipos de seguridad.",
+        "images": ["/images/services/intrusion_detection/image1.png"]
       }
     ]
   },
   {
-    "name": "Analitica de Personas",
-    "description": "Obtiene informacion valiosa sobre el flujo y comportamiento de personas.",
-    "image": "/images/services/people_analytics/image1.jpg",
+    "serviceName": "Analitica de Personas",
+    "description": "Herramienta de análisis basada en IA para entender el flujo y comportamiento de personas en espacios físicos. Ideal para optimizar operaciones, mejorar la experiencia del cliente y tomar decisiones basadas en datos.",
+    "image": "/images/services/people_analytics/image1.png",
     "features": [
       {
-        "name": "Mapas de calor",
-        "description": "Visualiza las zonas con mayor concentracion de personas",
-        "images": [
-          "/images/services/people_analytics/image1.jpg",
-          "/images/services/people_analytics/image5.png"
-        ]
+        "featureName": "Mapas de calor",
+        "description": "Visualiza gráficamente las zonas con mayor concentración de personas en tiempo real o en periodos específicos. Identifica áreas de alto tráfico para optimizar la distribución de recursos, mejorar la seguridad o rediseñar espacios.",
+        "images": ["/images/services/people_analytics/image1.png"]
       },
       {
-        "name": "Conteo de personas",
-        "description": "Conteo preciso de entradas y salidas en tiempo real",
-        "images": ["/images/services/people_analytics/image2.jpg"]
+        "featureName": "Conteo de personas",
+        "description": "Obtén datos precisos de entradas y salidas en tiempo real, útil para gestionar aforos, medir la efectividad de campañas o cumplir con regulaciones de seguridad. Los datos se pueden exportar para análisis posteriores.",
+        "images": ["/images/services/people_analytics/image2.png"]
       },
       {
-        "name": "Analisis de permanencia",
-        "description": "Mide el tiempo de permanencia en zonas especificas",
-        "images": ["/images/services/people_analytics/image3.jpg"]
-      },
-      {
-        "name": "Reportes automatizados",
-        "description": "Genera reportes detallados para la toma de decisiones",
-        "images": ["/images/services/people_analytics/image4.jpg"]
+        "featureName": "Reportes automatizados",
+        "description": "Genera informes detallados con métricas clave, como horarios pico, patrones de movimiento y tendencias. Estos reportes son personalizables y se pueden programar para su envío automático, facilitando la toma de decisiones estratégicas.",
+        "images": ["/images/services/people_analytics/image3.png"]
       }
     ]
   },
   {
-    "name": "Deteccion de Objetos y Eventos",
-    "description": "Identifica objetos y eventos relevantes mediante modelos de IA como YOLO.",
-    "image": "/images/services/object_detection/image1.jpg",
+    "serviceName": "Deteccion de Objetos y Eventos",
+    "description": "Sistema de identificación avanzado que utiliza modelos de IA como YOLO para detectar objetos y eventos relevantes en tiempo real. Ideal para seguridad, logística y automatización de procesos.",
+    "image": "/images/services/object_detection/image2.png",
     "features": [
       {
-        "name": "Deteccion de objetos",
-        "description": "Reconocimiento de objetos como vehiculos, mochilas o paquetes",
-        "images": ["/images/services/object_detection/image1.jpg"]
+        "featureName": "Deteccion de objetos",
+        "description": "Reconocimiento automático de objetos como vehículos, mochilas, paquetes o equipos específicos. Ideal para control de inventarios, seguridad en almacenes o detección de elementos no permitidos en áreas restringidas.",
+        "images": ["/images/services/object_detection/image1.png"]
       },
       {
-        "name": "Objetos abandonados",
-        "description": "Alerta ante objetos dejados en zonas sensibles",
-        "images": ["/images/services/object_detection/image1.jpg"]
+        "featureName": "Objetos abandonados",
+        "description": "Recibe alertas inmediatas cuando se detecten objetos dejados en zonas sensibles, como aeropuertos, estaciones o centros comerciales. El sistema diferencia entre objetos comunes y potenciales amenazas, reduciendo falsos positivos.",
+        "images": ["/images/services/object_detection/image1.png"]
       },
       {
-        "name": "Deteccion de comportamientos",
-        "description": "Identifica comportamientos sospechosos o inusuales",
-        "images": ["/images/services/object_detection/image1.jpg"]
+        "featureName": "Deteccion de comportamientos",
+        "description": "Identifica acciones sospechosas o inusuales, como personas merodeando, movimientos erráticos o intentos de acceso no autorizado. Ideal para prevenir robos, vandalismo o situaciones de riesgo.",
+        "images": ["/images/services/object_detection/image1.png"]
       },
       {
-        "name": "Integracion con alarmas",
-        "description": "Activa sistemas externos ante eventos detectados",
-        "images": ["/images/services/object_detection/image1.jpg"]
+        "featureName": "Integracion con alarmas",
+        "description": "Conecta el sistema con alarmas externas, luces o cerraduras automáticas para activar protocolos de seguridad ante eventos detectados. También permite la integración con plataformas de gestión centralizada.",
+        "images": ["/images/services/object_detection/image1.png"]
       }
     ]
   }

@@ -1,12 +1,12 @@
 export interface Service {
-  name: string;
+  serviceName: string;
   description: string;
   image: string;
   features: Feature[];
 }
 
 export interface Feature {
-  name: string;
+  featureName: string;
   description: string;
   images: string[];
 }
