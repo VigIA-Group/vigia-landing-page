@@ -2,19 +2,19 @@
 import ServicesDb from "../../database/services.json";
 import type { Services } from "../../models/Service";
 const services = ServicesDb as Services;
+import ShaderBackground from "../hero/ShaderBackground";
 
 const GRID_COUNT = Math.max(6, services.length);
 
 // Pre-calcular posiciones del canvas para Phase 3
-const FEAT_HEIGHT = 420; // px por feature en el canvas
+const FEAT_HEIGHT = 520; // px por feature en el canvas — más distancia entre imágenes
 const IMG_SLOTS = [
-  { left: "8%", right: "auto", w: "56%", h: "210px", rot: 3.5, speed: 0.28 },
-  { left: "3%", right: "auto", w: "44%", h: "168px", rot: -2.5, speed: 0.42 },
-  { left: "auto", right: "2%", w: "50%", h: "188px", rot: 2.0, speed: 0.22 },
-  { left: "5%", right: "auto", w: "38%", h: "152px", rot: -3.5, speed: 0.35 },
+  { left: "10%", right: "auto", w: "52%", h: "200px", rot: 0, speed: 0.28 },
+  { left: "auto", right: "0%", w: "48%", h: "185px", rot: 0, speed: 0.42 },
+  { left: "10%", right: "auto", w: "44%", h: "172px", rot: 0, speed: 0.22 },
+  { left: "auto", right: "3%", w: "50%", h: "190px", rot: 0, speed: 0.35 },
 ];
 
-// Construir lista plana de todas las imágenes con su posición en el canvas
 interface CanvasImg {
   src: string;
   si: number;
@@ -37,7 +37,7 @@ for (let si = 0; si < services.length; si++) {
     const imgs = feats[fi].images ?? [];
     imgs.slice(0, 4).forEach((src, ii) => {
       const s = IMG_SLOTS[ii % IMG_SLOTS.length];
-      const topOffset = ii * 28;
+      const topOffset = ii * 40; // más separación vertical entre imágenes del mismo feature
       canvasImages.push({
         src,
         si,
@@ -56,7 +56,6 @@ for (let si = 0; si < services.length; si++) {
   }
 }
 
-// Datos serializados para el cliente
 const clientData = JSON.stringify(
   services.map((s) => ({
     name: s.name,
@@ -69,6 +68,14 @@ const clientData = JSON.stringify(
 );
 ---
 
+<!-- ════════════════════════════════════════
+     SHADER GRADIENT BACKGROUND (fixed, no zoom)
+═════════════════════════════════════════ -->
+<ShaderBackground client:only="react" />
+<div id="shader-bg-wrapper">
+  <div id="shader-bg-react"></div>
+</div>
+
 <div id="scroll-root" class="relative">
   <!-- ══════════════════════════════════════════
        PHASE 1 & 2 — Hero + grid reveal
@@ -77,7 +84,7 @@ const clientData = JSON.stringify(
     <div
       id="hero-sticky"
       class="sticky top-0 h-screen w-full overflow-hidden flex items-center justify-center"
-      style="background: var(--color-background);"
+      style="background: transparent;"
     >
       <div
         id="rect-grid"
@@ -87,8 +94,6 @@ const clientData = JSON.stringify(
           Array.from({ length: GRID_COUNT }).map((_, i) => {
             const svc = services[i % services.length];
             const img = svc?.image ?? null;
-            const isHero =
-              i === Math.floor(GRID_COUNT / 2) - (GRID_COUNT % 2 === 0 ? 1 : 0);
             return (
               <div
                 class="rect-tile absolute rounded-2xl overflow-hidden"
@@ -124,9 +129,29 @@ const clientData = JSON.stringify(
         }
       </div>
 
+      <!-- Hero background image -->
+      <div
+        id="hero-bg-img"
+        class="absolute inset-0 pointer-events-none"
+        style="z-index: 1;"
+      >
+        <img
+          src="/images/camera.png"
+          alt=""
+          class="w-full h-full object-cover"
+          style="opacity: 0.18; mix-blend-mode: luminosity;"
+        />
+        <div
+          style="position: absolute; inset: 0;
+            background: radial-gradient(ellipse at center, transparent 30%, var(--color-background) 80%);"
+        >
+        </div>
+      </div>
+
       <div
         id="hero-content"
-        class="relative z-10 flex flex-col items-center justify-center text-center px-6 pointer-events-none select-none"
+        class="relative flex flex-col items-center justify-center text-center px-6 pointer-events-none select-none"
+        style="z-index: 10;"
       >
         <h1
           class="font-display font-bold leading-none tracking-tight"
@@ -171,10 +196,7 @@ const clientData = JSON.stringify(
   <!-- ══════════════════════════════════════════
        PHASE 3 — Sticky textos + canvas parallax
   ═══════════════════════════════════════════ -->
-  <div
-    id="phase3-root"
-    style="position: relative; background: var(--color-background);"
-  >
+  <div id="phase3-root" style="position: relative; background: transparent;">
     <!-- STICKY UI -->
     <div
       id="phase3-sticky"
@@ -189,20 +211,11 @@ const clientData = JSON.stringify(
         width: 46%; height: 100%; flex-shrink: 0;
         display: flex; flex-direction: column; justify-content: center;
         padding: 0 4vw 0 5vw; z-index: 10;
-        background: var(--color-background); position: relative;
+        background: linear-gradient(to right, var(--color-background) 70%, transparent);
+        position: relative;
         pointer-events: none;
       "
       >
-        <!-- merge derecha -->
-        <div
-          style="
-          position: absolute; right: 0; top: 0; bottom: 0; width: 100px;
-          background: linear-gradient(to right, var(--color-background), transparent);
-          pointer-events: none; z-index: 1;
-        "
-        >
-        </div>
-
         <div style="position: relative; z-index: 2;">
           <div
             id="p3-counter"
@@ -227,7 +240,6 @@ const clientData = JSON.stringify(
             {services[0]?.name}
           </div>
 
-          <!-- Título feature (grande) -->
           <div
             style="overflow: hidden; min-height: 3.8em; position: relative; margin-bottom: 1.2rem;"
           >
@@ -249,7 +261,6 @@ const clientData = JSON.stringify(
           >
           </div>
 
-          <!-- Descripción feature -->
           <div style="overflow: hidden; min-height: 5.5em; position: relative;">
             <div
               id="p3-feat-desc"
@@ -263,7 +274,6 @@ const clientData = JSON.stringify(
             </div>
           </div>
 
-          <!-- Dots -->
           <div
             id="p3-dots"
             style="display: flex; gap: 6px; margin-top: 2.2rem;"
@@ -273,9 +283,9 @@ const clientData = JSON.stringify(
                 <div
                   style={`
                 height: 5px; border-radius: 3px;
+                transition: all 0.35s ease;
                 width: ${fi === 0 ? 20 : 6}px;
                 background: ${fi === 0 ? "var(--color-primary)" : "rgba(167,139,250,0.3)"};
-                transition: all 0.35s ease;
               `}
                 />
               ))
@@ -289,7 +299,7 @@ const clientData = JSON.stringify(
         <!-- merge izquierda -->
         <div
           style="
-          position: absolute; left: 0; top: 0; bottom: 0; width: 18%;
+          position: absolute; left: 0; top: 0; bottom: 0; width: 6%;
           background: linear-gradient(to right, var(--color-background), transparent);
           z-index: 20; pointer-events: none;
         "
@@ -298,7 +308,7 @@ const clientData = JSON.stringify(
         <!-- merge top -->
         <div
           style="
-          position: absolute; top: 0; left: 0; right: 0; height: 15%;
+          position: absolute; top: 0; left: 0; right: 0; height: 12%;
           background: linear-gradient(to bottom, var(--color-background), transparent);
           z-index: 20; pointer-events: none;
         "
@@ -307,14 +317,14 @@ const clientData = JSON.stringify(
         <!-- merge bottom -->
         <div
           style="
-          position: absolute; bottom: 0; left: 0; right: 0; height: 15%;
+          position: absolute; bottom: 0; left: 0; right: 0; height: 12%;
           background: linear-gradient(to top, var(--color-background), transparent);
           z-index: 20; pointer-events: none;
         "
         >
         </div>
 
-        <!-- ★ CANVAS PARALLAX: todas las imágenes de todos los features en orden -->
+        <!-- CANVAS PARALLAX -->
         <div
           id="p3-canvas"
           style="
@@ -337,10 +347,10 @@ const clientData = JSON.stringify(
                 width: ${ci.w}; height: ${ci.h};
                 border-radius: 0.875rem; overflow: hidden;
                 border: 1px solid rgba(124,58,237,0.22);
-                box-shadow: 0 16px 48px rgba(0,0,0,0.65);
-                transform: rotate(${ci.rot}deg);
-                opacity: ${ci.isFirst ? 0.65 : 0.2};
-                filter: ${ci.isFirst ? "none" : "saturate(0.3)"};
+                box-shadow: 0 16px 48px rgba(0,0,0,0.55);
+                transform: rotate(0deg);
+                opacity: ${ci.isFirst ? 0.75 : 0.35};
+                filter: ${ci.isFirst ? "none" : "saturate(0.5)"};
                 will-change: transform, opacity, filter;
               `}
               >
@@ -348,38 +358,44 @@ const clientData = JSON.stringify(
                   src={ci.src}
                   alt=""
                   class="w-full h-full object-cover"
-                  style="opacity: 0.85;"
+                  style="opacity: 0.9;"
                 />
               </div>
             ))
           }
         </div>
 
-        <!-- Imagen principal del servicio activo -->
+        <!-- Imagen principal del servicio activo — respeta su shape natural -->
         <div
           style="
           position: absolute; top: 50%; left: 50%;
-          transform: translate(-42%, -50%);
-          width: 62%; height: 66%;
+          transform: translate(-38%, -50%);
+          width: 68%;
           border-radius: 1.25rem; overflow: hidden;
           border: 1px solid rgba(124,58,237,0.28);
           box-shadow: 0 24px 80px rgba(0,0,0,0.7);
           z-index: 10;
+          line-height: 0;
         "
         >
           <img
             id="p3-main-img-el"
             src={services[0]?.image ?? ""}
             alt={services[0]?.name ?? ""}
-            class="w-full h-full object-cover"
-            style="opacity: 0.8; will-change: opacity;"
+            style="
+              width: 100%;
+              height: auto;
+              display: block;
+              opacity: 0.88;
+              will-change: opacity;
+            "
           />
           <div
             style="
             position: absolute; inset: 0;
             background:
               linear-gradient(160deg, rgba(124,58,237,0.07) 0%, transparent 60%),
-              linear-gradient(to top, rgba(5,1,10,0.4) 0%, transparent 50%);
+              linear-gradient(to top, rgba(5,1,10,0.35) 0%, transparent 50%);
           "
           >
           </div>
@@ -387,11 +403,6 @@ const clientData = JSON.stringify(
       </div>
     </div>
 
-    <!-- ─── SCROLL SPACERS ────────────────────────────────────────
-         Uno por feature. El sticky UI se mantiene fijo; estos spacers
-         son los que generan el recorrido de scroll y disparan los
-         ScrollTriggers que cambian el estado del texto y las imágenes.
-    ──────────────────────────────────────────────────────────────── -->
     <div style="height: 50vh;"></div>
     {
       services.map((svc, si) =>
@@ -406,16 +417,40 @@ const clientData = JSON.stringify(
       )
     }
     <div style="height: 50vh;"></div>
-  </div><!-- /phase3-root -->
-</div><!-- /scroll-root -->
+  </div>
+</div>
 
-<!-- Datos para el script cliente -->
 <script id="p3-services-data" type="application/json" set:html={clientData} />
 
-<!-- ════════════════════════════════════════ STYLES ═══ -->
 <style>
   :root {
     scroll-behavior: auto;
+  }
+
+  #shader-bg-wrapper {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden; /* sin zoom */
+  }
+
+  #shader-bg-react {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Asegura que el canvas WebGL no haga zoom con gestos */
+  #shader-bg-react canvas {
+    touch-action: none;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* El color-background se vuelve semi-transparente para ver el shader */
+  #hero-sticky,
+  #phase3-root {
+    background: transparent !important;
   }
 
   #hero-sticky {
@@ -454,9 +489,6 @@ const clientData = JSON.stringify(
   import { ScrollTrigger } from "gsap/ScrollTrigger";
   gsap.registerPlugin(ScrollTrigger);
 
-  // ─────────────────────────────────────────────────────
-  // PHASE 1 → 2  (hero zoom-out → grid reveal)
-  // ─────────────────────────────────────────────────────
   function buildTileLayout() {
     const tiles = document.querySelectorAll<HTMLElement>(".rect-tile");
     const n = tiles.length;
@@ -579,9 +611,6 @@ const clientData = JSON.stringify(
     });
   }
 
-  // ─────────────────────────────────────────────────────
-  // PHASE 3 — canvas parallax continuo
-  // ─────────────────────────────────────────────────────
   function buildPhase3() {
     const dataEl = document.getElementById("p3-services-data");
     if (!dataEl) return;
@@ -604,14 +633,12 @@ const clientData = JSON.stringify(
     const dotsWrap = document.getElementById("p3-dots")!;
     const spacers = document.querySelectorAll<HTMLElement>(".p3-feat-spacer");
 
-    // Calculamos cuánto scroll tiene phase3-root en total para el canvas scrub
     const phase3Root = document.getElementById("phase3-root")!;
-    const CANVAS_SPEED = 0.6; // fracción del scroll total que mueve el canvas
+    const CANVAS_SPEED = 0.6;
 
     let activeSi = 0;
     let activeFi = 0;
 
-    // ── Actualizar estados visuales de imágenes ──
     function updateImageStates(si: number, fi: number) {
       canvasImgs.forEach((img) => {
         const imgSi = Number(img.dataset.si);
@@ -621,21 +648,17 @@ const clientData = JSON.stringify(
         let targetFilter: string;
 
         if (imgSi === si && imgFi === fi) {
-          // Feature activo — bien visible
-          targetOpacity = 0.7;
+          targetOpacity = 0.82;
           targetFilter = "saturate(1) brightness(1)";
         } else if (imgSi < si || (imgSi === si && imgFi < fi)) {
-          // Ya vistos — atenuados
-          targetOpacity = 0.28;
-          targetFilter = "saturate(0.4) brightness(0.7)";
+          targetOpacity = 0.32;
+          targetFilter = "saturate(0.45) brightness(0.75)";
         } else if (imgSi === si && imgFi > fi) {
-          // Features futuros del mismo servicio — semi-visibles
-          targetOpacity = 0.35;
-          targetFilter = "saturate(0.5) brightness(0.8)";
+          targetOpacity = 0.4;
+          targetFilter = "saturate(0.55) brightness(0.85)";
         } else {
-          // Servicio futuro — muy atenuados, anclados visualmente
-          targetOpacity = 0.15;
-          targetFilter = "saturate(0.2) brightness(0.5)";
+          targetOpacity = 0.22;
+          targetFilter = "saturate(0.25) brightness(0.6)";
         }
 
         gsap.to(img, {
@@ -648,7 +671,6 @@ const clientData = JSON.stringify(
       });
     }
 
-    // ── Swap de texto con animación ──
     function animSwap(
       el: HTMLElement,
       newText: string,
@@ -702,19 +724,16 @@ const clientData = JSON.stringify(
 
       const dir = si > prevSi || (si === prevSi && fi > prevFi) ? 1 : -1;
 
-      // Contador siempre
       counterEl.textContent = `${String(si + 1).padStart(2, "0")} / ${String(SERVICES.length).padStart(2, "0")}`;
 
-      // Nombre servicio — solo si cambia de servicio
       if (si !== prevSi) {
         animSwap(svcNameEl, svc.name, dir, 14);
-        // Crossfade imagen principal
         gsap.to(mainImgEl, {
           opacity: 0,
           duration: 0.3,
           onComplete() {
             mainImgEl.src = svc.image;
-            gsap.to(mainImgEl, { opacity: 0.8, duration: 0.55 });
+            gsap.to(mainImgEl, { opacity: 0.88, duration: 0.55 });
           },
         });
       }
@@ -724,21 +743,18 @@ const clientData = JSON.stringify(
       rebuildDots(si, fi);
     }
 
-    // ── Canvas: se mueve en Y scrubbeado al scroll de phase3-root ──
     ScrollTrigger.create({
       trigger: "#phase3-root",
       start: "top top",
       end: "bottom bottom",
       scrub: 1.8,
       onUpdate(self) {
-        // Desplazamos el canvas proporcional al progreso del scroll
         const rootH = phase3Root.offsetHeight;
         const travelY = rootH * self.progress * CANVAS_SPEED;
         gsap.set(canvasEl, { y: -travelY });
       },
     });
 
-    // ── Micro-parallax individual por imagen (velocidad extra relativa al canvas) ──
     canvasImgs.forEach((img) => {
       const speed = parseFloat(img.dataset.speed ?? "0.3");
       const rot = parseFloat(img.dataset.rot ?? "0");
@@ -761,7 +777,6 @@ const clientData = JSON.stringify(
       );
     });
 
-    // ── ScrollTriggers de spacers: detectan qué feature está activo ──
     spacers.forEach((spacer) => {
       const si = Number(spacer.dataset.si);
       const fi = Number(spacer.dataset.fi);
@@ -793,13 +808,9 @@ const clientData = JSON.stringify(
       });
     });
 
-    // Estado inicial
     updateImageStates(0, 0);
   }
 
-  // ─────────────────────────────────────────────────────
-  // INIT
-  // ─────────────────────────────────────────────────────
   function init() {
     initTiles();
     buildHeroPhase();
