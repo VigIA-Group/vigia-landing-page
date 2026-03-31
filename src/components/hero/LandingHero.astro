@@ -2,15 +2,939 @@
 import ServicesDb from "../../database/services.json";
 import type { Services } from "../../models/Service";
 const services = ServicesDb as Services;
+
+// Use first service for feature section, or fallback
+const featuredService = services?.[0] ?? {
+  name: "Camera Intelligence",
+  description:
+    "Porque ver no es suficiente cuando cada detalle importa. Integra inteligencia artificial a tus cámaras y descubre patrones, riesgos y oportunidades que antes pasaban desapercibidos.",
+  features: [
+    {
+      name: "Detección en tiempo real",
+      description:
+        "Identifica objetos, personas y eventos al instante con modelos optimizados para edge computing.",
+      images: [],
+    },
+    {
+      name: "Análisis de comportamiento",
+      description:
+        "Comprende patrones de movimiento y comportamiento para anticipar situaciones de riesgo.",
+      images: [],
+    },
+    {
+      name: "Alertas inteligentes",
+      description:
+        "Notificaciones contextuales que eliminan el ruido y te avisan solo cuando importa.",
+      images: [],
+    },
+    {
+      name: "Dashboard unificado",
+      description:
+        "Visualiza todas tus cámaras e insights desde un panel centralizado e intuitivo.",
+      images: [],
+    },
+  ],
+};
 ---
 
-<section>
-  <h1>VigIA</h1>
-  <img src="/public/images/camera.png" class="" alt="camera_images" />
-  <p>La diferencia entre mirar y entender.</p>
-  <p>
-    Porque ver no es suficiente cuando cada detalle importa. Integra
-    inteligencia artificial a tus cámaras y descubre patrones, riesgos y
-    oportunidades que antes pasaban desapercibidos.
-  </p>
-</section>
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VigIA — La diferencia entre mirar y entender</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Blinker:wght@300;400;600;700;900&family=Inter:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ─── Reset & base ─── */
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      :root {
+        --color-primary: #7c3aed;
+        --color-background: #05010a;
+        --color-surface: #120a1f;
+        --color-text: #f5f3ff;
+        --color-muted: #a78bfa;
+        --font-display: 'Blinker', sans-serif;
+        --font-sans: 'Inter', sans-serif;
+      }
+
+      html { scroll-behavior: auto; }
+
+      body {
+        background: var(--color-background);
+        color: var(--color-text);
+        font-family: var(--font-sans);
+        overflow-x: hidden;
+      }
+
+      /* ─── PHASE 1: Hero ─── */
+      #hero-wrapper {
+        position: relative;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      #hero-card {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        border-radius: 0px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        will-change: transform;
+        transform-origin: center center;
+      }
+
+      #hero-gradient {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse at 30% 40%, #4c1d95 0%, #7c3aed 25%, #2d1b69 50%, #05010a 80%);
+        z-index: 0;
+      }
+
+      /* animated gradient blob */
+      #hero-blob-1 {
+        position: absolute;
+        width: 70%;
+        height: 70%;
+        top: -10%;
+        left: -10%;
+        background: radial-gradient(ellipse, rgba(139,92,246,0.6) 0%, transparent 70%);
+        border-radius: 50%;
+        filter: blur(60px);
+        z-index: 1;
+        will-change: transform;
+      }
+      #hero-blob-2 {
+        position: absolute;
+        width: 60%;
+        height: 60%;
+        bottom: -10%;
+        right: -10%;
+        background: radial-gradient(ellipse, rgba(196,110,255,0.4) 0%, transparent 70%);
+        border-radius: 50%;
+        filter: blur(80px);
+        z-index: 1;
+        will-change: transform;
+      }
+      #hero-blob-3 {
+        position: absolute;
+        width: 40%;
+        height: 40%;
+        top: 40%;
+        left: 30%;
+        background: radial-gradient(ellipse, rgba(109,40,217,0.5) 0%, transparent 70%);
+        border-radius: 50%;
+        filter: blur(40px);
+        z-index: 1;
+        will-change: transform;
+      }
+
+      /* noise overlay */
+      #hero-card::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+        background-size: 200px 200px;
+        opacity: 0.15;
+        z-index: 2;
+        pointer-events: none;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 3;
+        max-width: 800px;
+        padding: 0 2rem;
+      }
+
+      .hero-eyebrow {
+        font-family: var(--font-sans);
+        font-size: 0.75rem;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--color-muted);
+        margin-bottom: 1.5rem;
+        opacity: 0.8;
+      }
+
+      .hero-title {
+        font-family: var(--font-display);
+        font-size: clamp(3rem, 8vw, 7rem);
+        font-weight: 900;
+        line-height: 0.95;
+        color: var(--color-text);
+        letter-spacing: -0.02em;
+        margin-bottom: 1.5rem;
+      }
+
+      .hero-title span {
+        display: block;
+        background: linear-gradient(135deg, #f5f3ff 0%, #c4b5fd 50%, #a78bfa 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero-subtitle {
+        font-family: var(--font-sans);
+        font-size: clamp(1rem, 2vw, 1.25rem);
+        font-weight: 300;
+        color: rgba(245, 243, 255, 0.7);
+        max-width: 500px;
+        margin: 0 auto 2.5rem;
+        line-height: 1.6;
+      }
+
+      .hero-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: var(--color-text);
+        color: var(--color-background);
+        font-family: var(--font-sans);
+        font-weight: 600;
+        font-size: 0.9rem;
+        letter-spacing: 0.02em;
+        padding: 0.875rem 2rem;
+        border-radius: 100px;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+      .hero-cta:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 20px 60px rgba(124,58,237,0.4);
+      }
+
+      .hero-cta-arrow {
+        display: inline-block;
+        transition: transform 0.2s ease;
+      }
+      .hero-cta:hover .hero-cta-arrow { transform: translateX(3px); }
+
+      /* ─── PHASE 2: Grid wrapper ─── */
+      #grid-scene {
+        position: relative;
+        background: var(--color-background);
+        /* height set by JS pinning */
+      }
+
+      #grid-pin-target {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      #rect-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        gap: 12px;
+        width: min(90vw, 1100px);
+        height: min(75vh, 700px);
+        padding: 8px;
+      }
+
+      .rect-card {
+        border-radius: 16px;
+        overflow: hidden;
+        position: relative;
+        will-change: transform, opacity;
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+      }
+
+      .rect-card::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.1'/%3E%3C/svg%3E");
+        background-size: 128px 128px;
+        opacity: 0.2;
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      /* Gradient fills for each card */
+      .rect-card:nth-child(1) {
+        background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 40%, #3b82f6 100%);
+      }
+      .rect-card:nth-child(2) {
+        background: linear-gradient(135deg, #120a1f 0%, #4c1d95 40%, #7c3aed 80%, #c026d3 100%);
+      }
+      .rect-card:nth-child(3) {
+        background: linear-gradient(135deg, #042f2e 0%, #0f766e 50%, #22d3ee 100%);
+      }
+      .rect-card:nth-child(4) {
+        background: linear-gradient(135deg, #1c0a00 0%, #c2410c 50%, #fb923c 100%);
+      }
+      .rect-card:nth-child(5) {
+        background: linear-gradient(135deg, #052e16 0%, #166534 50%, #4ade80 100%);
+      }
+      .rect-card:nth-child(6) {
+        background: linear-gradient(135deg, #1e0a2e 0%, #be185d 40%, #f472b6 80%, #e9d5ff 100%);
+      }
+
+      /* inner blob animations per card */
+      .rect-blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(40px);
+        opacity: 0.6;
+        z-index: 1;
+      }
+
+      /* label on cards */
+      .rect-label {
+        position: absolute;
+        bottom: 1rem;
+        left: 1rem;
+        z-index: 3;
+        font-family: var(--font-sans);
+        font-size: 0.7rem;
+        font-weight: 500;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.5);
+      }
+
+      /* ─── PHASE 3: Feature section ─── */
+      #feature-section {
+        display: flex;
+        min-height: 100vh;
+        background: var(--color-background);
+        position: relative;
+      }
+
+      #feature-left {
+        position: sticky;
+        top: 0;
+        width: 45%;
+        height: 100vh;
+        flex-shrink: 0;
+        overflow: hidden;
+        border-radius: 0 24px 24px 0;
+      }
+
+      #feature-rect {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #120a1f 0%, #4c1d95 40%, #7c3aed 80%, #c026d3 100%);
+        position: relative;
+        overflow: hidden;
+      }
+
+      #feature-rect::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.1'/%3E%3C/svg%3E");
+        background-size: 128px 128px;
+        opacity: 0.2;
+        pointer-events: none;
+        z-index: 2;
+      }
+
+      .feature-blob {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(60px);
+        z-index: 1;
+      }
+
+      .feature-rect-logo {
+        position: absolute;
+        bottom: 2.5rem;
+        left: 2.5rem;
+        z-index: 3;
+        font-family: var(--font-display);
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: rgba(255,255,255,0.9);
+        letter-spacing: -0.02em;
+      }
+
+      .feature-rect-tag {
+        position: absolute;
+        top: 2rem;
+        left: 2rem;
+        z-index: 3;
+        font-family: var(--font-sans);
+        font-size: 0.65rem;
+        font-weight: 500;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.45);
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 0.35rem 0.75rem;
+        border-radius: 100px;
+      }
+
+      /* camera icon SVG area */
+      .feature-rect-visual {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2;
+      }
+
+      .camera-icon-wrap {
+        width: 120px;
+        height: 120px;
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(10px);
+      }
+
+      #feature-right {
+        flex: 1;
+        padding: 8vh 5vw 8vh 4vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        overflow: visible;
+      }
+
+      .feature-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(124,58,237,0.15);
+        border: 1px solid rgba(124,58,237,0.3);
+        color: var(--color-muted);
+        font-family: var(--font-sans);
+        font-size: 0.72rem;
+        font-weight: 500;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        padding: 0.4rem 1rem;
+        border-radius: 100px;
+        margin-bottom: 2rem;
+        width: fit-content;
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      .feature-badge-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--color-primary);
+        flex-shrink: 0;
+      }
+
+      .feature-title {
+        font-family: var(--font-display);
+        font-size: clamp(2.5rem, 4vw, 4rem);
+        font-weight: 900;
+        line-height: 0.95;
+        letter-spacing: -0.03em;
+        color: var(--color-text);
+        margin-bottom: 1.5rem;
+        opacity: 0;
+        transform: translateY(24px);
+      }
+
+      .feature-description {
+        font-family: var(--font-sans);
+        font-size: 1rem;
+        font-weight: 300;
+        line-height: 1.7;
+        color: rgba(245,243,255,0.55);
+        max-width: 420px;
+        margin-bottom: 3rem;
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      .feature-cards-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .feature-card {
+        background: var(--color-surface);
+        border: 1px solid rgba(124,58,237,0.15);
+        border-radius: 16px;
+        padding: 1.5rem;
+        opacity: 0;
+        transform: translateY(30px);
+        transition: border-color 0.3s ease;
+      }
+      .feature-card:hover {
+        border-color: rgba(124,58,237,0.4);
+      }
+
+      .feature-card-icon {
+        width: 36px;
+        height: 36px;
+        background: rgba(124,58,237,0.15);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 0.875rem;
+        color: var(--color-muted);
+      }
+
+      .feature-card-name {
+        font-family: var(--font-display);
+        font-size: 1rem;
+        font-weight: 700;
+        color: var(--color-text);
+        margin-bottom: 0.5rem;
+        line-height: 1.2;
+      }
+
+      .feature-card-desc {
+        font-family: var(--font-sans);
+        font-size: 0.82rem;
+        font-weight: 400;
+        line-height: 1.6;
+        color: rgba(245,243,255,0.45);
+      }
+
+      /* ─── Nav ─── */
+      #nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        padding: 1.25rem 2.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        pointer-events: none;
+      }
+
+      .nav-logo {
+        font-family: var(--font-display);
+        font-size: 1.4rem;
+        font-weight: 900;
+        letter-spacing: -0.03em;
+        color: var(--color-text);
+        pointer-events: all;
+      }
+
+      .nav-pill {
+        background: rgba(18, 10, 31, 0.6);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(124,58,237,0.2);
+        border-radius: 100px;
+        padding: 0.5rem 1.25rem;
+        font-family: var(--font-sans);
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: var(--color-muted);
+        pointer-events: all;
+        cursor: pointer;
+        text-decoration: none;
+        letter-spacing: 0.02em;
+      }
+
+      /* ─── Scroll hint ─── */
+      .scroll-hint {
+        position: absolute;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        z-index: 4;
+        opacity: 0.5;
+      }
+
+      .scroll-hint span {
+        font-family: var(--font-sans);
+        font-size: 0.65rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--color-muted);
+      }
+
+      .scroll-hint-line {
+        width: 1px;
+        height: 32px;
+        background: linear-gradient(to bottom, var(--color-muted), transparent);
+        animation: scrollPulse 1.8s ease-in-out infinite;
+      }
+
+      @keyframes scrollPulse {
+        0%, 100% { opacity: 0.3; transform: scaleY(0.8); }
+        50% { opacity: 1; transform: scaleY(1); }
+      }
+
+      /* ─── Footer ─── */
+      #footer {
+        background: var(--color-background);
+        padding: 4rem 2.5rem;
+        text-align: center;
+        border-top: 1px solid rgba(124,58,237,0.1);
+      }
+
+      .footer-logo {
+        font-family: var(--font-display);
+        font-size: 2rem;
+        font-weight: 900;
+        color: var(--color-text);
+        letter-spacing: -0.03em;
+        margin-bottom: 0.75rem;
+      }
+
+      .footer-tagline {
+        font-family: var(--font-sans);
+        font-size: 0.85rem;
+        color: rgba(245,243,255,0.35);
+        letter-spacing: 0.05em;
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- NAV -->
+    <nav id="nav">
+      <div class="nav-logo">VigIA</div>
+      <a href="#feature-section" class="nav-pill">Ver servicios →</a>
+    </nav>
+
+    <!-- ═══════════════════════════════════════
+         PHASE 1 — HERO
+    ═══════════════════════════════════════ -->
+    <div id="hero-wrapper">
+      <div id="hero-card">
+        <div id="hero-gradient"></div>
+        <div id="hero-blob-1"></div>
+        <div id="hero-blob-2"></div>
+        <div id="hero-blob-3"></div>
+
+        <div class="hero-content">
+          <p class="hero-eyebrow">Inteligencia Visual Avanzada</p>
+          <h1 class="hero-title">
+            <span>VigIA</span>
+          </h1>
+          <p class="hero-subtitle">
+            La diferencia entre mirar y entender. Transforma cada cámara en un sistema de inteligencia.
+          </p>
+          <a href="#feature-section" class="hero-cta">
+            Descubrir plataforma
+            <span class="hero-cta-arrow">→</span>
+          </a>
+        </div>
+
+        <div class="scroll-hint">
+          <span>Scroll</span>
+          <div class="scroll-hint-line"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         PHASE 2 — GRID REVEAL
+    ═══════════════════════════════════════ -->
+    <div id="grid-scene">
+      <div id="grid-pin-target">
+        <div id="rect-grid">
+          <!-- Card 1: Blue electric -->
+          <div class="rect-card" id="rc1">
+            <div class="rect-blob" style="width:80%;height:80%;top:-20%;left:-20%;background:radial-gradient(#3b82f6,transparent)"></div>
+            <span class="rect-label">Analytics</span>
+          </div>
+          <!-- Card 2: Purple/pink (hero match) -->
+          <div class="rect-card" id="rc2">
+            <div class="rect-blob" style="width:90%;height:90%;top:-10%;left:10%;background:radial-gradient(#a855f7,transparent)"></div>
+            <span class="rect-label">Intelligence</span>
+          </div>
+          <!-- Card 3: Teal/cyan -->
+          <div class="rect-card" id="rc3">
+            <div class="rect-blob" style="width:70%;height:70%;bottom:-10%;right:-10%;background:radial-gradient(#22d3ee,transparent)"></div>
+            <span class="rect-label">Monitoring</span>
+          </div>
+          <!-- Card 4: Orange/red -->
+          <div class="rect-card" id="rc4">
+            <div class="rect-blob" style="width:80%;height:80%;top:20%;left:-10%;background:radial-gradient(#fb923c,transparent)"></div>
+            <span class="rect-label">Detection</span>
+          </div>
+          <!-- Card 5: Dark green -->
+          <div class="rect-card" id="rc5">
+            <div class="rect-blob" style="width:70%;height:70%;bottom:-20%;right:20%;background:radial-gradient(#4ade80,transparent)"></div>
+            <span class="rect-label">Security</span>
+          </div>
+          <!-- Card 6: Pink/lavender -->
+          <div class="rect-card" id="rc6">
+            <div class="rect-blob" style="width:80%;height:80%;top:-10%;right:-10%;background:radial-gradient(#f472b6,transparent)"></div>
+            <span class="rect-label">Insights</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         PHASE 3 — FEATURE SECTION
+    ═══════════════════════════════════════ -->
+    <section id="feature-section">
+      <!-- Left: sticky colored rect -->
+      <div id="feature-left">
+        <div id="feature-rect">
+          <div class="feature-blob" style="width:80%;height:80%;top:-20%;left:-20%;background:radial-gradient(ellipse,#7c3aed,transparent);opacity:0.7"></div>
+          <div class="feature-blob" style="width:60%;height:60%;bottom:-10%;right:-10%;background:radial-gradient(ellipse,#c026d3,transparent);opacity:0.5"></div>
+          <div class="feature-blob" style="width:40%;height:40%;top:40%;left:20%;background:radial-gradient(ellipse,#4c1d95,transparent);opacity:0.6"></div>
+
+          <div class="feature-rect-tag">Camera AI</div>
+
+          <div class="feature-rect-visual">
+            <div class="camera-icon-wrap">
+              <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="4" y="13" width="44" height="30" rx="5" stroke="rgba(245,243,255,0.7)" stroke-width="1.5"/>
+                <circle cx="26" cy="28" r="8" stroke="rgba(245,243,255,0.7)" stroke-width="1.5"/>
+                <circle cx="26" cy="28" r="3" fill="rgba(245,243,255,0.5)"/>
+                <path d="M16 13V10C16 8.89543 16.8954 8 18 8H22C23.1046 8 24 8.89543 24 10V13" stroke="rgba(245,243,255,0.5)" stroke-width="1.5"/>
+                <circle cx="40" cy="19" r="2" fill="rgba(245,243,255,0.4)"/>
+                <!-- scan lines -->
+                <line x1="18" y1="28" x2="34" y2="28" stroke="rgba(167,139,250,0.25)" stroke-width="0.75" stroke-dasharray="2 3"/>
+                <line x1="26" y1="20" x2="26" y2="36" stroke="rgba(167,139,250,0.25)" stroke-width="0.75" stroke-dasharray="2 3"/>
+              </svg>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Right: scrolling content -->
+      <div id="feature-right">
+        <div class="feature-badge" id="feat-badge">
+          <span class="feature-badge-dot"></span>
+          Servicio Principal
+        </div>
+
+        <h2 class="feature-title" id="feat-title">
+          {featuredService.name}
+        </h2>
+
+        <p class="feature-description" id="feat-desc">
+          {featuredService.description}
+        </p>
+
+        <div class="feature-cards-grid">
+          {featuredService.features.map((feature, i) => (
+            <div class="feature-card" id={`feat-card-${i}`}>
+              <div class="feature-card-icon">
+                {i === 0 && (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+                  </svg>
+                )}
+                {i === 1 && (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                  </svg>
+                )}
+                {i === 2 && (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 0 1-3.46 0"/>
+                  </svg>
+                )}
+                {i === 3 && (
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                    <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
+                    <rect x="14" y="14" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/>
+                  </svg>
+                )}
+              </div>
+              <div class="feature-card-name">{feature.name}</div>
+              <div class="feature-card-desc">{feature.description}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="footer">
+      <div class="footer-logo">VigIA</div>
+      <p class="footer-tagline">La diferencia entre mirar y entender.</p>
+    </footer>
+
+    <!-- ═══════════════════════════════════════
+         GSAP ANIMATIONS
+    ═══════════════════════════════════════ -->
+    <script>
+      import { gsap } from "gsap";
+      import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      // ── Hero ambient blob animation (loop) ──────────────────────
+      gsap.to("#hero-blob-1", {
+        x: "15%",
+        y: "10%",
+        scale: 1.15,
+        duration: 6,
+        ease: "sine.inOut",
+        repeat: -1,
+        yoyo: true,
+      });
+
+      gsap.to("#hero-blob-2", {
+        x: "-12%",
+        y: "-8%",
+        scale: 1.2,
+        duration: 7.5,
+        ease: "sine.inOut",
+        repeat: -1,
+        yoyo: true,
+      });
+
+      gsap.to("#hero-blob-3", {
+        x: "8%",
+        y: "-12%",
+        scale: 0.85,
+        duration: 5,
+        ease: "sine.inOut",
+        repeat: -1,
+        yoyo: true,
+      });
+
+      // ── Hero entrance ───────────────────────────────────────────
+      const heroEntranceTl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      heroEntranceTl
+        .from(".hero-eyebrow", { opacity: 0, y: 20, duration: 0.8 })
+        .from(".hero-title span", { opacity: 0, y: 40, stagger: 0.12, duration: 0.9 }, "-=0.4")
+        .from(".hero-subtitle", { opacity: 0, y: 20, duration: 0.7 }, "-=0.5")
+        .from(".hero-cta", { opacity: 0, y: 16, duration: 0.6 }, "-=0.4")
+        .from(".scroll-hint", { opacity: 0, duration: 0.5 }, "-=0.2");
+
+      // ── PHASE 1 → 2: Hero zoom-out on scroll ───────────────────
+      gsap.to("#hero-card", {
+        scale: 0.72,
+        borderRadius: "20px",
+        scrollTrigger: {
+          trigger: "#hero-wrapper",
+          start: "top top",
+          end: "bottom top",
+          scrub: 1.2,
+        },
+      });
+
+      // ── PHASE 2: Grid pin + stagger reveal ─────────────────────
+      // Pin the grid section
+      ScrollTrigger.create({
+        trigger: "#grid-scene",
+        start: "top top",
+        end: "+=140vh",
+        pin: "#grid-pin-target",
+        pinSpacing: true,
+      });
+
+      // Animate rect cards in with stagger when grid scene enters
+      gsap.to(".rect-card", {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        stagger: 0.1,
+        duration: 0.7,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: "#grid-scene",
+          start: "top 80%",
+          toggleActions: "play none none reverse",
+        },
+      });
+
+      // ── PHASE 3: Feature section content reveal ─────────────────
+      // Badge
+      gsap.to("#feat-badge", {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: "#feat-badge",
+          start: "top 85%",
+          toggleActions: "play none none reverse",
+        },
+      });
+
+      // Title
+      gsap.to("#feat-title", {
+        opacity: 1,
+        y: 0,
+        duration: 0.75,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: "#feat-title",
+          start: "top 85%",
+          toggleActions: "play none none reverse",
+        },
+      });
+
+      // Description
+      gsap.to("#feat-desc", {
+        opacity: 1,
+        y: 0,
+        duration: 0.7,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: "#feat-desc",
+          start: "top 88%",
+          toggleActions: "play none none reverse",
+        },
+      });
+
+      // Feature cards stagger
+      gsap.to(".feature-card", {
+        opacity: 1,
+        y: 0,
+        stagger: 0.12,
+        duration: 0.65,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: ".feature-cards-grid",
+          start: "top 88%",
+          toggleActions: "play none none reverse",
+        },
+      });
+
+      // Feature left blob animation (looping, subtle)
+      gsap.to("#feature-rect .feature-blob:nth-child(1)", {
+        x: "8%", y: "5%", scale: 1.1,
+        duration: 8, ease: "sine.inOut", repeat: -1, yoyo: true,
+      });
+      gsap.to("#feature-rect .feature-blob:nth-child(2)", {
+        x: "-6%", y: "-8%", scale: 1.15,
+        duration: 9, ease: "sine.inOut", repeat: -1, yoyo: true,
+      });
+
+    </script>
+  </body>
+</html>

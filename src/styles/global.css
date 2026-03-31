@@ -4,15 +4,17 @@
 @import "tailwindcss";
 
 @theme {
-  /* ── Colores personalizados ── */
-  --color-primary: #6366f1;
-  --color-primary-dark: #4f46e5;
-  --color-background: #0f0f13;
-  --color-surface: #1a1a24;
-  --color-text: #f4f4f5;
-  --color-muted: #71717a;
+  --color-primary: #7c3aed;
+  --color-primary-dark: #5b21b6;
+  --color-background: #05010a;
+  --color-surface: #120a1f;
+  --color-text: #f5f3ff;
+  --color-muted: #a78bfa;
 
-  /* ── Fuentes personalizadas ── */
+  --color-gradient-start: #2e1065;
+  --color-gradient-mid: #7c3aed;
+  --color-gradient-end: #fb7185;
+
   --font-sans: 'Inter', sans-serif;
   --font-display: 'Blinker', sans-serif;
 }
