@@ -113,152 +113,161 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
   };
 
   return (
-    // Se quitó el background y boxShadow. Solo se mantiene un borde sutil basado en tu variable primary y algo de blur.
-    <div className="max-w-md w-full mx-auto p-8 rounded-2xl border border-[var(--color-primary)]/20 backdrop-blur-sm relative overflow-hidden bg-transparent">
-      <h2 className="text-3xl font-display font-bold mb-2 text-[var(--color-text)]">
-        {data.title}
-      </h2>
-      <p className="mb-6 text-sm text-[var(--color-muted)]">
-        {data.description}
-      </p>
+    // Contenedor principal dividido en dos columnas en escritorio
+    <div className="max-w-5xl w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+      {/* Columna Izquierda: Información */}
+      <div className="flex flex-col justify-center">
+        <h2 className="text-3xl font-display font-bold mb-3 text-[var(--color-text)]">
+          {data.title}
+        </h2>
+        <p className="mb-6 text-sm text-[var(--color-muted)]">
+          {data.description}
+        </p>
 
-      {/* Benefits List */}
-      <ul className="mb-6 space-y-2 text-sm text-[var(--color-text)]/85">
-        <li className="flex items-center gap-2">
-          <span className="text-[var(--color-primary)]">✓</span>{" "}
-          {data.benefit.priority_access}
-        </li>
-        <li className="flex items-center gap-2">
-          <span className="text-[var(--color-primary)]">✓</span>{" "}
-          {data.benefit.discount}
-        </li>
-        <li className="flex items-center gap-2">
-          <span className="text-[var(--color-primary)]">✓</span>{" "}
-          {data.benefit.exclusive_content}
-        </li>
-      </ul>
-
-      {/* Success Message Flotante */}
-      <div
-        className={`absolute top-0 left-0 w-full p-4 flex flex-col items-center justify-center bg-[var(--color-surface)] z-20 transition-all duration-500 ease-in-out border-b border-[var(--color-primary)] ${status === "success" ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}`}
-      >
-        <div className="w-10 h-10 mb-2 rounded-full flex items-center justify-center bg-[var(--color-primary)]/20 text-[var(--color-primary)]">
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M5 13l4 4L19 7"
-            />
-          </svg>
-        </div>
-        <span className="font-medium text-[var(--color-text)]">
-          ¡Súper! Te has unido a la lista.
-        </span>
+        <ul className="space-y-3 text-sm text-[var(--color-text)]/85">
+          <li className="flex items-start gap-2">
+            <span className="text-[var(--color-primary)] mt-0.5">✓</span>
+            <span>{data.benefit.priority_access}</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-[var(--color-primary)] mt-0.5">✓</span>
+            <span>{data.benefit.discount}</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-[var(--color-primary)] mt-0.5">✓</span>
+            <span>{data.benefit.exclusive_content}</span>
+          </li>
+        </ul>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-5">
-        <div>
-          <label className="block text-sm font-medium mb-1 text-[var(--color-text)]">
-            Número de Celular
-          </label>
-          <div className="relative flex items-center">
-            <div className="absolute left-0 inset-y-0 flex items-center pl-3 pr-2 border-r border-[var(--color-primary)]/20 bg-[var(--color-surface)]/30 rounded-l-lg pointer-events-none">
-              <span className="text-lg mr-1">🇧🇴</span>
-              <span className="text-sm font-medium text-[var(--color-text)]">
-                +591
-              </span>
-            </div>
-            <input
-              type="tel"
-              name="phone"
-              maxLength={8}
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder="71234567"
-              className={`w-full pl-24 pr-4 py-3 rounded-lg outline-none transition-colors bg-[var(--color-surface)]/20 text-[var(--color-text)] border ${errors.phone ? "border-red-500" : "border-[var(--color-primary)]/30 focus:border-[var(--color-primary)]"}`}
-            />
-          </div>
-          {errors.phone && (
-            <p className="mt-1 text-xs text-red-400">{errors.phone}</p>
-          )}
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-1 text-[var(--color-text)]">
-            Correo Electrónico
-          </label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="tu@empresa.com"
-            className={`w-full px-4 py-3 rounded-lg outline-none transition-colors bg-[var(--color-surface)]/20 text-[var(--color-text)] border ${errors.email ? "border-red-500" : "border-[var(--color-primary)]/30 focus:border-[var(--color-primary)]"}`}
-          />
-          {errors.email && (
-            <p className="mt-1 text-xs text-red-400">{errors.email}</p>
-          )}
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-1 text-[var(--color-text)]">
-            Sector o Industria
-          </label>
-          <textarea
-            name="sector"
-            value={formData.sector}
-            onChange={handleChange}
-            placeholder="Ej. Retail, Minería, Condominios..."
-            rows={3}
-            className={`w-full px-4 py-3 rounded-lg outline-none transition-colors resize-none bg-[var(--color-surface)]/20 text-[var(--color-text)] border ${errors.sector ? "border-red-500" : "border-[var(--color-primary)]/30 focus:border-[var(--color-primary)]"}`}
-          />
-          {errors.sector && (
-            <p className="mt-1 text-xs text-red-400">{errors.sector}</p>
-          )}
-        </div>
-
-        {status === "error" && (
-          <p className="text-sm text-red-400 bg-red-400/10 p-3 rounded-lg">
-            Hubo un problema de conexión. Por favor, intenta de nuevo.
-          </p>
-        )}
-
-        <button
-          type="submit"
-          disabled={status === "loading"}
-          className="w-full py-3.5 px-4 font-medium rounded-lg transition-colors flex justify-center items-center disabled:opacity-70 disabled:cursor-not-allowed bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-[var(--color-text)]"
+      {/* Columna Derecha: Formulario */}
+      <div className="w-full max-w-md mx-auto p-6 rounded-2xl border border-[var(--color-primary)]/20 backdrop-blur-sm relative overflow-hidden bg-transparent">
+        {/* Success Message Flotante (limitado a la tarjeta del formulario) */}
+        <div
+          className={`absolute top-0 left-0 w-full p-4 flex flex-col items-center justify-center bg-[var(--color-surface)] z-20 transition-all duration-500 ease-in-out border-b border-[var(--color-primary)] ${status === "success" ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}`}
         >
-          {status === "loading" ? (
+          <div className="w-8 h-8 mb-2 rounded-full flex items-center justify-center bg-[var(--color-primary)]/20 text-[var(--color-primary)]">
             <svg
-              className="animate-spin h-5 w-5 text-[var(--color-text)]"
+              className="w-4 h-4"
               fill="none"
+              stroke="currentColor"
               viewBox="0 0 24 24"
             >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              ></circle>
               <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              ></path>
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 13l4 4L19 7"
+              />
             </svg>
-          ) : (
-            data.call_to_action
+          </div>
+          <span className="font-medium text-sm text-[var(--color-text)]">
+            ¡Súper! Te has unido a la lista.
+          </span>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium mb-1 text-[var(--color-text)]">
+              Número de Celular
+            </label>
+            <div className="relative flex items-center">
+              <div className="absolute left-0 inset-y-0 flex items-center pl-2 pr-1 border-r border-[var(--color-primary)]/20 bg-[var(--color-surface)]/30 rounded-l-lg pointer-events-none w-[72px] justify-center">
+                <span className="text-base mr-1">🇧🇴</span>
+                <span className="text-xs font-medium text-[var(--color-text)]">
+                  +591
+                </span>
+              </div>
+              <input
+                type="tel"
+                name="phone"
+                maxLength={8}
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="71234567"
+                // Reducido a py-2 y ajustado el padding-left (pl-[76px])
+                className={`w-full pl-[76px] pr-3 py-2 text-sm rounded-lg outline-none transition-colors bg-[var(--color-surface)]/20 text-[var(--color-text)] border ${errors.phone ? "border-red-500" : "border-[var(--color-primary)]/30 focus:border-[var(--color-primary)]"}`}
+              />
+            </div>
+            {errors.phone && (
+              <p className="mt-1 text-xs text-red-400">{errors.phone}</p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-1 text-[var(--color-text)]">
+              Correo Electrónico
+            </label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="tu@empresa.com"
+              // Reducido a py-2 px-3
+              className={`w-full px-3 py-2 text-sm rounded-lg outline-none transition-colors bg-[var(--color-surface)]/20 text-[var(--color-text)] border ${errors.email ? "border-red-500" : "border-[var(--color-primary)]/30 focus:border-[var(--color-primary)]"}`}
+            />
+            {errors.email && (
+              <p className="mt-1 text-xs text-red-400">{errors.email}</p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium mb-1 text-[var(--color-text)]">
+              Sector o Industria
+            </label>
+            <textarea
+              name="sector"
+              value={formData.sector}
+              onChange={handleChange}
+              placeholder="Ej. Retail, Minería, Condominios..."
+              rows={2} // Reducido a 2 filas para que sea más compacto
+              // Reducido a py-2 px-3
+              className={`w-full px-3 py-2 text-sm rounded-lg outline-none transition-colors resize-none bg-[var(--color-surface)]/20 text-[var(--color-text)] border ${errors.sector ? "border-red-500" : "border-[var(--color-primary)]/30 focus:border-[var(--color-primary)]"}`}
+            />
+            {errors.sector && (
+              <p className="mt-1 text-xs text-red-400">{errors.sector}</p>
+            )}
+          </div>
+
+          {status === "error" && (
+            <p className="text-xs text-red-400 bg-red-400/10 p-2 rounded-lg">
+              Hubo un problema de conexión. Por favor, intenta de nuevo.
+            </p>
           )}
-        </button>
-      </form>
+
+          <button
+            type="submit"
+            disabled={status === "loading"}
+            // Reducido a py-2.5
+            className="w-full py-2.5 px-4 text-sm font-medium rounded-lg transition-colors flex justify-center items-center disabled:opacity-70 disabled:cursor-not-allowed bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-[var(--color-text)]"
+          >
+            {status === "loading" ? (
+              <svg
+                className="animate-spin h-5 w-5 text-[var(--color-text)]"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+            ) : (
+              "Regístrate Hoy"
+            )}
+          </button>
+        </form>
+      </div>
     </div>
   );
 }

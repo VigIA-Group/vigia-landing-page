@@ -27,9 +27,9 @@ export default function ShaderBackground() {
           cDistance={3.6}
           cPolarAngle={90}
           cameraZoom={1}
-          color1="#5500ff"
-          color2="#000021"
-          color3="#812de1"
+          color1="#002AFF"
+          color2="#FFFFFF"
+          color3="#FFFFFF"
           destination="onCanvas"
           embedMode="off"
           envPreset="city"

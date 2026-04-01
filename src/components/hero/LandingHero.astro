@@ -8,6 +8,7 @@ import type { WaitingList } from "../../models/WaitingList";
 
 import ShaderBackground from "../hero/ShaderBackground";
 import WaitlistForm from "../waiting_list/WaitlistForm";
+import Footer from "../navigation/Footer.astro";
 
 const services = ServicesDb as Services;
 const company = CompanyDb as Company;
@@ -130,14 +131,14 @@ const clientData = JSON.stringify(
           VigIA
         </h1>
         <p
-          class="font-display mt-3 text-[var(--color-muted)]"
-          style="font-size: clamp(1rem, 2.5vw, 1.5rem); letter-spacing: 0.04em;"
+          class="font-display mt-3 text-[var(--color-text)]"
+          style="font-size: clamp(1rem, 2.5vw, 1.5rem);"
         >
           La diferencia entre mirar y entender.
         </p>
         <p
           class="font-sans mt-4 max-w-lg text-[var(--color-text)] opacity-70"
-          style="font-size: clamp(0.85rem, 1.4vw, 1.05rem); line-height: 1.7;"
+          style="font-size: clamp(0.85rem, 1.4vw, 1.05rem);"
         >
           Transforma cada cámara en un sistema de inteligencia.
         </p>
@@ -273,19 +274,23 @@ const clientData = JSON.stringify(
   >
     <WaitlistForm data={waitingListBenefits} client:load />
   </section>
+  <Footer />
 </div>
 
+
 <div
-  class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 group flex items-center p-1.5 rounded-full overflow-hidden transition-all duration-500 max-w-[52px] hover:max-w-[400px] bg-[var(--color-surface)]/80 border border-[var(--color-primary)]/30 backdrop-blur-md shadow-lg"
+  id="floating-nav"
+  data-scrolled="false"
+  class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 group flex items-center justify-center rounded-full overflow-hidden transition-all duration-500 ease-in-out bg-[var(--color-surface)]/80 backdrop-blur-md shadow-lg border border-[var(--color-primary)]/30
+    h-[52px] max-w-[400px] p-1.5
+    data-[scrolled=true]:h-1.5 data-[scrolled=true]:max-w-[48px] data-[scrolled=true]:p-0 data-[scrolled=true]:bg-[var(--color-primary)]/50
+    hover:!h-[52px] hover:!max-w-[400px] hover:!p-1.5 hover:!bg-[var(--color-surface)]/80"
 >
   <div
-    class="w-10 h-10 shrink-0 rounded-full flex items-center justify-center pointer-events-none bg-[var(--color-primary)]/15"
-  >
-    <span class="text-[var(--color-text)] font-bold font-display">V</span>
-  </div>
-
-  <div
-    class="flex items-center gap-3 px-3 opacity-0 group-hover:opacity-100 transition-opacity duration-500 whitespace-nowrap"
+    class="flex items-center gap-3 transition-opacity duration-300 whitespace-nowrap
+      opacity-100
+      group-data-[scrolled=true]:opacity-0
+      group-hover:!opacity-100"
   >
     <div
       class="flex gap-2 items-center bg-[var(--color-background)]/50 rounded-full p-1 border border-[var(--color-primary)]/10"
@@ -296,13 +301,13 @@ const clientData = JSON.stringify(
             href={social.url}
             target="_blank"
             rel="noopener noreferrer"
-            class="w-8 h-8 rounded-full bg-[var(--color-text)] flex items-center justify-center hover:scale-110 transition-transform"
+            class="w-8 h-8 rounded-full flex items-center justify-center hover:scale-110 transition-transform"
             title={social.name}
           >
             <img
               src={social.icon}
               alt={social.name}
-              class="w-5 h-5 object-contain"
+              class="w-6 h-6 object-contain"
             />
           </a>
         ))
@@ -311,12 +316,35 @@ const clientData = JSON.stringify(
 
     <a
       href="#waitlist-section"
-      class="px-5 py-2 text-sm font-semibold rounded-full transition-colors bg-[var(--color-primary)] text-[var(--color-text)] hover:bg-[var(--color-primary-dark)]"
+      class="px-5 py-2 text-sm font-semibold rounded-full transition-colors bg-[var(--color-background)] text-[var(--color-text)]"
     >
-      {waitingListBenefits.call_to_action} ➔
+      Inscribirse
     </a>
   </div>
 </div>
+
+<script>
+  function setupFloatingNav() {
+    const nav = document.getElementById("floating-nav");
+    if (!nav) return;
+
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        nav.setAttribute("data-scrolled", "true");
+      } else {
+        nav.setAttribute("data-scrolled", "false");
+      }
+    };
+
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+  }
+
+  setupFloatingNav();
+
+  document.addEventListener("astro:page-load", setupFloatingNav);
+</script>
 
 <script id="p3-services-data" type="application/json" set:html={clientData} />
 

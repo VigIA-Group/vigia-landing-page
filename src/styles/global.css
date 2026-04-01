@@ -1,22 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Blinker:wght@100;200;300;400;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Blinker:wght@100;200;300;400;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #7c3aed;
-  --color-primary-dark: #5b21b6;
-  --color-background: #05010a;
-  --color-surface: #120a1f;
-  --color-text: #f5f3ff;
-  --color-muted: #a78bfa;
+  --color-primary: #=;
+  --color-primary-dark: #1e40af;
+  --color-background: #f8fafc;
+  --color-surface: #ffffff;
+  --color-text: #0f172a;
+  --color-muted: #64748b;
 
-  --color-gradient-start: #2e1065;
-  --color-gradient-mid: #7c3aed;
-  --color-gradient-end: #fb7185;
+  --color-gradient-start: #002aff;
+  --color-gradient-mid: #2563eb;
+  --color-gradient-end: #60a5fa;
 
-  --font-sans: 'Inter', sans-serif;
-  --font-display: 'Blinker', sans-serif;
+  --font-sans: "Inter", sans-serif;
+  --font-display: "Blinker", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 @layer base {

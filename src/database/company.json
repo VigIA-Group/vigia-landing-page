@@ -4,17 +4,17 @@
     {
       "name": "Facebook",
       "url": "https://www.facebook.com",
-      "icon": "facebook"
+      "icon": "/images/facebook.png"
     },
     {
       "name": "Instagram",
       "url": "https://www.instagram.com",
-      "icon": "instagram"
+      "icon": "/images/instagram.png"
     },
     {
       "name": "Tiktok",
       "url": "https://www.tiktok.com",
-      "icon": "tiktok"
+      "icon": "/images/tiktok.png"
     }
   ]
 }
