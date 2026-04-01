@@ -17,7 +17,7 @@ const waitingListBenefits = waitingListBenefitsDb as WaitingList;
 const GRID_COUNT = Math.max(6, services.length);
 const FEAT_HEIGHT = 520;
 const IMG_SLOTS = [
-  { left: "2%", right: "auto", w: "52%", h: "200px", rot: 0, speed: 0.28 },
+  { left: "2%", right: "auto", w: "80%", h: "300px", rot: 0, speed: 0.28 },
   { left: "auto", right: "0%", w: "48%", h: "185px", rot: 0, speed: 0.42 },
   { left: "4%", right: "auto", w: "44%", h: "172px", rot: 0, speed: 0.22 },
   { left: "auto", right: "3%", w: "50%", h: "190px", rot: 0, speed: 0.35 },
@@ -104,12 +104,12 @@ const clientData = JSON.stringify(
                   <img
                     src={img}
                     alt={svc?.serviceName ?? ""}
-                    class="w-full h-full object-cover opacity-70"
+                    class="w-full h-full object-cover"
                   />
                 ) : (
                   <div class="w-full h-full bg-[var(--color-surface)]" />
                 )}
-                <div class="absolute bottom-0 left-0 right-0 p-3 bg-gradient-to-t from-[var(--color-background)] to-transparent">
+                <div class="absolute bottom-0 left-0 right-0 p-3">
                   <span class="font-sans text-xs text-[var(--color-muted)]">
                     {svc?.serviceName ?? `Servicio ${i + 1}`}
                   </span>
@@ -277,7 +277,6 @@ const clientData = JSON.stringify(
   <Footer />
 </div>
 
-
 <div
   id="floating-nav"
   data-scrolled="false"
@@ -316,12 +315,28 @@ const clientData = JSON.stringify(
 
     <a
       href="#waitlist-section"
+      id="go-to-register"
       class="px-5 py-2 text-sm font-semibold rounded-full transition-colors bg-[var(--color-background)] text-[var(--color-text)]"
     >
       Inscribirse
     </a>
   </div>
 </div>
+
+<script>
+  import { logEvent } from "firebase/analytics";
+  import { analytics } from "../../firebase/client";
+
+  const boton = document.getElementById("go-to-register");
+  if (boton) {
+    boton.addEventListener("click", () => {
+      if (analytics) {
+        logEvent(analytics, "Boton de inscribirse");
+        console.log("Evento enviado a Analytics");
+      }
+    });
+  }
+</script>
 
 <script>
   function setupFloatingNav() {

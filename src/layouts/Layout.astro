@@ -7,13 +7,15 @@ import "../styles/global.css";
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" href="/public/circle-icon.png">
     <meta name="generator" content={Astro.generator} />
     <title>VigIA</title>
   </head>
   <body>
     <slot />
+    <script>
+      import "../firebase/client.js";
+    </script>
   </body>
 </html>
 
