@@ -373,7 +373,7 @@ const clientData = JSON.stringify(
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    overflow: hidden; /* sin zoom */
+    overflow: hidden;
   }
 
   #shader-bg-react {
@@ -381,14 +381,12 @@ const clientData = JSON.stringify(
     height: 100%;
   }
 
-  /* Asegura que el canvas WebGL no haga zoom con gestos */
   #shader-bg-react canvas {
     touch-action: none;
     pointer-events: none;
     user-select: none;
   }
 
-  /* El color-background se vuelve semi-transparente para ver el shader */
   #hero-sticky,
   #phase3-root {
     background: transparent !important;
@@ -469,7 +467,7 @@ const clientData = JSON.stringify(
           left: "50%",
           top: "50%",
           rotation: 0,
-          opacity: 0, // Se inicializa en 0 para que no haya imágenes inicialmente
+          opacity: 0,
           borderRadius: "1.25rem",
         });
       } else {
@@ -523,7 +521,7 @@ const clientData = JSON.stringify(
         xPercent: -50,
         yPercent: -50,
         rotation: 0,
-        opacity: 1, // La imagen empieza a aparecer durante el scroll general
+        opacity: 1,
         duration: 0.5,
         ease: "none",
       },
@@ -551,7 +549,6 @@ const clientData = JSON.stringify(
       );
     });
 
-    // ── Aparece imagen principal del servicio ──
     const mainImg = document.getElementById("p3-main-img-el");
     if (mainImg) {
       gsap.set(mainImg, { opacity: 0 });
@@ -559,7 +556,7 @@ const clientData = JSON.stringify(
         .timeline({
           scrollTrigger: {
             trigger: "#hero-section",
-            start: "65% top", // segunda mitad del hero-section
+            start: "65% top",
             end: "bottom top",
             scrub: 1.5,
           },

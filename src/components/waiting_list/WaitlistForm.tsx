@@ -113,9 +113,7 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
   };
 
   return (
-    // Contenedor principal dividido en dos columnas en escritorio
     <div className="max-w-5xl w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-      {/* Columna Izquierda: Información */}
       <div className="flex flex-col justify-center">
         <h2 className="text-3xl font-display font-bold mb-3 text-[var(--color-text)]">
           {data.title}
@@ -140,9 +138,7 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
         </ul>
       </div>
 
-      {/* Columna Derecha: Formulario */}
       <div className="w-full max-w-md mx-auto p-6 rounded-2xl border border-[var(--color-primary)]/20 backdrop-blur-sm relative overflow-hidden bg-transparent">
-        {/* Success Message Flotante (limitado a la tarjeta del formulario) */}
         <div
           className={`absolute top-0 left-0 w-full p-4 flex flex-col items-center justify-center bg-[var(--color-surface)] z-20 transition-all duration-500 ease-in-out border-b border-[var(--color-primary)] ${status === "success" ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}`}
         >
@@ -185,7 +181,6 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="71234567"
-                // Reducido a py-2 y ajustado el padding-left (pl-[76px])
                 className={`w-full pl-[76px] pr-3 py-2 text-sm rounded-lg outline-none transition-colors bg-[var(--color-surface)]/20 text-[var(--color-text)] border ${errors.phone ? "border-red-500" : "border-[var(--color-primary)]/30 focus:border-[var(--color-primary)]"}`}
               />
             </div>
@@ -204,7 +199,6 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
               value={formData.email}
               onChange={handleChange}
               placeholder="tu@empresa.com"
-              // Reducido a py-2 px-3
               className={`w-full px-3 py-2 text-sm rounded-lg outline-none transition-colors bg-[var(--color-surface)]/20 text-[var(--color-text)] border ${errors.email ? "border-red-500" : "border-[var(--color-primary)]/30 focus:border-[var(--color-primary)]"}`}
             />
             {errors.email && (
@@ -221,8 +215,7 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
               value={formData.sector}
               onChange={handleChange}
               placeholder="Ej. Retail, Minería, Condominios..."
-              rows={2} // Reducido a 2 filas para que sea más compacto
-              // Reducido a py-2 px-3
+              rows={2}
               className={`w-full px-3 py-2 text-sm rounded-lg outline-none transition-colors resize-none bg-[var(--color-surface)]/20 text-[var(--color-text)] border ${errors.sector ? "border-red-500" : "border-[var(--color-primary)]/30 focus:border-[var(--color-primary)]"}`}
             />
             {errors.sector && (
@@ -239,7 +232,6 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
           <button
             type="submit"
             disabled={status === "loading"}
-            // Reducido a py-2.5
             className="w-full py-2.5 px-4 text-sm font-medium rounded-lg transition-colors flex justify-center items-center disabled:opacity-70 disabled:cursor-not-allowed bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-[var(--color-text)]"
           >
             {status === "loading" ? (
