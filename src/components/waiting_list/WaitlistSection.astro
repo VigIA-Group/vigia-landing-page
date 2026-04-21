@@ -1,0 +1,15 @@
+---
+import waitingListBenefitsDb from "../../database/waitingListBenefits.json";
+import type { WaitingList } from "../../models/WaitingList";
+
+import WaitlistForm from "../waiting_list/WaitlistForm";
+
+const waitingListBenefits = waitingListBenefitsDb as WaitingList;
+---
+
+<section
+  id="waitlist-section"
+  class="min-h-screen flex items-center justify-center p-4 relative z-10 bg-transparent"
+>
+  <WaitlistForm data={waitingListBenefits} client:load />
+</section>
