@@ -35,22 +35,23 @@
       {
         "featureName": "Definicion de areas",
         "description": "Personaliza las zonas de vigilancia según tus necesidades. Puedes delimitar áreas específicas (como entradas, estacionamientos o zonas restringidas) para que la IA monitoree solo lo relevante, evitando falsas alarmas y optimizando recursos.",
-        "images": ["/images/services/intrusion_detection/image1.png"]
+        "images": ["/images/services/intrusion_detection/area-selector.png"]
       },
+
       {
-        "featureName": "Horarios de deteccion",
-        "description": "Configura horarios específicos para la activación de la detección. Por ejemplo, puedes programar la vigilancia solo durante horas no laborales o en momentos críticos, adaptando el sistema a la rutina de tu negocio o propiedad.",
-        "images": ["/images/services/intrusion_detection/image1.png"]
+        "featureName": "Alertas en tiempo real",
+        "description": "Recibe notificaciones instantáneas en tu dispositivo móvil o correo electrónico cuando se detecte actividad sospechosa. Las alertas incluyen imágenes o videos del evento, permitiéndote actuar de inmediato o coordinar con equipos de seguridad.",
+        "images": [
+          "/images/services/intrusion_detection/intruder-alert.jpg",
+          "/images/services/intrusion_detection/intruder_detected.png"
+        ]
       },
       {
         "featureName": "Camaras PTZ inteligentes",
         "description": "Las cámaras PTZ (Pan-Tilt-Zoom) se activan automáticamente para seguir a intrusos detectados, proporcionando un seguimiento en tiempo real y grabaciones más detalladas. Esto mejora la precisión de la identificación y facilita la respuesta rápida.",
-        "images": ["/images/services/intrusion_detection/image1.png"]
-      },
-      {
-        "featureName": "Alertas en tiempo real",
-        "description": "Recibe notificaciones instantáneas en tu dispositivo móvil o correo electrónico cuando se detecte actividad sospechosa. Las alertas incluyen imágenes o videos del evento, permitiéndote actuar de inmediato o coordinar con equipos de seguridad.",
-        "images": ["/images/services/intrusion_detection/image1.png"]
+        "images": [
+          "/images/services/intrusion_detection/ptz-area-config-propagator.png"
+        ]
       }
     ]
   }
