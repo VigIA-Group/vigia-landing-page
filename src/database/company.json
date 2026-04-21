@@ -34,11 +34,6 @@
   ],
   "socialMedia": [
     {
-      "name": "Facebook",
-      "url": "https://www.facebook.com",
-      "icon": "/images/facebook.png"
-    },
-    {
       "name": "Instagram",
       "url": "https://www.instagram.com",
       "icon": "/images/instagram.png"

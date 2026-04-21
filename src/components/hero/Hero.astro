@@ -7,69 +7,123 @@ import type { Services } from "../../models/Service";
 
 const company: Company = CompanyDb;
 const services = ServicesDb as Services;
+
+// <section class="relative w-full h-screen overflow-hidden bg-black">
+// class="absolute inset-0 w-full h-full object-cover z-0"
 ---
 
-<section class="relative w-full h-screen overflow-hidden bg-black">
+<section id="hero" class="relative w-full h-screen bg-black overflow-hidden">
   <video
     id="hero-video"
-    class="absolute inset-0 w-full h-full object-cover z-0"
+    class="absolute top-1/2 left-1/2 w-[98%] h-[94%] -translate-x-1/2 -translate-y-1/2 object-cover rounded-2xl z-0"
     muted
     playsinline
-    data-videos={JSON.stringify(company.videos)}></video>
-
-  <div class="absolute inset-0 bg-gradient-to-b from-black/20 to-black/90 z-10">
-  </div>
-
-  <div
-    class="absolute z-20 bottom-12 left-4 md:bottom-[12%] md:left-[8%] w-[85%] md:max-w-[28%] text-white flex flex-col items-start gap-3 md:gap-4"
+    data-videos={JSON.stringify(company.videos)}
   >
-    <img
-      src={company.logos.iconTitleRow}
-      alt={`Logo de ${company.name}`}
-      class="hero-logo invisible w-32 md:w-40 lg:w-60 h-auto"
-    />
-    <p
-      class="hero-slogan invisible text-xl md:text-3xl lg:text-4xl font-semibold leading-tight m-0"
-    >
-      {company.slogan}
-    </p>
-    <p
-      class="hero-description invisible text-sm md:text-base font-light text-white/80 leading-relaxed m-0"
-    >
-      {company.shortDescription}
-    </p>
-  </div>
+  </video>
 
-  <div
-    onclick="document.getElementById('footer').scrollIntoView({ behavior: 'smooth' })"
-    class="hero-content-right invisible absolute z-20 bottom-12 right-4 md:bottom-[12%] md:right-[8%] flex items-end gap-3 md:gap-4 text-white cursor-pointer"
-  >
-    <!-- TEXTOS -->
+  <!-- Gradient overlay: dark bottom, subtle top -->
+  <div class="absolute inset-0 z-10 pointer-events-none">
     <div
-      class="flex flex-col justify-end text-right text-[0.65rem] md:text-xs font-light uppercase tracking-[0.12em] text-white/70 leading-tight space-y-[2px]"
+      class="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/85"
     >
-      {
-        services.map((service) => (
-          <span class="block">{service.serviceName}</span>
-        ))
-      }
+    </div>
+    <div
+      class="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/40"
+    >
+    </div>
+  </div>
+
+  <!--
+    LAYOUT: Three-column grid at bottom (mimics Prisma screenshot)
+    LEFT  25% — Logo + Slogan
+    CENTER 50% — Arrow + Services list (click → #services)
+    RIGHT 25% — Description + CTA button
+  -->
+  <div
+    class="absolute z-20 bottom-0 left-0 right-0 h-[42%] grid grid-cols-[25%_50%_25%] items-end px-6 md:px-10 pb-8 md:pb-12 gap-0 [padding-left:clamp(1.5rem,3vw,3rem)] [padding-right:clamp(1.5rem,3vw,3rem)]"
+  >
+    <!-- LEFT: Logo + Slogan (≈25% height together) -->
+    <div class="flex flex-col items-start justify-end gap-2 pr-6">
+      <img
+        src={company.logos.iconTitleRow}
+        alt={`Logo de ${company.name}`}
+        class="hero-logo w-28 md:w-36 lg:w-44 h-auto"
+      />
+      <p
+        class="hero-slogan text-base md:text-xl lg:text-2xl font-semibold leading-snug text-white/90 m-0 tracking-tight"
+      >
+        {company.slogan}
+      </p>
     </div>
 
-    <!-- FLECHA -->
-    <div class="flex flex-col items-center justify-end gap-1">
+    <!-- CENTER: Arrow top + Services list (click → #services) -->
+    <div
+      onclick="document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })"
+      class="hero-center flex flex-col items-center justify-end gap-3 cursor-pointer group"
+    >
+      <!-- Down arrow -->
       <svg
-        class="scroll-arrow h-20 md:h-[100px] w-auto text-white"
-        viewBox="0 0 24 100"
+        class="scroll-arrow w-auto text-white/70 group-hover:text-white transition-colors"
+        style="height: 72px;"
+        viewBox="0 0 24 80"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
         <path
-          d="M12 0L12 98M12 98L4 90M12 98L20 90"
+          d="M12 0L12 76M12 76L4 68M12 76L20 68"
           stroke="currentColor"
-          stroke-width="1.5"
+          stroke-width="1.2"
           stroke-linecap="round"
           stroke-linejoin="round"></path>
       </svg>
+
+      <!-- Services list -->
+      <div class="flex flex-col items-center text-center gap-[3px]">
+        {
+          services.map((service) => (
+            <span class="block text-[0.6rem] md:text-[0.65rem] font-light uppercase tracking-[0.18em] text-white/55 group-hover:text-white/80 transition-colors leading-tight">
+              {service.serviceName}
+            </span>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- RIGHT: Description + Reserva CTA -->
+    <div class="flex flex-col items-start justify-end gap-3 pl-6">
+      <p
+        class="hero-description text-xs md:text-sm font-light text-white/70 leading-relaxed m-0"
+      >
+        {company.shortDescription}
+      </p>
+      <a
+        id="hero-cta-btn"
+        href="#waitlist-section"
+        class="inline-flex items-center gap-2.5 pl-4 pr-1.5 py-1.5 rounded-full text-xs md:text-sm font-medium tracking-wide
+               bg-black/60 backdrop-blur-sm text-white/90 border border-white/20
+               hover:border-white/40 hover:bg-black/80 transition-all duration-200"
+      >
+        Reserva
+        <span
+          class="w-6 h-6 rounded-full bg-white/15 border border-white/20 flex items-center justify-center flex-shrink-0"
+        >
+          <svg
+            width="10"
+            height="10"
+            viewBox="0 0 10 10"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M2 8L8 2M8 2H3.5M8 2V6.5"
+              stroke="white"
+              stroke-width="1.3"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
+          </svg>
+        </span>
+      </a>
     </div>
   </div>
 </section>
@@ -78,7 +132,7 @@ const services = ServicesDb as Services;
   import gsap from "gsap";
 
   document.addEventListener("DOMContentLoaded", () => {
-    // --- 1. LÓGICA DE LA LISTA DE VIDEOS ---
+    // --- 1. VIDEO PLAYLIST ---
     const videoEl = document.getElementById("hero-video") as HTMLVideoElement;
     if (videoEl) {
       const videos: string[] = JSON.parse(videoEl.dataset.videos || "[]");
@@ -97,21 +151,35 @@ const services = ServicesDb as Services;
       }
     }
 
-    // --- 2. LÓGICA DE ANIMACIÓN GSAP ---
+    // --- 2. GSAP ANIMATIONS ---
+    // Set initial state via GSAP (avoids Tailwind invisible conflict)
+    gsap.set(
+      [
+        ".hero-logo",
+        ".hero-slogan",
+        ".hero-center",
+        ".hero-description",
+        "#hero-cta-btn",
+      ],
+      {
+        opacity: 0,
+        visibility: "visible",
+      },
+    );
+
     const tl = gsap.timeline({
       defaults: { ease: "power3.out", duration: 1.2 },
     });
 
-    // La clase 'invisible' de Tailwind equivale a 'visibility: hidden'.
-    // GSAP y 'autoAlpha' trabajan perfectamente con esto para evitar parpadeos al cargar.
-    tl.from(".hero-logo", { y: 30, autoAlpha: 0, delay: 0.2 })
-      .from(".hero-slogan", { y: 30, autoAlpha: 0 }, "-=1")
-      .from(".hero-description", { y: 30, autoAlpha: 0 }, "-=1")
-      .from(".hero-content-right", { x: 30, autoAlpha: 0 }, "-=1");
+    tl.to(".hero-logo", { y: 0, opacity: 1, duration: 1.2, delay: 0.2 })
+      .to(".hero-slogan", { y: 0, opacity: 1, duration: 1.2 }, "-=1")
+      .to(".hero-center", { y: 0, opacity: 1, duration: 1.2 }, "-=1")
+      .to(".hero-description", { y: 0, opacity: 1, duration: 1.2 }, "-=1")
+      .to("#hero-cta-btn", { y: 0, opacity: 1, duration: 1.0 }, "-=0.9");
 
-    // Bucle para la flecha
+    // Bouncing arrow loop
     gsap.to(".scroll-arrow", {
-      y: 12,
+      y: 10,
       duration: 1.5,
       repeat: -1,
       yoyo: true,
