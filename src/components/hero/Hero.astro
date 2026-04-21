@@ -1,0 +1,127 @@
+---
+import CompanyDb from "../../database/company.json";
+import type { Company } from "../../models/Company";
+
+import ServicesDb from "../../database/services.json";
+import type { Services } from "../../models/Service";
+
+const company: Company = CompanyDb;
+const services = ServicesDb as Services;
+---
+
+<section class="relative w-full h-screen overflow-hidden bg-black">
+  <video
+    id="hero-video"
+    class="absolute inset-0 w-full h-full object-cover z-0"
+    muted
+    playsinline
+    data-videos={JSON.stringify(company.videos)}></video>
+
+  <div class="absolute inset-0 bg-gradient-to-b from-black/40 to-black/90 z-10">
+  </div>
+
+  <div
+    class="absolute z-20 bottom-12 left-4 md:bottom-[12%] md:left-[8%] w-[85%] md:max-w-[28%] text-white flex flex-col items-start gap-3 md:gap-4"
+  >
+    <img
+      src={company.logos.iconTitleRow}
+      alt={`Logo de ${company.name}`}
+      class="hero-logo invisible w-32 md:w-40 lg:w-60 h-auto"
+    />
+    <p
+      class="hero-slogan invisible text-xl md:text-3xl lg:text-4xl font-semibold leading-tight m-0"
+    >
+      {company.slogan}
+    </p>
+    <p
+      class="hero-description invisible text-sm md:text-base font-light text-white/80 leading-relaxed m-0"
+    >
+      {company.shortDescription}
+    </p>
+  </div>
+
+  <div
+    onclick="document.getElementById('footer').scrollIntoView({ behavior: 'smooth' })"
+    class="hero-content-right invisible absolute z-20 bottom-12 right-4 md:bottom-[12%] md:right-[8%] flex items-end gap-3 md:gap-4 text-white cursor-pointer"
+  >
+    <!-- TEXTOS -->
+    <div
+      class="flex flex-col justify-end text-right text-[0.65rem] md:text-xs font-light uppercase tracking-[0.12em] text-white/70 leading-tight space-y-[2px]"
+    >
+      {
+        services.map((service) => (
+          <span class="block">{service.serviceName}</span>
+        ))
+      }
+    </div>
+
+    <!-- FLECHA -->
+    <div class="flex flex-col items-center justify-end gap-1">
+      <svg
+        class="scroll-arrow h-20 md:h-[100px] w-auto text-white"
+        viewBox="0 0 24 100"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M12 0L12 98M12 98L4 90M12 98L20 90"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"></path>
+      </svg>
+
+      <span
+        class="text-[0.55rem] tracking-[0.15em] text-white/60 rotate-180"
+        style="writing-mode: vertical-rl;"
+      >
+        SCROLL
+      </span>
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from "gsap";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // --- 1. LÓGICA DE LA LISTA DE VIDEOS ---
+    const videoEl = document.getElementById("hero-video") as HTMLVideoElement;
+    if (videoEl) {
+      const videos: string[] = JSON.parse(videoEl.dataset.videos || "[]");
+      let currentVideoIndex = 0;
+
+      if (videos.length > 0) {
+        videoEl.src = videos[currentVideoIndex];
+        videoEl.play().catch((e) => console.warn("Autoplay bloqueado:", e));
+
+        videoEl.addEventListener("ended", () => {
+          currentVideoIndex = (currentVideoIndex + 1) % videos.length;
+          videoEl.src = videos[currentVideoIndex];
+          videoEl.play();
+        });
+      }
+    }
+
+    // --- 2. LÓGICA DE ANIMACIÓN GSAP ---
+    const tl = gsap.timeline({
+      defaults: { ease: "power3.out", duration: 1.2 },
+    });
+
+    // La clase 'invisible' de Tailwind equivale a 'visibility: hidden'.
+    // GSAP y 'autoAlpha' trabajan perfectamente con esto para evitar parpadeos al cargar.
+    tl.from(".hero-logo", { y: 30, autoAlpha: 0, delay: 0.2 })
+      .from(".hero-slogan", { y: 30, autoAlpha: 0 }, "-=1")
+      .from(".hero-description", { y: 30, autoAlpha: 0 }, "-=1")
+      .from(".hero-content-right", { x: 30, autoAlpha: 0 }, "-=1");
+
+    // Bucle para la flecha
+    gsap.to(".scroll-arrow", {
+      y: 12,
+      duration: 1.5,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+    });
+  });
+</script>

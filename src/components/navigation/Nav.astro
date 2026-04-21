@@ -1,0 +1,66 @@
+---
+import CompanyDb from "../../database/company.json";
+import type { Company } from "../../models/Company";
+const company = CompanyDb as Company;
+---
+
+<div
+  id="floating-nav"
+  data-scrolled="false"
+  class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 group flex items-center justify-center rounded-full overflow-hidden transition-all duration-500 ease-in-out bg-[var(--color-surface)]/80 backdrop-blur-md shadow-lg border border-[var(--color-primary)]/30
+    h-[52px] max-w-[400px] p-1.5
+    data-[scrolled=true]:h-1.5 data-[scrolled=true]:max-w-[48px] data-[scrolled=true]:p-0 data-[scrolled=true]:bg-[var(--color-primary)]/50
+    hover:!h-[52px] hover:!max-w-[400px] hover:!p-1.5 hover:!bg-[var(--color-surface)]/80"
+>
+  <div
+    class="flex items-center gap-3 transition-opacity duration-300 whitespace-nowrap
+      opacity-100
+      group-data-[scrolled=true]:opacity-0
+      group-hover:!opacity-100"
+  >
+    <div
+      class="flex gap-2 items-center bg-[var(--color-background)]/50 rounded-full p-1 border border-[var(--color-primary)]/10"
+    >
+      {
+        company.socialMedia.map((social) => (
+          <a
+            href={social.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="w-8 h-8 rounded-full flex items-center justify-center hover:scale-110 transition-transform"
+            title={social.name}
+          >
+            <img
+              src={social.icon}
+              alt={social.name}
+              class="w-6 h-6 object-contain"
+            />
+          </a>
+        ))
+      }
+    </div>
+
+    <a
+      href="#waitlist-section"
+      id="go-to-register"
+      class="px-5 py-2 text-sm font-semibold rounded-full transition-colors bg-[var(--color-background)] text-[var(--color-text)]"
+    >
+      Inscribirse
+    </a>
+  </div>
+</div>
+
+<script>
+  import { logEvent } from "firebase/analytics";
+  import { analytics } from "../../firebase/client";
+
+  const boton = document.getElementById("go-to-register");
+  if (boton) {
+    boton.addEventListener("click", () => {
+      if (analytics) {
+        logEvent(analytics, "Boton de inscribirse");
+        console.log("Evento enviado a Analytics");
+      }
+    });
+  }
+</script>

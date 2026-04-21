@@ -1,5 +1,36 @@
 {
   "name": "VigIA",
+  "slogan": "La diferencia entre mirar y entender.",
+  "shortDescription": "Transformamos cámaras de seguridad en sistemas de inteligencia activa.",
+  "logos": {
+    "icon": "/logos/icon.png",
+    "iconTitle": "/logos/icon-title.png",
+    "iconTitleRow": "/logos/icon-title-row.png",
+    "title": "/logos/title.png"
+  },
+  "whyToUse": [
+    {
+      "reason": "Your cameras become intelligent",
+      "icon": "arrows",
+      "description": "Transform your existing security cameras into intelligent monitoring systems with real-time analytics and alerts."
+    },
+    {
+      "reason": "Real-time alerts",
+      "icon": "bell",
+      "description": "Receive instant notifications for detected events, ensuring you never miss critical moments."
+    },
+    {
+      "reason": "Easy integration",
+      "icon": "plug",
+      "description": "Seamlessly connect your cameras with our platform in minutes, without complex setup or technical expertise."
+    }
+  ],
+  "videos": [
+    "/videos/products-production.mp4",
+    "/videos/people-mall-v2.mp4",
+    "/videos/intruder.mp4",
+    "/videos/people-mall.mp4"
+  ],
   "socialMedia": [
     {
       "name": "Facebook",
