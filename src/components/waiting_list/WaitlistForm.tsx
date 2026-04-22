@@ -161,20 +161,30 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validate()) return;
+
+    if (!validate()) {
+      return;
+    }
+
     setStatus("loading");
 
+    const payload = {
+      phone: `+591${formData.phone}`,
+      email: formData.email,
+      sector: formData.sector,
+      createdAt: serverTimestamp(),
+    };
+
     try {
-      await addDoc(collection(db, "waitlist"), {
-        phone: `+591${formData.phone}`,
-        email: formData.email,
-        sector: formData.sector,
-        createdAt: serverTimestamp(),
-      });
+      const docRef = await addDoc(collection(db, "waitlist"), payload);
+
       setStatus("success");
       setFormData({ phone: "", email: "", sector: "" });
-    } catch (error) {
-      console.error("Error al guardar en Firebase:", error);
+    } catch (error: any) {
+      console.error("❌ 5. ERROR CRÍTICO AL GUARDAR EN FIREBASE:");
+      console.error("-> Código del error:", error.code);
+      console.error("-> Mensaje:", error.message);
+      console.error("-> Objeto de error completo:", error);
       setStatus("error");
     }
   };
@@ -223,12 +233,8 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
               ))}
             </div>
             <div className="flex flex-col">
-              <span className="text-sm font-semibold text-text">
-                + 50
-              </span>
-              <span className="text-xs text-muted">
-                en lista de espera
-              </span>
+              <span className="text-sm font-semibold text-text">+ 50</span>
+              <span className="text-xs text-muted">en lista de espera</span>
             </div>
           </div>
         )}
@@ -268,9 +274,7 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
             <div className="relative flex items-center">
               <div className="absolute left-0 inset-y-0 flex items-center pl-2 pr-1 border-r border-primary/20 bg-surface/30 rounded-l-lg pointer-events-none w-[72px] justify-center">
                 <span className="text-sm mr-1">🇧🇴</span>
-                <span className="text-xs font-medium text-text">
-                  +591
-                </span>
+                <span className="text-xs font-medium text-text">+591</span>
               </div>
               {/* Padding ajustado en py-1.5 */}
               <input
@@ -284,7 +288,9 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
               />
             </div>
             {errors.phone && (
-              <p className="mt-0.5 text-[11px] text-danger-light">{errors.phone}</p>
+              <p className="mt-0.5 text-[11px] text-danger-light">
+                {errors.phone}
+              </p>
             )}
           </div>
 
@@ -301,7 +307,9 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
               className={`w-full px-3 py-1.5 text-sm rounded-lg outline-none transition-colors bg-surface/20 text-text border ${errors.email ? "border-danger" : "border-primary/30 focus:border-primary"}`}
             />
             {errors.email && (
-              <p className="mt-0.5 text-[11px] text-danger-light">{errors.email}</p>
+              <p className="mt-0.5 text-[11px] text-danger-light">
+                {errors.email}
+              </p>
             )}
           </div>
 
@@ -318,7 +326,9 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
               className={`w-full px-3 py-1.5 text-sm rounded-lg outline-none transition-colors resize-none bg-surface/20 text-text border ${errors.sector ? "border-danger" : "border-primary/30 focus:border-primary"}`}
             />
             {errors.sector && (
-              <p className="mt-0.5 text-[11px] text-danger-light">{errors.sector}</p>
+              <p className="mt-0.5 text-[11px] text-danger-light">
+                {errors.sector}
+              </p>
             )}
           </div>
 
