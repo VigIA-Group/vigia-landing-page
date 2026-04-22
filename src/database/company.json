@@ -10,19 +10,19 @@
   },
   "whyToUse": [
     {
-      "reason": "Your cameras become intelligent",
-      "icon": "arrows",
-      "description": "Transform your existing security cameras into intelligent monitoring systems with real-time analytics and alerts."
+      "reason": "Tus cámaras se vuelven inteligentes",
+      "icon": "camera",
+      "description": "Transforma tus cámaras de seguridad existentes en sistemas de monitoreo inteligente con analítica y alertas en tiempo real."
     },
     {
-      "reason": "Real-time alerts",
+      "reason": "Alertas en tiempo real",
       "icon": "bell",
-      "description": "Receive instant notifications for detected events, ensuring you never miss critical moments."
+      "description": "Recibe notificaciones instantáneas de eventos detectados, asegurando que nunca te pierdas los momentos críticos."
     },
     {
-      "reason": "Easy integration",
+      "reason": "Integración sencilla",
       "icon": "plug",
-      "description": "Seamlessly connect your cameras with our platform in minutes, without complex setup or technical expertise."
+      "description": "Conecta tus cámaras a nuestra plataforma en minutos, sin configuraciones complejas ni necesidad de expertos técnicos."
     }
   ],
   "videos": [

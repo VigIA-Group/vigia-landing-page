@@ -331,7 +331,7 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
           <button
             type="submit"
             disabled={status === "loading"}
-            className="w-full mt-2 py-2 px-4 text-sm font-medium rounded-lg transition-colors flex justify-center items-center disabled:opacity-70 disabled:cursor-not-allowed bg-[black] hover:bg-[var(--color-primary-dark)] text-[white] shadow-sm hover:shadow-md"
+            className="w-full mt-2 py-2 px-4 text-sm font-medium rounded-lg transition-colors flex justify-center items-center disabled:opacity-70 disabled:cursor-not-allowed bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-[var(--color-text)] shadow-sm hover:shadow-md"
           >
             {status === "loading" ? (
               <svg

@@ -7,121 +7,216 @@ const currentYear = new Date().getFullYear();
 ---
 
 <footer
-  class="relative z-10 border-t border-[var(--color-primary)]/20 bg-[var(--color-surface)]/20 backdrop-blur-md pt-16 pb-8 px-6 md:px-12"
+  class="relative z-10 py-16 px-6 border-t border-[var(--color-primary)]/10 bg-transparent"
+  id="footer"
 >
-  <div class="max-w-7xl mx-auto">
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
-      <div class="col-span-1 md:col-span-1 flex flex-col items-start">
-        <h3
-          class="font-display font-bold text-3xl mb-4 text-[var(--color-text)]"
+  <div class="max-w-[1000px] mx-auto">
+    <div class="flex flex-col md:flex-row justify-between gap-10 mb-20">
+      <div class="flex flex-col items-start w-full md:w-auto">
+        <a href="#hero" class="mb-3 block transition-opacity hover:opacity-80">
+          {
+            company.logos?.iconTitleRow ? (
+              <img
+                src={company.logos.iconTitleRow}
+                alt={`${company.name} logo`}
+                class="h-5 w-auto object-contain"
+              />
+            ) : (
+              <h3 class="font-bold text-lg text-[var(--color-text)] uppercase tracking-tight">
+                {company.name || "VigIA"}&copy;
+              </h3>
+            )
+          }
+        </a>
+        <p
+          class="text-[0.7rem] text-[var(--color-muted)] flex items-center gap-1.5 font-medium"
         >
-          {company.name || "VigIA"}
-        </h3>
-        <p class="text-[var(--color-muted)] text-sm leading-relaxed mb-6">
-          Transformamos cámaras de seguridad en sistemas de inteligencia activa.
-          La diferencia entre mirar y entender.
+          Diseñado con <span class="text-[var(--color-primary)]">♥</span> en 🇧🇴.
         </p>
       </div>
 
-      <div>
-        <h4 class="font-semibold mb-4 text-[var(--color-text)]">Plataforma</h4>
-        <ul class="space-y-3 text-sm">
-          <li>
-            <a
-              href="#hero-section"
-              class="text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors"
-            >
-              Inicio
-            </a>
-          </li>
-          <li>
-            <a
-              href="#phase3-root"
-              class="text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors"
-            >
-              Servicios e Inteligencia
-            </a>
-          </li>
-          <li>
-            <a
-              href="#waitlist-section"
-              class="text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors"
-            >
-              Lista de Espera
-            </a>
-          </li>
-        </ul>
+      <div class="flex flex-wrap md:flex-nowrap gap-x-12 gap-y-10">
+        <div class="min-w-[120px]">
+          <h4
+            class="font-bold text-[0.65rem] uppercase tracking-widest text-[var(--color-text)] mb-4"
+          >
+            Enfoque
+          </h4>
+          <ul class="space-y-2.5">
+            <li>
+              <span
+                class="text-[0.75rem] font-medium text-[var(--color-muted)] block"
+                >Inteligencia Activa</span
+              >
+            </li>
+            <li>
+              <span
+                class="text-[0.75rem] font-medium text-[var(--color-muted)] block"
+                >Seguridad Proactiva</span
+              >
+            </li>
+            <li>
+              <span
+                class="text-[0.75rem] font-medium text-[var(--color-muted)] block"
+                >Análisis de Espacios</span
+              >
+            </li>
+            <li>
+              <span
+                class="text-[0.75rem] font-medium text-[var(--color-muted)] block"
+                >Toma de Decisiones</span
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="min-w-[160px]">
+          <h4
+            class="font-bold text-[0.65rem] uppercase tracking-widest text-[var(--color-text)] mb-4"
+          >
+            Servicios Principales
+          </h4>
+          <ul class="space-y-2.5">
+            <li>
+              <a
+                href="#services"
+                class="text-[0.75rem] font-medium text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors block"
+                >Analítica de Personas</a
+              >
+            </li>
+            <li>
+              <a
+                href="#services"
+                class="text-[0.75rem] font-medium text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors block"
+                >Detección de Intrusos</a
+              >
+            </li>
+            <li>
+              <span
+                class="text-[0.75rem] font-medium text-[var(--color-muted)] block"
+                >Visión en Tiempo Real</span
+              >
+            </li>
+            <li>
+              <span
+                class="text-[0.75rem] font-medium text-[var(--color-muted)] block"
+                >Integración PTZ Inteligente</span
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="min-w-[140px]">
+          <h4
+            class="font-bold text-[0.65rem] uppercase tracking-widest text-[var(--color-text)] mb-4"
+          >
+            Capacidades
+          </h4>
+          <ul class="space-y-2.5">
+            <li>
+              <span
+                class="text-[0.75rem] font-medium text-[var(--color-muted)] block"
+                >Mapas de Calor</span
+              >
+            </li>
+            <li>
+              <span
+                class="text-[0.75rem] font-medium text-[var(--color-muted)] block"
+                >Alertas Instantáneas</span
+              >
+            </li>
+            <li>
+              <span
+                class="text-[0.75rem] font-medium text-[var(--color-muted)] block"
+                >Reportes Automatizados</span
+              >
+            </li>
+            <li>
+              <span
+                class="text-[0.75rem] font-medium text-[var(--color-muted)] block"
+                >Control de Aforos</span
+              >
+            </li>
+            <li>
+              <span
+                class="text-[0.75rem] font-medium text-[var(--color-muted)] block"
+                >Definición de Áreas</span
+              >
+            </li>
+            <li>
+              <span
+                class="text-[0.75rem] font-medium text-[var(--color-muted)] block"
+                >Análisis de Flujos</span
+              >
+            </li>
+          </ul>
+        </div>
+
+        <div class="min-w-[120px]">
+          <h4
+            class="font-bold text-[0.65rem] uppercase tracking-widest text-[var(--color-text)] mb-4"
+          >
+            Conecta
+          </h4>
+          <ul class="space-y-2.5">
+            <li>
+              <a
+                href="#waitlist-section"
+                class="text-[0.75rem] font-medium text-[var(--color-text)] hover:text-[var(--color-primary)] transition-colors block"
+                >Reserva tu espacio</a
+              >
+            </li>
+            <li>
+              <a
+                href="mailto:contacto@tuempresa.com"
+                class="text-[0.75rem] font-medium text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors block"
+                >Contacto</a
+              >
+            </li>
+
+            {
+              company.socialMedia?.map((social) => (
+                <li>
+                  <a
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-[0.75rem] font-medium text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors block capitalize"
+                  >
+                    {social.name}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
       </div>
 
-      <div>
-        <h4 class="font-semibold mb-4 text-[var(--color-text)]">Conecta</h4>
-        <div class="flex gap-3 mb-6">
+      <div class="hidden md:flex items-start">
+        <div class="flex gap-[1px]">
           {
-            company.socialMedia?.map((social) => (
-              <a
-                href={social.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="w-8 h-8 rounded-full flex items-center justify-center hover:scale-110 transition-transform"
-                title={social.name}
-              >
-                <img
-                  src={social.icon}
-                  alt={social.name}
-                  class="w-6 h-6 object-contain"
-                />
-              </a>
+            ["V", "i", "g", "I", "A"].map((num) => (
+              <div class="w-[14px] h-[20px] flex items-center justify-center border border-[var(--color-muted)]/20 text-[0.6rem] font-mono text-[var(--color-muted)]/50 rounded-sm">
+                {num}
+              </div>
             ))
           }
         </div>
-        <ul class="space-y-3 text-sm">
-          <li>
-            <a
-              href="#"
-              class="text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors"
-            >
-              Términos de Servicio
-            </a>
-          </li>
-          <li>
-            <a
-              href="#"
-              class="text-[var(--color-muted)] hover:text-[var(--color-text)] transition-colors"
-            >
-              Política de Privacidad
-            </a>
-          </li>
-        </ul>
-      </div>
-
-      <div>
-        <h4 class="font-semibold mb-4 text-[var(--color-text)]">
-          Acceso Anticipado
-        </h4>
-        <p class="text-[var(--color-muted)] text-sm mb-5">
-          Asegura tu lugar y obtén beneficios exclusivos antes de nuestro
-          lanzamiento oficial.
-        </p>
-
-        <a
-          href="#waitlist-section"
-          class="inline-block px-5 py-2 text-sm font-semibold rounded-full transition-colors bg-[var(--color-background)] text-[var(--color-text)] border border-[var(--color-primary)]/30 hover:border-[var(--color-primary)] shadow-[0_0_15px_rgba(124,58,237,0.1)] hover:shadow-[0_0_20px_rgba(124,58,237,0.3)]"
-        >
-          Reserva un Espacio
-        </a>
       </div>
     </div>
 
     <div
-      class="pt-8 border-t border-[var(--color-primary)]/20 text-center flex flex-col md:flex-row justify-between items-center gap-4"
+      class="flex flex-col md:flex-row justify-center items-center gap-3 md:gap-6 text-[0.7rem] text-[var(--color-muted)]"
     >
-      <p class="text-[var(--color-text)] text-xs">
-        &copy; {currentYear}
-        {company.name || "VigIA"}. Todos los derechos reservados.
-      </p>
-      <p class="text-[var(--color-text)] text-xs flex items-center gap-1">
-        Diseñado con <span class="text-[var(--color-primary)]">♥</span> en Bolivia
-      </p>
+      <span
+        >&copy; {currentYear} {company.name || "VigIA"} Technologies Inc.</span
+      >
+      <a href="#" class="hover:text-[var(--color-text)] transition-colors"
+        >Política de privacidad</a
+      >
+      <a href="#" class="hover:text-[var(--color-text)] transition-colors"
+        >Términos y condiciones</a
+      >
     </div>
   </div>
 </footer>
