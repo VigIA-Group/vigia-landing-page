@@ -5,20 +5,23 @@
 
 @theme {
   --color-primary: #3b82f6;
-  --color-primary-dark: #1e40af;
+  --color-primary-dark: #1e3a8a;
 
-  --color-background: #000000;
-  --color-surface: #0a0a0a;
-  --color-surface-2: #111111;
+  /* DARK MODE (más oscuro, casi negro azulado) */
+  --color-background: #01030a; /* casi negro con tinte azul */
+  --color-surface: #020817; /* tarjetas */
+  --color-surface-2: #030d1f; /* capas elevadas */
 
-  --color-text: #f1f5f9;
+  --color-text: #e2e8f0;
   --color-muted: #94a3b8;
 
+  /* Estados */
   --color-danger: #ef4444;
   --color-danger-light: #f87171;
 
-  --color-gradient-start: #1d4ed8;
-  --color-gradient-mid: #3b82f6;
+  /* gradiente ajustado para destacar en fondo más oscuro */
+  --color-gradient-start: #1e3a8a;
+  --color-gradient-mid: #2563eb;
   --color-gradient-end: #60a5fa;
 
   --font-sans: "Inter", sans-serif;
