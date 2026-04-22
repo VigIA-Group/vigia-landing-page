@@ -7,18 +7,22 @@
   --color-primary: #3b82f6; /* azul moderno */
   --color-primary-dark: #1e40af;
 
-  /* DARK MODE */
-  --color-background: #000000; /* fondo principal negro */
-  --color-surface: #0a0a0a; /* tarjetas / capas */
-  --color-surface-2: #111111; /* capas elevadas */
+  /* LIGHT MODE */
+  --color-background: #ffffff; /* fondo principal */
+  --color-surface: #f8fafc; /* tarjetas */
+  --color-surface-2: #f1f5f9; /* capas elevadas */
 
-  --color-text: #f1f5f9; /* texto principal claro */
-  --color-muted: #94a3b8; /* texto secundario */
+  --color-text: #0f172a; /* texto principal oscuro */
+  --color-muted: #64748b; /* texto secundario */
 
-  /* gradientes más visibles en oscuro */
-  --color-gradient-start: #1d4ed8;
+  /* Estados */
+  --color-danger: #dc2626;
+  --color-danger-light: #ef4444;
+
+  /* gradientes ajustados para claro */
+  --color-gradient-start: #60a5fa;
   --color-gradient-mid: #3b82f6;
-  --color-gradient-end: #60a5fa;
+  --color-gradient-end: #1d4ed8;
 
   --font-sans: "Inter", sans-serif;
   --font-display: "Blinker", sans-serif;

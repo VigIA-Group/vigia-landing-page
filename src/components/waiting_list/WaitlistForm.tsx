@@ -186,24 +186,24 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
     >
       {/* Lado Izquierdo: Textos y Beneficios */}
       <div className="flex flex-col justify-center">
-        <h2 className="animate-item text-3xl font-display font-bold mb-3 text-[var(--color-text)]">
+        <h2 className="animate-item text-3xl font-display font-bold mb-3 text-text">
           {data.title}
         </h2>
-        <p className="animate-item mb-6 text-sm text-[var(--color-muted)]">
+        <p className="animate-item mb-6 text-sm text-muted">
           {data.description}
         </p>
 
-        <ul className="animate-item space-y-3 text-sm text-[var(--color-text)]/85">
+        <ul className="animate-item space-y-3 text-sm text-text/85">
           <li className="flex items-start gap-2">
-            <span className="text-[var(--color-primary)] mt-0.5">✓</span>
+            <span className="text-primary mt-0.5">✓</span>
             <span>{data.benefit.priority_access}</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-[var(--color-primary)] mt-0.5">✓</span>
+            <span className="text-primary mt-0.5">✓</span>
             <span>{data.benefit.discount}</span>
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-[var(--color-primary)] mt-0.5">✓</span>
+            <span className="text-primary mt-0.5">✓</span>
             <span>{data.benefit.exclusive_content}</span>
           </li>
         </ul>
@@ -215,7 +215,7 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
               {recentUsers.map((email, i) => (
                 <div
                   key={i}
-                  className={`w-9 h-9 rounded-full flex items-center justify-center text-white text-xs font-bold border-2 border-white shadow-sm ${getAvatarColor(email)}`}
+                  className={`w-9 h-9 rounded-full flex items-center justify-center text-text text-xs font-bold border-2 border-text shadow-sm ${getAvatarColor(email)}`}
                   title={email}
                 >
                   {email.charAt(0).toUpperCase()}
@@ -223,10 +223,10 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
               ))}
             </div>
             <div className="flex flex-col">
-              <span className="text-sm font-semibold text-[var(--color-text)]">
+              <span className="text-sm font-semibold text-text">
                 + 50
               </span>
-              <span className="text-xs text-[var(--color-muted)]">
+              <span className="text-xs text-muted">
                 en lista de espera
               </span>
             </div>
@@ -235,11 +235,11 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
       </div>
 
       {/* Lado Derecho: Formulario (Ahora más compacto) */}
-      <div className="animate-item w-full max-w-md mx-auto p-4 md:p-4 rounded-2xl border border-[var(--color-primary)]/20 backdrop-blur-sm relative overflow-hidden bg-transparent">
+      <div className="animate-item w-full max-w-md mx-auto p-4 md:p-4 rounded-2xl border border-primary/20 backdrop-blur-sm relative overflow-hidden bg-transparent">
         <div
-          className={`absolute top-0 left-0 w-full p-3 flex flex-col items-center justify-center bg-[var(--color-surface)] z-20 transition-all duration-500 ease-in-out border-b border-[var(--color-primary)] ${status === "success" ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}`}
+          className={`absolute top-0 left-0 w-full p-3 flex flex-col items-center justify-center bg-surface z-20 transition-all duration-500 ease-in-out border-b border-primary ${status === "success" ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}`}
         >
-          <div className="w-7 h-7 mb-1 rounded-full flex items-center justify-center bg-[var(--color-primary)]/20 text-[var(--color-primary)]">
+          <div className="w-7 h-7 mb-1 rounded-full flex items-center justify-center bg-primary/20 text-primary">
             <svg
               className="w-4 h-4"
               fill="none"
@@ -254,7 +254,7 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
               />
             </svg>
           </div>
-          <span className="font-medium text-sm text-[var(--color-text)]">
+          <span className="font-medium text-sm text-text">
             ¡Súper! Te has unido a la lista.
           </span>
         </div>
@@ -262,13 +262,13 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
         {/* Reducimos el space-y de 4 a 3 */}
         <form onSubmit={handleSubmit} className="space-y-3">
           <div>
-            <label className="block text-[13px] font-medium mb-0.5 text-[var(--color-text)]">
+            <label className="block text-[13px] font-medium mb-0.5 text-text">
               Número de Celular
             </label>
             <div className="relative flex items-center">
-              <div className="absolute left-0 inset-y-0 flex items-center pl-2 pr-1 border-r border-[var(--color-primary)]/20 bg-[var(--color-surface)]/30 rounded-l-lg pointer-events-none w-[72px] justify-center">
+              <div className="absolute left-0 inset-y-0 flex items-center pl-2 pr-1 border-r border-primary/20 bg-surface/30 rounded-l-lg pointer-events-none w-[72px] justify-center">
                 <span className="text-sm mr-1">🇧🇴</span>
-                <span className="text-xs font-medium text-[var(--color-text)]">
+                <span className="text-xs font-medium text-text">
                   +591
                 </span>
               </div>
@@ -280,16 +280,16 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
                 value={formData.phone}
                 onChange={handleChange}
                 placeholder="71234567"
-                className={`w-full pl-[76px] pr-3 py-1.5 text-sm rounded-lg outline-none transition-colors bg-[var(--color-surface)]/20 text-[var(--color-text)] border ${errors.phone ? "border-red-500" : "border-[var(--color-primary)]/30 focus:border-[var(--color-primary)]"}`}
+                className={`w-full pl-[76px] pr-3 py-1.5 text-sm rounded-lg outline-none transition-colors bg-surface/20 text-text border ${errors.phone ? "border-danger" : "border-primary/30 focus:border-primary"}`}
               />
             </div>
             {errors.phone && (
-              <p className="mt-0.5 text-[11px] text-red-400">{errors.phone}</p>
+              <p className="mt-0.5 text-[11px] text-danger-light">{errors.phone}</p>
             )}
           </div>
 
           <div>
-            <label className="block text-[13px] font-medium mb-0.5 text-[var(--color-text)]">
+            <label className="block text-[13px] font-medium mb-0.5 text-text">
               Correo Electrónico
             </label>
             <input
@@ -298,15 +298,15 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
               value={formData.email}
               onChange={handleChange}
               placeholder="tu@empresa.com"
-              className={`w-full px-3 py-1.5 text-sm rounded-lg outline-none transition-colors bg-[var(--color-surface)]/20 text-[var(--color-text)] border ${errors.email ? "border-red-500" : "border-[var(--color-primary)]/30 focus:border-[var(--color-primary)]"}`}
+              className={`w-full px-3 py-1.5 text-sm rounded-lg outline-none transition-colors bg-surface/20 text-text border ${errors.email ? "border-danger" : "border-primary/30 focus:border-primary"}`}
             />
             {errors.email && (
-              <p className="mt-0.5 text-[11px] text-red-400">{errors.email}</p>
+              <p className="mt-0.5 text-[11px] text-danger-light">{errors.email}</p>
             )}
           </div>
 
           <div>
-            <label className="block text-[13px] font-medium mb-0.5 text-[var(--color-text)]">
+            <label className="block text-[13px] font-medium mb-0.5 text-text">
               Sector o Industria
             </label>
             <textarea
@@ -315,15 +315,15 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
               onChange={handleChange}
               placeholder="Ej. Retail, Minería..."
               rows={1}
-              className={`w-full px-3 py-1.5 text-sm rounded-lg outline-none transition-colors resize-none bg-[var(--color-surface)]/20 text-[var(--color-text)] border ${errors.sector ? "border-red-500" : "border-[var(--color-primary)]/30 focus:border-[var(--color-primary)]"}`}
+              className={`w-full px-3 py-1.5 text-sm rounded-lg outline-none transition-colors resize-none bg-surface/20 text-text border ${errors.sector ? "border-danger" : "border-primary/30 focus:border-primary"}`}
             />
             {errors.sector && (
-              <p className="mt-0.5 text-[11px] text-red-400">{errors.sector}</p>
+              <p className="mt-0.5 text-[11px] text-danger-light">{errors.sector}</p>
             )}
           </div>
 
           {status === "error" && (
-            <p className="text-[11px] text-red-400 bg-red-400/10 p-2 rounded-lg">
+            <p className="text-[11px] text-danger-light bg-danger-light/10 p-2 rounded-lg">
               Hubo un problema de conexión. Por favor, intenta de nuevo.
             </p>
           )}
@@ -331,11 +331,11 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
           <button
             type="submit"
             disabled={status === "loading"}
-            className="w-full mt-2 py-2 px-4 text-sm font-medium rounded-lg transition-colors flex justify-center items-center disabled:opacity-70 disabled:cursor-not-allowed bg-[var(--color-primary)] hover:bg-[var(--color-primary-dark)] text-[var(--color-text)] shadow-sm hover:shadow-md"
+            className="w-full mt-2 py-2 px-4 text-sm font-medium rounded-lg transition-colors flex justify-center items-center disabled:opacity-70 disabled:cursor-not-allowed bg-primary hover:bg-primary-dark text-text shadow-sm hover:shadow-md"
           >
             {status === "loading" ? (
               <svg
-                className="animate-spin h-5 w-5 text-[var(--color-text)]"
+                className="animate-spin h-5 w-5 text-text"
                 fill="none"
                 viewBox="0 0 24 24"
               >
