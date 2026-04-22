@@ -7,7 +7,7 @@ const company = CompanyDb as Company;
 <div
   id="floating-nav"
   class="fixed top-0 left-1/2 -translate-x-1/2 z-50 flex items-center
-         bg-black shadow-[0_6px_24px_rgba(0,0,0,0.6)]
+         bg-background shadow-[0_6px_24px_rgba(0,0,0,0.6)]
          h-[34px] px-2 whitespace-nowrap"
   style="border-radius: 18px;"
 >
@@ -16,32 +16,32 @@ const company = CompanyDb as Company;
     <nav class="flex items-center gap-0.5">
       <a
         href="#hero"
-        class="px-2.5 py-1 text-[0.62rem] font-medium tracking-wide text-white/55 hover:text-white rounded-full hover:bg-white/8 transition-all duration-200"
+        class="px-2.5 py-1 text-[0.62rem] font-medium tracking-wide text-text/55 hover:text-text rounded-full hover:bg-text/8 transition-all duration-200"
       >
         Inicio
       </a>
       <a
         href="#services"
-        class="px-2.5 py-1 text-[0.62rem] font-medium tracking-wide text-white/55 hover:text-white rounded-full hover:bg-white/8 transition-all duration-200"
+        class="px-2.5 py-1 text-[0.62rem] font-medium tracking-wide text-text/55 hover:text-text rounded-full hover:bg-text/8 transition-all duration-200"
       >
         Servicios
       </a>
       <a
         href="#why-us"
-        class="px-2.5 py-1 text-[0.62rem] font-medium tracking-wide text-white/55 hover:text-white rounded-full hover:bg-white/8 transition-all duration-200"
+        class="px-2.5 py-1 text-[0.62rem] font-medium tracking-wide text-text/55 hover:text-text rounded-full hover:bg-text/8 transition-all duration-200"
       >
         ¿Por qué nosotros?
       </a>
       <a
         href="#footer"
-        class="px-2.5 py-1 text-[0.62rem] font-medium tracking-wide text-white/55 hover:text-white rounded-full hover:bg-white/8 transition-all duration-200"
+        class="px-2.5 py-1 text-[0.62rem] font-medium tracking-wide text-text/55 hover:text-text rounded-full hover:bg-text/8 transition-all duration-200"
       >
         Contacto
       </a>
     </nav>
 
     <!-- DIVIDER -->
-    <div class="w-px h-3 bg-white/15 mx-1 flex-shrink-0"></div>
+    <div class="w-px h-3 bg-text/15 mx-1 flex-shrink-0"></div>
 
     <!-- SOCIAL LINKS AS TEXT -->
     <div class="flex items-center gap-0">
@@ -51,7 +51,7 @@ const company = CompanyDb as Company;
             href={social.url}
             target="_blank"
             rel="noopener noreferrer"
-            class="px-2 py-1 text-[0.55rem] font-light tracking-widest uppercase text-white/35 hover:text-white/70 rounded-full hover:bg-white/8 transition-all duration-200"
+            class="px-2 py-1 text-[0.55rem] font-light tracking-widest uppercase text-text/35 hover:text-text/70 rounded-full hover:bg-text/8 transition-all duration-200"
           >
             {social.name}
           </a>
@@ -60,19 +60,19 @@ const company = CompanyDb as Company;
     </div>
 
     <!-- DIVIDER -->
-    <div class="w-px h-3 bg-white/15 mx-1 flex-shrink-0"></div>
+    <div class="w-px h-3 bg-text/15 mx-1 flex-shrink-0"></div>
 
     <!-- CTA -->
     <a
       href="#waitlist-section"
       id="go-to-register"
       class="inline-flex items-center gap-1.5 pl-3 pr-0.5 py-0.5 rounded-full text-[0.62rem] font-medium tracking-wide
-             bg-white/8 text-white/80 border border-white/15
-             hover:border-white/30 hover:text-white hover:bg-white/12 transition-all duration-200 flex-shrink-0"
+             bg-text/8 text-text/80 border border-text/15
+             hover:border-text/30 hover:text-text hover:bg-text/12 transition-all duration-200 flex-shrink-0"
     >
       Reserva un Espacio
       <span
-        class="w-4 h-4 rounded-full bg-white/12 border border-white/20 flex items-center justify-center flex-shrink-0"
+        class="w-4 h-4 rounded-full bg-text/12 border border-text/20 flex items-center justify-center flex-shrink-0"
       >
         <svg
           width="8"
@@ -83,7 +83,8 @@ const company = CompanyDb as Company;
         >
           <path
             d="M2 8L8 2M8 2H3.5M8 2V6.5"
-            stroke="white"
+            stroke="currentColor"
+            class="text-text"
             stroke-width="1.3"
             stroke-linecap="round"
             stroke-linejoin="round"></path>

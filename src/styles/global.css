@@ -4,22 +4,43 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #3b82f6; /* azul moderno */
+  --color-primary: #3b82f6;
   --color-primary-dark: #1e40af;
 
-  /* LIGHT MODE */
-  --color-background: #ffffff; /* fondo principal */
-  --color-surface: #f8fafc; /* tarjetas */
-  --color-surface-2: #f1f5f9; /* capas elevadas */
+  --color-background: #000000;
+  --color-surface: #0a0a0a;
+  --color-surface-2: #111111;
 
-  --color-text: #0f172a; /* texto principal oscuro */
-  --color-muted: #64748b; /* texto secundario */
+  --color-text: #f1f5f9;
+  --color-muted: #94a3b8;
 
-  /* Estados */
+  --color-danger: #ef4444;
+  --color-danger-light: #f87171;
+
+  --color-gradient-start: #1d4ed8;
+  --color-gradient-mid: #3b82f6;
+  --color-gradient-end: #60a5fa;
+
+  --font-sans: "Inter", sans-serif;
+  --font-display: "Blinker", sans-serif;
+}
+
+/* LIGHT */
+/* 
+@theme {
+  --color-primary: #3b82f6;
+  --color-primary-dark: #1e40af;
+
+  --color-background: #ffffff;
+  --color-surface: #f8fafc;
+  --color-surface-2: #f1f5f9;
+
+  --color-text: #0f172a;
+  --color-muted: #64748b;
+
   --color-danger: #dc2626;
   --color-danger-light: #ef4444;
 
-  /* gradientes ajustados para claro */
   --color-gradient-start: #60a5fa;
   --color-gradient-mid: #3b82f6;
   --color-gradient-end: #1d4ed8;
@@ -27,6 +48,7 @@
   --font-sans: "Inter", sans-serif;
   --font-display: "Blinker", sans-serif;
 }
+*/
 
 html {
   scroll-behavior: smooth;
