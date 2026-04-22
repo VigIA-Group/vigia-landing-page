@@ -1,11 +1,38 @@
 {
   "name": "VigIA",
-  "socialMedia": [
+  "slogan": "La diferencia entre mirar y entender.",
+  "shortDescription": "Transformamos cámaras de seguridad en sistemas de inteligencia activa.",
+  "logos": {
+    "icon": "/logos/icon.png",
+    "iconTitle": "/logos/icon-title.png",
+    "iconTitleRow": "/logos/icon-title-row.png",
+    "title": "/logos/title.png"
+  },
+  "whyToUse": [
     {
-      "name": "Facebook",
-      "url": "https://www.facebook.com",
-      "icon": "/images/facebook.png"
+      "reason": "Tus cámaras se vuelven inteligentes",
+      "icon": "camera",
+      "description": "Transforma tus cámaras de seguridad existentes en sistemas de monitoreo inteligente con analítica y alertas en tiempo real."
     },
+    {
+      "reason": "Alertas en tiempo real",
+      "icon": "bell",
+      "description": "Recibe notificaciones instantáneas de eventos detectados, asegurando que nunca te pierdas los momentos críticos."
+    },
+    {
+      "reason": "Integración sencilla",
+      "icon": "plug",
+      "description": "Conecta tus cámaras a nuestra plataforma en minutos, sin configuraciones complejas ni necesidad de expertos técnicos."
+    }
+  ],
+  "videos": [
+    "/videos/people-mall-v2.mp4",
+    "/videos/people-mall.mp4",
+    "/videos/intruder.mp4",
+    "/videos/people-mall-v3.mp4",
+    "/videos/people-mall-v4.mp4"
+  ],
+  "socialMedia": [
     {
       "name": "Instagram",
       "url": "https://www.instagram.com",

@@ -4,14 +4,23 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #=;
-  --color-primary-dark: #1e40af;
-  --color-background: #f8fafc;
-  --color-surface: #ffffff;
-  --color-text: #0f172a;
-  --color-muted: #64748b;
+  --color-primary: #3b82f6;
+  --color-primary-dark: #1e3a8a;
 
-  --color-gradient-start: #002aff;
+  /* DARK MODE (más oscuro, casi negro azulado) */
+  --color-background: #01030a; /* casi negro con tinte azul */
+  --color-surface: #020817; /* tarjetas */
+  --color-surface-2: #030d1f; /* capas elevadas */
+
+  --color-text: #e2e8f0;
+  --color-muted: #94a3b8;
+
+  /* Estados */
+  --color-danger: #ef4444;
+  --color-danger-light: #f87171;
+
+  /* gradiente ajustado para destacar en fondo más oscuro */
+  --color-gradient-start: #1e3a8a;
   --color-gradient-mid: #2563eb;
   --color-gradient-end: #60a5fa;
 
@@ -19,15 +28,36 @@
   --font-display: "Blinker", sans-serif;
 }
 
+/* LIGHT */
+/* 
+@theme {
+  --color-primary: #3b82f6;
+  --color-primary-dark: #1e40af;
+
+  --color-background: #ffffff;
+  --color-surface: #f8fafc;
+  --color-surface-2: #f1f5f9;
+
+  --color-text: #0f172a;
+  --color-muted: #64748b;
+
+  --color-danger: #dc2626;
+  --color-danger-light: #ef4444;
+
+  --color-gradient-start: #60a5fa;
+  --color-gradient-mid: #3b82f6;
+  --color-gradient-end: #1d4ed8;
+
+  --font-sans: "Inter", sans-serif;
+  --font-display: "Blinker", sans-serif;
+}
+*/
+
 html {
   scroll-behavior: smooth;
 }
 
 @layer base {
-  html {
-    scroll-behavior: smooth;
-  }
-
   body {
     background-color: var(--color-background);
     color: var(--color-text);
