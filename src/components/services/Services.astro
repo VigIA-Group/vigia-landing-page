@@ -58,9 +58,8 @@ const services = ServicesDb as Services;
             const isLastPanel = fIndex === service.features.length - 1;
 
             return (
-              // En móviles es w-screen, en desktop es w-max para estirarse según las imágenes
               <div class="panel w-screen lg:w-max h-screen flex-shrink-0 relative flex items-center justify-center px-6 lg:px-16 bg-background border-l border-text/10">
-                <div class="h-full flex flex-col lg:flex-row gap-10 lg:gap-20 items-center justify-center w-full py-12 lg:py-0">
+                <div class="h-full flex flex-col lg:flex-row gap-6 md:gap-10 lg:gap-20 items-center justify-center w-full py-8 md:py-12 lg:py-0">
                   <div class="flex flex-col items-start gap-4 md:gap-6 w-full lg:w-[350px] xl:w-[450px] flex-shrink-0">
                     <span class="feature-anim-text text-[0.65rem] md:text-xs tracking-[0.2em] text-text/50 uppercase">
                       {service.serviceName}
@@ -121,13 +120,11 @@ const services = ServicesDb as Services;
                     </div>
                   </div>
 
-                  <div class="flex flex-row items-center gap-6 md:gap-12 lg:pr-12 h-[45vh] lg:h-[75vh]">
+                  <div class="flex flex-row items-center justify-center gap-3 md:gap-6 lg:gap-12 w-full lg:w-auto h-[35vh] md:h-[45vh] lg:h-[75vh] lg:pr-12">
                     {feature.images &&
                       feature.images.map((img, imgIndex) => {
                         const isMultiple = feature.images.length > 1;
 
-                        // Lógica de escalonamiento visual (sin superposición)
-                        // Si hay varias, subimos las pares y bajamos las impares
                         let transformClass = "";
                         if (isMultiple) {
                           transformClass =
@@ -136,11 +133,15 @@ const services = ServicesDb as Services;
                               : "lg:translate-y-8";
                         }
 
+                        // Lógica clave: Si hay múltiples imágenes en móvil, usan flex-1 min-w-0 para dividirse el espacio sin desbordar.
+                        // En desktop (lg:), recuperan su tamaño original con lg:flex-none y lg:w-auto.
                         return (
                           <img
                             src={img}
                             alt={feature.featureName}
-                            class={`feature-anim-img w-auto max-w-[85vw] lg:max-w-none h-full object-contain rounded-md shadow-2xl ${transformClass}`}
+                            class={`feature-anim-img object-contain rounded-md shadow-xl lg:shadow-2xl h-full lg:max-w-none 
+                              ${isMultiple ? "flex-1 min-w-0 max-w-full lg:flex-none lg:w-auto" : "w-auto max-w-[85vw] lg:w-auto"} 
+                              ${transformClass}`}
                           />
                         );
                       })}
