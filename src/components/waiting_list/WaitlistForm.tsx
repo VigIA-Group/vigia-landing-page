@@ -39,7 +39,6 @@ interface FormErrors {
   sector?: string;
 }
 
-// Función para obtener un color de fondo basado en el correo
 const getAvatarColor = (email: string) => {
   const colors = [
     "bg-red-500",
@@ -69,7 +68,6 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
 
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Efecto para animaciones GSAP
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
@@ -82,15 +80,14 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
         ease: "power3.out",
         scrollTrigger: {
           trigger: containerRef.current,
-          start: "top 85%", // La animación inicia cuando el 85% superior del elemento entra en el viewport
+          start: "top 85%",
         },
       });
     }, containerRef);
 
-    return () => ctx.revert(); // Limpieza para Astro/React
+    return () => ctx.revert();
   }, []);
 
-  // Efecto para restaurar el estado de éxito
   useEffect(() => {
     let timer: ReturnType<typeof setTimeout>;
     if (status === "success") {
@@ -99,7 +96,6 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
     return () => clearTimeout(timer);
   }, [status]);
 
-  // Efecto para recuperar a las personas en la lista
   useEffect(() => {
     const fetchWaitlist = async () => {
       try {
@@ -113,8 +109,6 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
         querySnapshot.forEach((doc) => {
           if (doc.data().email) users.push(doc.data().email);
         });
-        // Si no hay datos, añadimos algunos de prueba solo para el diseño inicial,
-        // puedes quitar este fallback si tienes datos reales.
         setRecentUsers(
           users.length > 0
             ? users
@@ -125,7 +119,7 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
       }
     };
     fetchWaitlist();
-  }, [status]); // Volvemos a hacer fetch cuando status cambie (ej: nuevo registro)
+  }, [status]);
 
   const validate = (): boolean => {
     const newErrors: FormErrors = {};
@@ -194,7 +188,6 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
       ref={containerRef}
       className="max-w-5xl w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center"
     >
-      {/* Lado Izquierdo: Textos y Beneficios */}
       <div className="flex flex-col justify-center">
         <h2 className="animate-item text-3xl font-display font-bold mb-3 text-text">
           {data.title}
@@ -218,7 +211,6 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
           </li>
         </ul>
 
-        {/* Sección de Avatares */}
         {recentUsers.length > 0 && (
           <div className="animate-item mt-8 flex items-center gap-3">
             <div className="flex -space-x-3">
@@ -240,7 +232,6 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
         )}
       </div>
 
-      {/* Lado Derecho: Formulario (Ahora más compacto) */}
       <div className="animate-item w-full max-w-md mx-auto p-4 md:p-4 rounded-2xl border border-primary/20 backdrop-blur-sm relative overflow-hidden bg-transparent">
         <div
           className={`absolute top-0 left-0 w-full p-3 flex flex-col items-center justify-center bg-surface z-20 transition-all duration-500 ease-in-out border-b border-primary ${status === "success" ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}`}
@@ -265,7 +256,6 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
           </span>
         </div>
 
-        {/* Reducimos el space-y de 4 a 3 */}
         <form onSubmit={handleSubmit} className="space-y-3">
           <div>
             <label className="block text-[13px] font-medium mb-0.5 text-text">
@@ -276,7 +266,6 @@ export default function WaitlistForm({ data }: WaitlistFormProps) {
                 <span className="text-sm mr-1">🇧🇴</span>
                 <span className="text-xs font-medium text-text">+591</span>
               </div>
-              {/* Padding ajustado en py-1.5 */}
               <input
                 type="tel"
                 name="phone"
