@@ -1,0 +1,57 @@
+[
+  {
+    "serviceName": "Analitica de Personas",
+    "description": "¿Sabes realmente cómo se mueven las personas dentro de tu negocio? Con nuestra IA, puedes ver patrones, flujos y comportamientos en tus espacios físicos que antes eran invisibles — y usarlos para tomar mejores decisiones cada día.",
+    "image": "/images/services/people_analytics/image1.png",
+    "features": [
+      {
+        "featureName": "Mapas de calor",
+        "description": "Imagina poder ver exactamente dónde se concentra la gente en tu espacio, en tiempo real o en cualquier momento del pasado. Con los mapas de calor, identificas al instante las zonas más activas para reorganizar recursos, mejorar la seguridad o simplemente diseñar mejor tu espacio.",
+        "images": ["/images/services/people_analytics/heat-map-web.jpg"]
+      },
+      {
+        "featureName": "Vista de camaras en tiempo real",
+        "description": "Saber cuántas personas entran y salen de tu local, en este momento, cambia la forma en que gestionas tu negocio. Controla aforos, mide el impacto de tus campañas y cumple normativas de seguridad — todo con datos que puedes exportar y analizar cuando quieras.",
+        "images": [
+          "/images/services/people_analytics/visual-cameras.jpg",
+          "/images/services/people_analytics/visual-cameras-web.jpg"
+        ]
+      },
+      {
+        "featureName": "Reportes automatizados",
+        "description": "Olvídate de recopilar datos a mano. Recibe informes completos con tus métricas más importantes — horarios pico, patrones de movimiento, tendencias — directo a tu correo, de forma automática y cuando tú decidas. Toda la información que necesitas, lista para actuar.",
+        "images": [
+          "/images/services/people_analytics/People-Reports.jpg",
+          "/images/services/people_analytics/reports-web.png"
+        ]
+      }
+    ]
+  },
+  {
+    "serviceName": "Deteccion de Intrusos",
+    "description": "¿Qué pasaría si tu sistema de seguridad pudiera detectar una amenaza antes de que sea un problema? Nuestra IA trabaja junto a tus cámaras para identificar presencias no autorizadas al instante y alertarte en tiempo real, sin que tengas que estar mirando una pantalla.",
+    "image": "/images/services/intrusion_detection/image1.png",
+    "features": [
+      {
+        "featureName": "Definicion de areas",
+        "description": "Tú decides qué zonas importan. Puedes marcar exactamente las áreas que quieres proteger — una entrada, un estacionamiento, una sala restringida — y la IA se enfoca solo en ellas. Menos falsas alarmas, más precisión, y un sistema que se adapta a tu operación.",
+        "images": ["/images/services/intrusion_detection/area-selector.png"]
+      },
+      {
+        "featureName": "Alertas en tiempo real",
+        "description": "En cuanto se detecta algo fuera de lo normal, te llega una notificación a tu celular o correo — con imagen o video del momento exacto. No necesitas estar en el lugar para saber qué está pasando y coordinar una respuesta de inmediato.",
+        "images": [
+          "/images/services/intrusion_detection/intruder-alert.jpg",
+          "/images/services/intrusion_detection/intruder_detected.png"
+        ]
+      },
+      {
+        "featureName": "Camaras PTZ inteligentes",
+        "description": "Cuando la IA detecta un intruso, las cámaras PTZ se mueven para seguirlo junto al area restringida, sin perder detalle. Obtienes grabaciones más claras, identificaciones más precisas y una respuesta más rápida cuando más lo necesitas.",
+        "images": [
+          "/images/services/intrusion_detection/ptz-area-config-propagator.png"
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,29 @@
+---
+import "../styles/global.css";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/png" href="/public/circle-icon.png">
+    <meta name="generator" content={Astro.generator} />
+    <title>VigIA</title>
+  </head>
+  <body>
+    <slot />
+    <script>
+      import "../firebase/client.js";
+    </script>
+  </body>
+</html>
+
+<style>
+  html,
+  body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>

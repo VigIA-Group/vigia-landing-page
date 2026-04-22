@@ -1,0 +1,261 @@
+---
+import ServicesDb from "../../database/services.json";
+import type { Services } from "../../models/Service";
+
+const services = ServicesDb as Services;
+---
+
+<section id="services" class="bg-background text-text overflow-hidden">
+  {
+    services.map((service) => (
+      <div class="service-pin-container relative h-screen w-full overflow-hidden">
+        <div class="horizontal-track relative flex h-full w-max will-change-transform">
+          <div class="panel w-screen h-screen flex-shrink-0 relative flex flex-col justify-center px-6 md:px-24">
+            <div class="absolute inset-0 z-0">
+              <img
+                src={service.image}
+                alt={service.serviceName}
+                class="w-full h-full object-cover opacity-30"
+              />
+              <div class="absolute inset-0 bg-gradient-to-r from-background/90 via-background/80 to-background/90" />
+            </div>
+
+            <div class="relative z-10 w-full max-w-4xl flex flex-col items-start gap-4 md:gap-6">
+              <h2 class="service-anim-text text-4xl md:text-6xl lg:text-8xl font-semibold leading-tight m-0">
+                {service.serviceName}
+              </h2>
+              <p class="service-anim-text text-base md:text-xl font-light text-text/80 leading-relaxed m-0 max-w-2xl">
+                {service.description}
+              </p>
+
+              <div
+                class="service-anim-text mt-8 flex items-center gap-4 text-text/60 cursor-pointer nav-btn"
+                data-target-index="1"
+              >
+                <span class="text-xs md:text-sm tracking-[0.15em] uppercase hover:text-text transition-colors">
+                  Ver Detalles
+                </span>
+                <div class="w-16 h-[1px] bg-text/30" />
+                <svg
+                  class="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="1.5"
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          {service.features.map((feature, fIndex) => {
+            const panelIndex = fIndex + 1;
+            const isLastPanel = fIndex === service.features.length - 1;
+
+            return (
+              <div class="panel w-screen lg:w-max h-screen flex-shrink-0 relative flex items-center justify-center px-6 lg:px-16 bg-background border-l border-text/10">
+                <div class="h-full flex flex-col lg:flex-row gap-6 md:gap-10 lg:gap-20 items-center justify-center w-full py-8 md:py-12 lg:py-0">
+                  <div class="flex flex-col items-start gap-4 md:gap-6 w-full lg:w-[350px] xl:w-[450px] flex-shrink-0">
+                    <span class="feature-anim-text text-[0.65rem] md:text-xs tracking-[0.2em] text-text/50 uppercase">
+                      {service.serviceName}
+                    </span>
+                    <h3 class="feature-anim-text text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight m-0">
+                      {feature.featureName}
+                    </h3>
+                    <p class="feature-anim-text text-sm md:text-base font-light text-text/70 leading-relaxed m-0">
+                      {feature.description}
+                    </p>
+
+                    <div class="feature-anim-text flex gap-6 mt-4 lg:mt-8">
+                      <button
+                        class="nav-btn group flex items-center gap-2 text-text/50 hover:text-text transition-colors"
+                        data-target-index={panelIndex - 1}
+                      >
+                        <svg
+                          class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="1.5"
+                            d="M15 19l-7-7 7-7"
+                          />
+                        </svg>
+                        <span class="text-xs tracking-widest uppercase">
+                          Anterior
+                        </span>
+                      </button>
+
+                      {!isLastPanel && (
+                        <button
+                          class="nav-btn group flex items-center gap-2 text-text/50 hover:text-text transition-colors"
+                          data-target-index={panelIndex + 1}
+                        >
+                          <span class="text-xs tracking-widest uppercase">
+                            Siguiente
+                          </span>
+                          <svg
+                            class="w-4 h-4 transform group-hover:translate-x-1 transition-transform"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              stroke-width="1.5"
+                              d="M9 5l7 7-7 7"
+                            />
+                          </svg>
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  <div class="flex flex-row items-center justify-center gap-3 md:gap-6 lg:gap-12 w-full lg:w-auto h-[35vh] md:h-[45vh] lg:h-[75vh] lg:pr-12">
+                    {feature.images &&
+                      feature.images.map((img, imgIndex) => {
+                        const isMultiple = feature.images.length > 1;
+
+                        let transformClass = "";
+                        if (isMultiple) {
+                          transformClass =
+                            imgIndex % 2 === 0
+                              ? "lg:-translate-y-8"
+                              : "lg:translate-y-8";
+                        }
+
+                        // Lógica clave: Si hay múltiples imágenes en móvil, usan flex-1 min-w-0 para dividirse el espacio sin desbordar.
+                        // En desktop (lg:), recuperan su tamaño original con lg:flex-none y lg:w-auto.
+                        return (
+                          <img
+                            src={img}
+                            alt={feature.featureName}
+                            class={`feature-anim-img object-contain rounded-md shadow-xl lg:shadow-2xl h-full lg:max-w-none 
+                              ${isMultiple ? "flex-1 min-w-0 max-w-full lg:flex-none lg:w-auto" : "w-auto max-w-[85vw] lg:w-auto"} 
+                              ${transformClass}`}
+                          />
+                        );
+                      })}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    ))
+  }
+</section>
+
+<script>
+  import gsap from "gsap";
+  import ScrollTrigger from "gsap/ScrollTrigger";
+  import ScrollToPlugin from "gsap/ScrollToPlugin";
+
+  gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const pinContainers = document.querySelectorAll(".service-pin-container");
+
+    pinContainers.forEach((container) => {
+      const track = container.querySelector(".horizontal-track") as HTMLElement;
+      if (!track) return;
+
+      const panels = Array.from(
+        container.querySelectorAll(".panel"),
+      ) as HTMLElement[];
+
+      const getScrollAmount = () => track.scrollWidth - window.innerWidth;
+
+      // 1. Animación Horizontal
+      const scrollTween = gsap.to(track, {
+        x: () => -getScrollAmount(),
+        ease: "none",
+        scrollTrigger: {
+          trigger: container,
+          pin: true,
+          scrub: 1,
+          end: () => `+=${getScrollAmount()}`,
+          invalidateOnRefresh: true,
+        },
+      });
+
+      // 2. Animaciones de Entrada (Textos e Imágenes escalonadas)
+      panels.forEach((panel) => {
+        const texts = panel.querySelectorAll(".feature-anim-text");
+        const images = panel.querySelectorAll(".feature-anim-img");
+
+        if (texts.length > 0) {
+          gsap.from(texts, {
+            y: 30,
+            autoAlpha: 0,
+            stagger: 0.1,
+            duration: 0.8,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: panel,
+              containerAnimation: scrollTween,
+              start: "left 75%",
+              toggleActions: "play none none reverse",
+            },
+          });
+        }
+
+        if (images.length > 0) {
+          gsap.from(images, {
+            x: 50,
+            autoAlpha: 0,
+            stagger: 0.15,
+            duration: 1,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: panel,
+              containerAnimation: scrollTween,
+              start: "left 75%",
+              toggleActions: "play none none reverse",
+            },
+          });
+        }
+      });
+
+      // 3. Navegación Exacta entre Paneles de Ancho Variable
+      const navButtons = container.querySelectorAll(".nav-btn");
+
+      navButtons.forEach((btn) => {
+        btn.addEventListener("click", function () {
+          const targetIndex = parseInt(
+            (this as HTMLElement).dataset.targetIndex || "0",
+          );
+          const targetPanel = panels[targetIndex];
+          const st = scrollTween.scrollTrigger;
+
+          if (targetPanel && st) {
+            // Obtenemos la distancia exacta del panel respecto al inicio del track
+            const targetX = targetPanel.offsetLeft;
+
+            // Calculamos cuánto representa esa distancia en progreso (0 a 1)
+            const progress = targetX / getScrollAmount();
+
+            // Calculamos el scroll vertical equivalente
+            const targetScroll = st.start + (st.end - st.start) * progress;
+
+            gsap.to(window, {
+              scrollTo: { y: targetScroll, autoKill: true },
+              duration: 1.2,
+              ease: "power3.inOut",
+            });
+          }
+        });
+      });
+    });
+  });
+</script>
