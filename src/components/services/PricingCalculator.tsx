@@ -21,7 +21,6 @@ interface Camera {
 }
 
 export default function PricingCalculator() {
-  // Estado Inicial
   const [defaultHorario, setDefaultHorario] = useState<HorarioType>("c");
   const [currency, setCurrency] = useState<"bs" | "usd">("bs");
   const [nextId, setNextId] = useState(3);
@@ -30,11 +29,8 @@ export default function PricingCalculator() {
     { id: 2, mods: ["03"], horario: "global" },
   ]);
 
-  // --- LÓGICA DE PRECIOS POR CÁMARA ---
   const totals = useMemo(() => {
     const numCameras = cameras.length;
-
-    // 1. Descuento por Volumen (Depende del total de cámaras)
     let descVolPercent = 0;
     if (numCameras >= 61) descVolPercent = 0.25;
     else if (numCameras >= 31) descVolPercent = 0.2;
@@ -52,27 +48,21 @@ export default function PricingCalculator() {
       return 0; // 24/7
     };
 
-    // 2. Cálculo cámara por cámara
     const perCameraDetails = cameras.map((cam) => {
       const nMods = cam.mods.length;
-
-      // Precio Base de la cámara (12$ base con 1 mod, +6$ por mod extra)
       const baseUsd = nMods === 0 ? 0 : 12 + (nMods - 1) * 6;
       subtotalListaUsd += baseUsd;
 
-      // Aplicar descuento por volumen a esta cámara
       const volDiscountUsd = baseUsd * descVolPercent;
       totalDescVolUsd += volDiscountUsd;
       const afterVolUsd = baseUsd - volDiscountUsd;
 
-      // Aplicar descuento por horario a esta cámara
       const activeHorario =
         cam.horario === "global" ? defaultHorario : cam.horario;
       const horDiscountRate = getDescHorPercent(activeHorario);
       const horDiscountUsd = afterVolUsd * horDiscountRate;
       totalDescHorUsd += horDiscountUsd;
 
-      // Precio final de la cámara
       const finalCamUsd = afterVolUsd - horDiscountUsd;
       finalTotalUsd += finalCamUsd;
 
@@ -95,20 +85,18 @@ export default function PricingCalculator() {
     };
   }, [cameras, defaultHorario]);
 
-  // Ayudante de formateo
   const formatPrice = (usdAmount: number) => {
     if (currency === "usd") return `$${usdAmount.toFixed(2)}`;
     return `Bs ${(usdAmount * RATE).toFixed(2)}`;
   };
 
-  // --- HANDLERS ---
   const addCamera = () => {
     setCameras([...cameras, { id: nextId, mods: [], horario: "global" }]);
     setNextId(nextId + 1);
   };
 
   const removeCamera = (idToRemove: number) => {
-    if (cameras.length <= 1) return; // Mínimo 1 cámara
+    if (cameras.length <= 1) return;
     setCameras(cameras.filter((c) => c.id !== idToRemove));
   };
 
@@ -135,9 +123,26 @@ export default function PricingCalculator() {
     );
   };
 
+  // Componente reutilizable para el label con el checkmark
+  const SectionLabel = ({ text }: { text: string }) => (
+    <div className="flex items-center gap-2 mb-3">
+      <div className="w-4 h-4 rounded-full bg-text/15 border border-text/20 flex items-center justify-center flex-shrink-0">
+        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+          <path
+            d="M2 5L4 7L8 3"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </div>
+      <span className="text-sm font-medium text-text">{text}</span>
+    </div>
+  );
+
   return (
     <section className="bg-background text-text py-24 px-6 relative overflow-hidden font-sans">
-      {/* Glow / Decoración de fondo */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/10 blur-[120px] rounded-full pointer-events-none -z-10"></div>
 
       <div className="max-w-5xl mx-auto mb-16 text-center">
@@ -150,42 +155,19 @@ export default function PricingCalculator() {
         </p>
       </div>
 
-      <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-12 lg:gap-16 items-start">
+      <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-16 items-start">
         {/* LADO IZQUIERDO: CONTROLES */}
-        <div className="flex flex-col gap-6 w-full">
-          {/* Horario por Defecto Global */}
-          <div className="bg-surface-2 border border-primary/20 rounded-2xl p-5">
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-5 h-5 rounded-full bg-primary/20 text-primary flex items-center justify-center flex-shrink-0">
-                <svg
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <polyline points="12 6 12 12 16 14" />
-                </svg>
-              </div>
-              <span className="text-sm font-semibold text-text">
-                Horario por defecto
-              </span>
-            </div>
-            <p className="text-xs text-muted mb-3">
-              Este horario se aplicará a todas las cámaras a menos que
-              especifiques lo contrario en una cámara particular.
-            </p>
+        <div className="flex flex-col w-full">
+          {/* Horario por Defecto */}
+          <div className="mb-12">
+            <SectionLabel text="Horario por defecto" />
             <div className="relative">
               <select
                 value={defaultHorario}
                 onChange={(e) =>
                   setDefaultHorario(e.target.value as HorarioType)
                 }
-                className="w-full px-4 py-2.5 text-sm rounded-lg outline-none transition-colors bg-surface/50 text-text border border-primary/30 focus:border-primary appearance-none cursor-pointer"
+                className="w-full px-4 py-2.5 text-sm rounded-lg outline-none transition-colors bg-surface/20 text-text border border-text/20 focus:border-primary appearance-none cursor-pointer"
               >
                 <option value="c" className="bg-surface text-text">
                   Comercial (≤10h/día) — 15% Dcto.
@@ -214,155 +196,109 @@ export default function PricingCalculator() {
                 </svg>
               </div>
             </div>
+            <p className="mt-2 text-xs text-muted/70 font-light">
+              Aplica a todas las cámaras, a menos que cambies el horario en una
+              cámara específica.
+            </p>
           </div>
 
-          {/* LISTA DE CÁMARAS */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-between px-2">
-              <span className="text-sm font-medium text-text">
-                Tus Cámaras ({totals.numCameras})
-              </span>
-            </div>
-
+          {/* Lista de Cámaras */}
+          <div className="space-y-12">
             {cameras.map((cam, index) => {
               const camDetails = totals.perCameraDetails.find(
                 (c) => c.id === cam.id,
               );
 
               return (
-                <div
-                  key={cam.id}
-                  className="bg-surface border border-text/10 rounded-xl p-5 transition-colors hover:border-text/20"
-                >
-                  {/* Cabecera Cámara */}
-                  <div className="flex items-center justify-between mb-4 pb-3 border-b border-text/5">
+                <div key={cam.id} className="relative flex flex-col gap-6">
+                  {/* Encabezado de la cámara */}
+                  <div className="flex items-center justify-between pb-2 border-b border-text/5">
                     <div className="flex items-center gap-3">
-                      <span className="text-[15px] font-semibold text-text">
+                      <h3 className="text-lg font-display font-medium text-text m-0">
                         Cámara {index + 1}
-                      </span>
-                      <span className="text-xs font-mono text-primary bg-primary/10 px-2 py-0.5 rounded-md">
+                      </h3>
+                      <span className="text-xs font-mono text-primary/80">
                         {camDetails?.finalCamUsd === 0
-                          ? "Sin módulos"
+                          ? "(Sin módulos)"
                           : formatPrice(camDetails?.finalCamUsd || 0)}
                       </span>
                     </div>
                     {cameras.length > 1 && (
                       <button
                         onClick={() => removeCamera(cam.id)}
-                        className="w-7 h-7 rounded-md flex items-center justify-center text-danger/70 hover:bg-danger/10 hover:text-danger transition-colors"
-                        title="Eliminar cámara"
+                        className="text-xs text-danger/60 hover:text-danger transition-colors font-medium flex items-center gap-1"
                       >
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        >
-                          <line x1="18" y1="6" x2="6" y2="18"></line>
-                          <line x1="6" y1="6" x2="18" y2="18"></line>
-                        </svg>
+                        Eliminar
                       </button>
                     )}
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Select Módulos */}
-                    <div>
-                      <span className="block text-xs text-muted mb-2 uppercase tracking-wider font-semibold">
-                        Módulos Activos
-                      </span>
-                      <div className="flex flex-wrap gap-2">
-                        {MOD_LIST.map((mod) => {
-                          const isActive = cam.mods.includes(mod.id);
-                          return (
-                            <button
-                              key={mod.id}
-                              onClick={() => toggleMod(cam.id, mod.id)}
-                              className={`px-2.5 py-1 text-[11px] rounded-md border transition-all duration-200 ${
-                                isActive
-                                  ? "bg-primary border-primary text-text shadow-[0_0_10px_rgba(59,130,246,0.3)]"
-                                  : "bg-surface-2 border-text/10 text-muted hover:border-text/30 hover:text-text"
-                              }`}
-                            >
-                              {mod.label}
-                            </button>
-                          );
-                        })}
+                  {/* Horario Específico */}
+                  <div>
+                    <SectionLabel text="Horario de Monitoreo" />
+                    <div className="relative">
+                      <select
+                        value={cam.horario}
+                        onChange={(e) =>
+                          updateCameraHorario(
+                            cam.id,
+                            e.target.value as CamHorarioType,
+                          )
+                        }
+                        className="w-full px-4 py-2.5 text-[13px] rounded-lg outline-none transition-colors bg-surface/20 text-text border border-text/20 focus:border-primary appearance-none cursor-pointer"
+                      >
+                        <option value="global" className="bg-surface text-text">
+                          Usar horario por defecto
+                        </option>
+                        <option value="c" className="bg-surface text-text">
+                          Comercial (≤10h/día)
+                        </option>
+                        <option value="e" className="bg-surface text-text">
+                          Extendido (11-18h/día)
+                        </option>
+                        <option value="247" className="bg-surface text-text">
+                          24/7 (Continuo)
+                        </option>
+                      </select>
+                      <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-muted">
+                        <svg
+                          width="12"
+                          height="12"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M19 9l-7 7-7-7"
+                          />
+                        </svg>
                       </div>
                     </div>
+                  </div>
 
-                    {/* Select Horario Específico */}
-                    <div>
-                      <span className="block text-xs text-muted mb-2 uppercase tracking-wider font-semibold">
-                        Horario de Monitoreo
-                      </span>
-                      <div className="relative">
-                        <select
-                          value={cam.horario}
-                          onChange={(e) =>
-                            updateCameraHorario(
-                              cam.id,
-                              e.target.value as CamHorarioType,
-                            )
-                          }
-                          className="w-full px-3 py-1.5 text-xs rounded-md outline-none transition-colors bg-surface-2 text-text border border-text/10 focus:border-primary appearance-none cursor-pointer"
-                        >
-                          <option
-                            value="global"
-                            className="bg-surface text-text"
+                  {/* Módulos de la cámara */}
+                  <div>
+                    <SectionLabel text="Módulos Activos" />
+                    <div className="flex flex-wrap gap-2.5">
+                      {MOD_LIST.map((mod) => {
+                        const isActive = cam.mods.includes(mod.id);
+                        return (
+                          <button
+                            key={mod.id}
+                            onClick={() => toggleMod(cam.id, mod.id)}
+                            className={`px-3.5 py-1.5 text-[13px] rounded-lg border transition-all duration-200 ${
+                              isActive
+                                ? "bg-primary/20 border-primary text-text"
+                                : "bg-transparent border-text/20 text-text/60 hover:border-text/40 hover:text-text"
+                            }`}
                           >
-                            Usar horario por defecto
-                          </option>
-                          <option value="c" className="bg-surface text-text">
-                            Comercial (≤10h/día)
-                          </option>
-                          <option value="e" className="bg-surface text-text">
-                            Extendido (11-18h/día)
-                          </option>
-                          <option value="247" className="bg-surface text-text">
-                            24/7 (Continuo)
-                          </option>
-                        </select>
-                        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-muted">
-                          <svg
-                            width="10"
-                            height="10"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M19 9l-7 7-7-7"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                      {/* Advertencia si difiere del global */}
-                      {cam.horario !== "global" && (
-                        <p className="mt-1.5 text-[10px] text-orange-400/90 flex items-start gap-1 leading-tight">
-                          <svg
-                            className="w-3 h-3 flex-shrink-0 mt-[1px]"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                            />
-                          </svg>
-                          Este horario está afectando únicamente a esta cámara.
-                        </p>
-                      )}
+                            {mod.label}
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
@@ -372,31 +308,30 @@ export default function PricingCalculator() {
 
           <button
             onClick={addCamera}
-            className="w-full py-3 mt-2 rounded-xl border border-dashed border-primary/40 text-primary text-sm font-medium hover:bg-primary/5 transition-colors flex items-center justify-center gap-2"
+            className="mt-10 py-2 px-4 rounded-full border border-text/20 text-text/80 text-[13px] font-medium hover:border-text/40 hover:bg-surface/50 transition-all self-start flex items-center gap-2"
           >
             <svg
-              width="16"
-              height="16"
+              width="14"
+              height="14"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
-              strokeWidth="2.5"
+              strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
             >
               <line x1="12" y1="5" x2="12" y2="19"></line>
               <line x1="5" y1="12" x2="19" y2="12"></line>
             </svg>
-            Agregar nueva cámara
+            Añadir cámara
           </button>
         </div>
 
         {/* LADO DERECHO: TARJETA DE PRECIO (Fija en Desktop) */}
-        <div className="relative w-full lg:sticky lg:top-24">
+        <div className="relative w-full lg:sticky lg:top-24 mt-8 lg:mt-0">
           <div className="hidden lg:block absolute top-6 -right-6 bottom-[-1.5rem] left-6 border-2 border-text/10 rounded-2xl z-0 pointer-events-none"></div>
 
           <div className="relative z-10 bg-text text-background rounded-2xl p-8 shadow-2xl flex flex-col items-start border border-text/20">
-            {/* Moneda Toggle */}
             <div className="absolute top-6 right-6 flex bg-background/10 rounded-lg p-0.5 border border-background/20">
               <button
                 onClick={() => setCurrency("bs")}
@@ -443,7 +378,6 @@ export default function PricingCalculator() {
                 : `$ ${totals.finalTotalUsd.toFixed(2)} USD`}
             </div>
 
-            {/* Desglose de Precios */}
             <div className="w-full space-y-3 pt-6 border-t border-background/15 text-[13px]">
               <span className="block text-[10px] font-bold uppercase tracking-widest text-background/40 mb-2">
                 Desglose de Precios
@@ -466,7 +400,7 @@ export default function PricingCalculator() {
               ) : (
                 <div className="flex justify-between items-center text-background/40 text-xs">
                   <span>Dcto. Volumen</span>
-                  <span>{"0% (< 5 cám.)"}</span>
+                  <span>0% (menos de 5 cám.)</span>
                 </div>
               )}
 
@@ -480,7 +414,6 @@ export default function PricingCalculator() {
               )}
             </div>
 
-            {/* Hint Final */}
             <div className="mt-8 text-[11px] text-background/50 leading-relaxed max-w-[90%]">
               {totals.descVolPercent === 0 ? (
                 <span className="text-primary-dark/80 font-medium">
