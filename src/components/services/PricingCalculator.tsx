@@ -123,20 +123,34 @@ export default function PricingCalculator() {
     );
   };
 
-  const SectionLabel = ({ text }: { text: string }) => (
-    <div className="flex items-center gap-2 mb-3">
-      <div className="w-4 h-4 rounded-full bg-text/15 border border-text/20 flex items-center justify-center flex-shrink-0">
-        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-          <path
-            d="M2 5L4 7L8 3"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+  // Componente actualizado: Ahora acepta una descripción opcional
+  const SectionLabel = ({
+    text,
+    description,
+  }: {
+    text: string;
+    description?: string;
+  }) => (
+    <div className="mb-3">
+      <div className="flex items-center gap-2">
+        <div className="w-4 h-4 rounded-full bg-text/15 border border-text/20 flex items-center justify-center flex-shrink-0">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+            <path
+              d="M2 5L4 7L8 3"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
+        <span className="text-sm font-medium text-text">{text}</span>
       </div>
-      <span className="text-sm font-medium text-text">{text}</span>
+      {description && (
+        <p className="mt-1.5 ml-6 text-xs text-muted/80 font-light leading-relaxed">
+          {description}
+        </p>
+      )}
     </div>
   );
 
@@ -156,9 +170,12 @@ export default function PricingCalculator() {
 
       <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-16 items-start">
         <div className="flex flex-col w-full">
-          <div className="mb-12">
-            <SectionLabel text="Horario por defecto" />
-            <div className="relative">
+          <div className="mb-14">
+            <SectionLabel
+              text="Horario por defecto"
+              description="Define el tiempo base de monitoreo para tu red. Las detecciones de IA se realizarán únicamente durante este periodo para todas tus cámaras."
+            />
+            <div className="relative ml-6">
               <select
                 value={defaultHorario}
                 onChange={(e) =>
@@ -193,20 +210,29 @@ export default function PricingCalculator() {
                 </svg>
               </div>
             </div>
-            <p className="mt-2 text-xs text-muted/70 font-light">
-              Aplica a todas las cámaras, a menos que cambies el horario en una
-              cámara específica.
-            </p>
           </div>
 
           <div className="space-y-12">
+            {/* Cabecera introductoria para la sección de cámaras */}
+            <div className="mb-2 border-b border-text/10 pb-5">
+              <h3 className="text-xl font-display font-semibold text-text mb-2">
+                Configuración de Cámaras
+              </h3>
+              <p className="text-sm text-muted/80 font-light leading-relaxed">
+                Añade las cámaras que tienes en tu negocio. Puedes personalizar
+                el nivel de vigilancia y los comportamientos a detectar de forma
+                individual según el área (ej. Entrada principal, Almacén,
+                Cajas).
+              </p>
+            </div>
+
             {cameras.map((cam, index) => {
               const camDetails = totals.perCameraDetails.find(
                 (c) => c.id === cam.id,
               );
 
               return (
-                <div key={cam.id} className="relative flex flex-col gap-6">
+                <div key={cam.id} className="relative flex flex-col gap-8 pt-4">
                   <div className="flex items-center justify-between pb-2 border-b border-text/5">
                     <div className="flex items-center gap-3">
                       <h3 className="text-lg font-display font-medium text-text m-0">
@@ -229,8 +255,11 @@ export default function PricingCalculator() {
                   </div>
 
                   <div>
-                    <SectionLabel text="Horario de Monitoreo" />
-                    <div className="relative">
+                    <SectionLabel
+                      text="Horario de Monitoreo"
+                      description="Personaliza el horario de esta cámara si requiere un nivel de vigilancia distinto al resto."
+                    />
+                    <div className="relative ml-6">
                       <select
                         value={cam.horario}
                         onChange={(e) =>
@@ -274,8 +303,11 @@ export default function PricingCalculator() {
                   </div>
 
                   <div>
-                    <SectionLabel text="Módulos Activos" />
-                    <div className="flex flex-wrap gap-2.5">
+                    <SectionLabel
+                      text="Módulos Activos"
+                      description="Elige qué eventos específicos o comportamientos deseas que esta cámara identifique."
+                    />
+                    <div className="flex flex-wrap gap-2.5 ml-6">
                       {MOD_LIST.map((mod) => {
                         const isActive = cam.mods.includes(mod.id);
                         return (
@@ -301,7 +333,7 @@ export default function PricingCalculator() {
 
           <button
             onClick={addCamera}
-            className="mt-10 py-2 px-4 rounded-full border border-text/20 text-text/80 text-[13px] font-medium hover:border-text/40 hover:bg-surface/50 transition-all self-start flex items-center gap-2"
+            className="mt-12 py-2 px-4 rounded-full border border-text/20 text-text/80 text-[13px] font-medium hover:border-text/40 hover:bg-surface/50 transition-all self-start flex items-center gap-2"
           >
             <svg
               width="14"
@@ -324,29 +356,6 @@ export default function PricingCalculator() {
           <div className="hidden lg:block absolute top-6 -right-6 bottom-[-1.5rem] left-6 border-2 border-text/10 rounded-2xl z-0 pointer-events-none"></div>
 
           <div className="relative z-10 bg-text text-background rounded-2xl p-8 shadow-2xl flex flex-col items-start border border-text/20">
-            {/* <div className="absolute top-6 right-6 flex bg-background/10 rounded-lg p-0.5 border border-background/20">
-              <button
-                onClick={() => setCurrency("bs")}
-                className={`px-3 py-1 text-[11px] font-bold rounded-md transition-colors ${
-                  currency === "bs"
-                    ? "bg-background text-text shadow-sm"
-                    : "text-background/60 hover:text-background"
-                }`}
-              >
-                Bs
-              </button>
-              <button
-                onClick={() => setCurrency("usd")}
-                className={`px-3 py-1 text-[11px] font-bold rounded-md transition-colors ${
-                  currency === "usd"
-                    ? "bg-background text-text shadow-sm"
-                    : "text-background/60 hover:text-background"
-                }`}
-              >
-                USD
-              </button>
-            </div> */}
-
             <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-background/50 mb-4">
               Total Mensual Estimado
             </span>
@@ -362,13 +371,6 @@ export default function PricingCalculator() {
                 / mes
               </span>
             </div>
-
-            {/* <div className="text-xs font-mono text-background/60 mb-8 border border-background/20 px-3 py-1 rounded-full transition-all">
-              ≈{" "}
-              {currency === "usd"
-                ? `Bs ${totals.finalTotalBs.toFixed(2)}`
-                : `$ ${totals.finalTotalUsd.toFixed(2)} USD`}
-            </div> */}
 
             <div className="w-full space-y-3 pt-6 border-t border-background/15 text-[13px]">
               <span className="block text-[10px] font-bold uppercase tracking-widest text-background/40 mb-2">
