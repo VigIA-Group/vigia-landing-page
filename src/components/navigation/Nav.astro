@@ -8,19 +8,19 @@ const company = CompanyDb as Company;
   id="floating-nav"
   class="fixed top-0 left-1/2 -translate-x-1/2 z-50 flex items-center
          bg-background shadow-[0_6px_24px_rgba(0,0,0,0.6)]
-         h-[40px] md:h-[34px] px-2 whitespace-nowrap"
-  style="border-radius: 18px;"
+         h-[54px] md:h-[44px] px-3 whitespace-nowrap"
+  style="border-radius: 22px;"
 >
-  <div class="flex items-center gap-2 md:gap-1 w-full justify-between">
+  <div class="flex items-center gap-3 md:gap-2 w-full justify-between">
     <button
       id="menu-toggle"
-      class="md:hidden flex items-center justify-center p-1.5 text-text/60 hover:text-text rounded-full hover:bg-text/8 transition-colors focus:outline-none"
+      class="md:hidden flex items-center justify-center p-2 text-text/70 hover:text-text rounded-full hover:bg-text/8 transition-colors focus:outline-none"
       aria-label="Abrir menú"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        width="18"
-        height="18"
+        width="20"
+        height="20"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -36,52 +36,52 @@ const company = CompanyDb as Company;
 
     <div
       id="nav-links-container"
-      class="absolute top-[calc(100%+8px)] left-1/2 -translate-x-1/2 md:static md:translate-x-0 md:top-auto md:left-auto
-             flex-col md:flex-row items-center gap-2 md:gap-0.5
+      class="absolute top-[calc(100%+12px)] left-1/2 -translate-x-1/2 md:static md:translate-x-0 md:top-auto md:left-auto
+             flex-col md:flex-row items-center gap-3 md:gap-1
              bg-background md:bg-transparent shadow-[0_6px_24px_rgba(0,0,0,0.6)] md:shadow-none
-             p-4 md:p-0 rounded-[18px] md:rounded-none
-             hidden md:flex w-[85vw] max-w-[300px] md:w-auto md:max-w-none transition-all duration-300"
+             p-5 md:p-0 rounded-[22px] md:rounded-none
+             hidden md:flex w-[85vw] max-w-[320px] md:w-auto md:max-w-none transition-all duration-300"
     >
       <nav
-        class="flex flex-col md:flex-row items-center gap-2 md:gap-0.5 w-full md:w-auto"
+        class="flex flex-col md:flex-row items-center gap-3 md:gap-1 w-full md:w-auto"
       >
         <a
           href="/#hero"
-          class="mobile-link w-full md:w-auto text-center px-4 md:px-2.5 py-2 md:py-1 text-sm md:text-[0.62rem] font-medium tracking-wide text-text/55 hover:text-text rounded-full hover:bg-text/8 transition-all duration-200"
+          class="mobile-link w-full md:w-auto text-center px-4 md:px-3 py-2.5 md:py-1.5 text-base md:text-sm font-medium tracking-wide text-text/60 hover:text-text rounded-full hover:bg-text/8 transition-all duration-200"
         >
           Inicio
         </a>
         <a
           href="/#services"
-          class="mobile-link w-full md:w-auto text-center px-4 md:px-2.5 py-2 md:py-1 text-sm md:text-[0.62rem] font-medium tracking-wide text-text/55 hover:text-text rounded-full hover:bg-text/8 transition-all duration-200"
+          class="mobile-link w-full md:w-auto text-center px-4 md:px-3 py-2.5 md:py-1.5 text-base md:text-sm font-medium tracking-wide text-text/60 hover:text-text rounded-full hover:bg-text/8 transition-all duration-200"
         >
           Servicios
         </a>
         <a
           href="/#why-us"
-          class="mobile-link w-full md:w-auto text-center px-4 md:px-2.5 py-2 md:py-1 text-sm md:text-[0.62rem] font-medium tracking-wide text-text/55 hover:text-text rounded-full hover:bg-text/8 transition-all duration-200"
+          class="mobile-link w-full md:w-auto text-center px-4 md:px-3 py-2.5 md:py-1.5 text-base md:text-sm font-medium tracking-wide text-text/60 hover:text-text rounded-full hover:bg-text/8 transition-all duration-200"
         >
           ¿Por qué nosotros?
         </a>
         <a
           href="/#footer"
-          class="mobile-link w-full md:w-auto text-center px-4 md:px-2.5 py-2 md:py-1 text-sm md:text-[0.62rem] font-medium tracking-wide text-text/55 hover:text-text rounded-full hover:bg-text/8 transition-all duration-200"
+          class="mobile-link w-full md:w-auto text-center px-4 md:px-3 py-2.5 md:py-1.5 text-base md:text-sm font-medium tracking-wide text-text/60 hover:text-text rounded-full hover:bg-text/8 transition-all duration-200"
         >
           Contacto
         </a>
         <a
           href="/precios"
-          class="mobile-link w-full md:w-auto text-center px-4 md:px-2.5 py-2 md:py-1 text-sm md:text-[0.62rem] font-medium tracking-wide text-text/55 hover:text-text rounded-full hover:bg-text/8 transition-all duration-200"
+          class="mobile-link w-full md:w-auto text-center px-4 md:px-3 py-2.5 md:py-1.5 text-base md:text-sm font-medium tracking-wide text-text/60 hover:text-text rounded-full hover:bg-text/8 transition-all duration-200"
         >
           Precios
         </a>
       </nav>
 
-      <div class="hidden md:block w-px h-3 bg-text/15 mx-1 flex-shrink-0"></div>
-      <div class="md:hidden w-full h-px bg-text/10 my-1"></div>
+      <div class="hidden md:block w-px h-4 bg-text/15 mx-2 flex-shrink-0"></div>
+      <div class="md:hidden w-full h-px bg-text/10 my-2"></div>
 
       <div
-        class="flex flex-row items-center gap-3 md:gap-0 justify-center w-full md:w-auto py-2 md:py-0"
+        class="flex flex-row items-center gap-4 md:gap-1 justify-center w-full md:w-auto py-2 md:py-0"
       >
         {
           company.socialMedia.map((social) => (
@@ -89,7 +89,7 @@ const company = CompanyDb as Company;
               href={social.url}
               target="_blank"
               rel="noopener noreferrer"
-              class="mobile-link px-2 py-1 text-[0.65rem] md:text-[0.55rem] font-light tracking-widest uppercase text-text/35 hover:text-text/70 rounded-full hover:bg-text/8 transition-all duration-200"
+              class="mobile-link px-3 py-1.5 text-xs md:text-[0.7rem] font-medium tracking-widest uppercase text-text/50 hover:text-text/90 rounded-full hover:bg-text/8 transition-all duration-200"
             >
               {social.name}
             </a>
@@ -97,23 +97,23 @@ const company = CompanyDb as Company;
         }
       </div>
 
-      <div class="hidden md:block w-px h-3 bg-text/15 mx-1 flex-shrink-0"></div>
+      <div class="hidden md:block w-px h-4 bg-text/15 mx-2 flex-shrink-0"></div>
     </div>
 
     <a
       href="#waitlist-section"
       id="go-to-register"
-      class="inline-flex items-center gap-1.5 pl-3 pr-0.5 py-0.5 rounded-full text-[0.65rem] md:text-[0.62rem] font-medium tracking-wide
-             bg-text/8 text-text/80 border border-text/15
+      class="inline-flex items-center gap-2 pl-4 pr-1 py-1 rounded-full text-sm md:text-xs font-semibold tracking-wide
+             bg-text/8 text-text/90 border border-text/15
              hover:border-text/30 hover:text-text hover:bg-text/12 transition-all duration-200 flex-shrink-0"
     >
       Reserva un Espacio
       <span
-        class="w-5 h-5 md:w-4 md:h-4 rounded-full bg-text/12 border border-text/20 flex items-center justify-center flex-shrink-0"
+        class="w-8 h-8 md:w-6 md:h-6 rounded-full bg-text/12 border border-text/20 flex items-center justify-center flex-shrink-0"
       >
         <svg
-          width="8"
-          height="8"
+          width="10"
+          height="10"
           viewBox="0 0 10 10"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -122,7 +122,7 @@ const company = CompanyDb as Company;
             d="M2 8L8 2M8 2H3.5M8 2V6.5"
             stroke="currentColor"
             class="text-text"
-            stroke-width="1.3"
+            stroke-width="1.5"
             stroke-linecap="round"
             stroke-linejoin="round"></path>
         </svg>
@@ -135,7 +135,6 @@ const company = CompanyDb as Company;
   import { logEvent } from "firebase/analytics";
   import { analytics } from "../../firebase/client";
 
-  // Lógica del botón de Firebase (original)
   const boton = document.getElementById("go-to-register");
   if (boton) {
     boton.addEventListener("click", () => {
@@ -146,22 +145,18 @@ const company = CompanyDb as Company;
     });
   }
 
-  // Lógica para desplegar el menú en móviles
   const menuToggle = document.getElementById("menu-toggle");
   const navContainer = document.getElementById("nav-links-container");
   const mobileLinks = document.querySelectorAll(".mobile-link");
 
   if (menuToggle && navContainer) {
-    // Abrir/Cerrar menú al tocar el icono de hamburguesa
     menuToggle.addEventListener("click", () => {
       navContainer.classList.toggle("hidden");
       navContainer.classList.toggle("flex");
     });
 
-    // Cerrar el menú automáticamente cuando se hace clic en un enlace
     mobileLinks.forEach((link) => {
       link.addEventListener("click", () => {
-        // Solo aplicar si estamos en vista móvil (menor a 768px por defecto en Tailwind)
         if (window.innerWidth < 768) {
           navContainer.classList.add("hidden");
           navContainer.classList.remove("flex");
