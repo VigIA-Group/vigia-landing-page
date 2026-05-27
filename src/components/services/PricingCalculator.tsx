@@ -1,6 +1,6 @@
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 
-const RATE = 10.2;
+const RATE = 10.4;
 
 const MOD_LIST = [
   { id: "01", label: "OCR y Códigos" },
@@ -123,7 +123,6 @@ export default function PricingCalculator() {
     );
   };
 
-  // Componente reutilizable para el label con el checkmark
   const SectionLabel = ({ text }: { text: string }) => (
     <div className="flex items-center gap-2 mb-3">
       <div className="w-4 h-4 rounded-full bg-text/15 border border-text/20 flex items-center justify-center flex-shrink-0">
@@ -156,9 +155,7 @@ export default function PricingCalculator() {
       </div>
 
       <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-16 items-start">
-        {/* LADO IZQUIERDO: CONTROLES */}
         <div className="flex flex-col w-full">
-          {/* Horario por Defecto */}
           <div className="mb-12">
             <SectionLabel text="Horario por defecto" />
             <div className="relative">
@@ -202,7 +199,6 @@ export default function PricingCalculator() {
             </p>
           </div>
 
-          {/* Lista de Cámaras */}
           <div className="space-y-12">
             {cameras.map((cam, index) => {
               const camDetails = totals.perCameraDetails.find(
@@ -211,7 +207,6 @@ export default function PricingCalculator() {
 
               return (
                 <div key={cam.id} className="relative flex flex-col gap-6">
-                  {/* Encabezado de la cámara */}
                   <div className="flex items-center justify-between pb-2 border-b border-text/5">
                     <div className="flex items-center gap-3">
                       <h3 className="text-lg font-display font-medium text-text m-0">
@@ -233,7 +228,6 @@ export default function PricingCalculator() {
                     )}
                   </div>
 
-                  {/* Horario Específico */}
                   <div>
                     <SectionLabel text="Horario de Monitoreo" />
                     <div className="relative">
@@ -279,7 +273,6 @@ export default function PricingCalculator() {
                     </div>
                   </div>
 
-                  {/* Módulos de la cámara */}
                   <div>
                     <SectionLabel text="Módulos Activos" />
                     <div className="flex flex-wrap gap-2.5">
@@ -327,12 +320,11 @@ export default function PricingCalculator() {
           </button>
         </div>
 
-        {/* LADO DERECHO: TARJETA DE PRECIO (Fija en Desktop) */}
         <div className="relative w-full lg:sticky lg:top-24 mt-8 lg:mt-0">
           <div className="hidden lg:block absolute top-6 -right-6 bottom-[-1.5rem] left-6 border-2 border-text/10 rounded-2xl z-0 pointer-events-none"></div>
 
           <div className="relative z-10 bg-text text-background rounded-2xl p-8 shadow-2xl flex flex-col items-start border border-text/20">
-            <div className="absolute top-6 right-6 flex bg-background/10 rounded-lg p-0.5 border border-background/20">
+            {/* <div className="absolute top-6 right-6 flex bg-background/10 rounded-lg p-0.5 border border-background/20">
               <button
                 onClick={() => setCurrency("bs")}
                 className={`px-3 py-1 text-[11px] font-bold rounded-md transition-colors ${
@@ -353,7 +345,7 @@ export default function PricingCalculator() {
               >
                 USD
               </button>
-            </div>
+            </div> */}
 
             <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-background/50 mb-4">
               Total Mensual Estimado
@@ -371,12 +363,12 @@ export default function PricingCalculator() {
               </span>
             </div>
 
-            <div className="text-xs font-mono text-background/60 mb-8 border border-background/20 px-3 py-1 rounded-full transition-all">
+            {/* <div className="text-xs font-mono text-background/60 mb-8 border border-background/20 px-3 py-1 rounded-full transition-all">
               ≈{" "}
               {currency === "usd"
                 ? `Bs ${totals.finalTotalBs.toFixed(2)}`
                 : `$ ${totals.finalTotalUsd.toFixed(2)} USD`}
-            </div>
+            </div> */}
 
             <div className="w-full space-y-3 pt-6 border-t border-background/15 text-[13px]">
               <span className="block text-[10px] font-bold uppercase tracking-widest text-background/40 mb-2">

@@ -35,13 +35,18 @@
   "socialMedia": [
     {
       "name": "Instagram",
-      "url": "https://www.instagram.com",
+      "url": "https://www.instagram.com/vigia.vision/",
       "icon": "/images/instagram.png"
     },
     {
       "name": "Tiktok",
-      "url": "https://www.tiktok.com",
+      "url": "https://www.tiktok.com/@vigia.vision",
       "icon": "/images/tiktok.png"
+    },
+    {
+      "name": "Facebook",
+      "url": "https://www.facebook.com/people/Vigia-Anal%C3%ADtica-de-Video/61590126478377",
+      "icon": "/images/facebook.png"
     }
   ]
 }
