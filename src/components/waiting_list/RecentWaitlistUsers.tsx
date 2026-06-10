@@ -18,7 +18,11 @@ const getAvatarColor = (email: string) => {
 };
 
 export default function RecentWaitlistUsers() {
-  const [recentUsers, setRecentUsers] = useState<string[]>([]);
+  const [recentUsers, setRecentUsers] = useState<string[]>([
+    "juan@mail.com",
+    "ana@mail.com",
+    "carlos@mail.com",
+  ]);
 
   useEffect(() => {
     const fetchWaitlist = async () => {
@@ -45,7 +49,7 @@ export default function RecentWaitlistUsers() {
     fetchWaitlist();
   }, []);
 
-  if (recentUsers.length === 0) return null;
+
 
   return (
     <div className="animate-item mt-8 flex items-center gap-3">
