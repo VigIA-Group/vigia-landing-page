@@ -24,7 +24,7 @@ export default function RecentWaitlistUsers() {
     const fetchWaitlist = async () => {
       try {
         const q = query(
-          collection(db, "waitlist"),
+          collection(db, "contacts"),
           orderBy("createdAt", "desc"),
           limit(5),
         );
