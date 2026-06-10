@@ -3,6 +3,7 @@ import waitingListBenefitsDb from "../../database/waitingListBenefits.json";
 import type { WaitingList } from "../../models/WaitingList";
 
 import WaitlistForm from "../waiting_list/WaitlistForm";
+import RecentWaitlistUsers from "../waiting_list/RecentWaitlistUsers";
 
 const waitingListBenefits = waitingListBenefitsDb as WaitingList;
 ---
@@ -11,5 +12,55 @@ const waitingListBenefits = waitingListBenefitsDb as WaitingList;
   id="waitlist-section"
   class="min-h-screen flex items-center justify-center p-4 relative z-10 bg-transparent"
 >
-  <WaitlistForm data={waitingListBenefits} client:load />
+  <div id="waitlist-container" class="max-w-5xl w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+    <div class="flex flex-col justify-center">
+      <h2 class="animate-item text-3xl font-display font-bold mb-3 text-text">
+        {waitingListBenefits.title}
+      </h2>
+      <p class="animate-item mb-6 text-sm text-muted">
+        {waitingListBenefits.description}
+      </p>
+
+      <ul class="animate-item space-y-3 text-sm text-text/85">
+        <li class="flex items-start gap-2">
+          <span class="text-primary mt-0.5">✓</span>
+          <span>{waitingListBenefits.benefit.priority_access}</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-primary mt-0.5">✓</span>
+          <span>{waitingListBenefits.benefit.discount}</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-primary mt-0.5">✓</span>
+          <span>{waitingListBenefits.benefit.exclusive_content}</span>
+        </li>
+      </ul>
+
+      <RecentWaitlistUsers client:load />
+    </div>
+
+    <WaitlistForm client:load />
+  </div>
 </section>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const container = document.querySelector("#waitlist-container");
+  if (container) {
+    gsap.from("#waitlist-container .animate-item", {
+      y: 40,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.15,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: container,
+        start: "top 85%",
+      },
+    });
+  }
+</script>
