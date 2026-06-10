@@ -2,4 +2,30 @@
 import PricingCalculator from "./PricingCalculator";
 ---
 
-<PricingCalculator client:load />
+<section
+  class="bg-background text-text py-24 px-6 relative overflow-hidden font-sans"
+>
+  <div
+    class="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/10 blur-[120px] rounded-full pointer-events-none -z-10"
+  >
+  </div>
+
+  <div class="max-w-5xl mx-auto mb-16 text-center">
+    <h2
+      class="text-4xl md:text-5xl font-display font-semibold mb-4 text-text tracking-tight"
+    >
+      Estima tus costos
+    </h2>
+    {
+      /* AJUSTE: Quitamos font-light y subimos contraste a text-base md:text-lg */
+    }
+    <p
+      class="text-base md:text-lg text-muted max-w-2xl mx-auto font-normal leading-relaxed"
+    >
+      Tu factura mensual dependerá de las cámaras conectadas y los módulos de IA
+      activos, sin sorpresas ni costos ocultos.
+    </p>
+  </div>
+
+  <PricingCalculator client:load />
+</section>
