@@ -102,30 +102,20 @@ export default function WaitlistForm() {
         createdAt: serverTimestamp(),
       });
 
-      // 2. Send to HubSpot via server-side proxy (avoids CORS)
-      const hubspotRes = await fetch("/api/hubspot", {
+      const res = await fetch("https://createcontact-jszmmxveuq-uc.a.run.app", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          properties: {
-            firstname: formData.firstname,
-            lastname: formData.lastname,
-            email: formData.email,
-            phone: fullPhone,
-            company: formData.company,
-            jobtitle: formData.jobtitle,
-            registration_source: "landing page",
-          },
+          firstname: formData.firstname,
+          lastname: formData.lastname,
+          email: formData.email,
+          phone: `+591${formData.phone}`,
+          company: formData.company,
+          jobtitle: formData.jobtitle,
         }),
       });
 
-      if (!hubspotRes.ok) {
-        const err = await hubspotRes.json().catch(() => ({}));
-        console.error("HubSpot error:", err);
-        // We don't throw here — Firebase already saved, HubSpot is best-effort.
-        // Remove the comment below if you want strict failure instead:
-        // throw new Error("HubSpot failed");
-      }
+      if (!res.ok) throw new Error("Error al registrar");
 
       setStatus("success");
       setFormData({
