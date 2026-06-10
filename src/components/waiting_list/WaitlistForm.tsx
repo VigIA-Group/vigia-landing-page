@@ -3,22 +3,31 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../../firebase/client";
 
 interface FormData {
-  phone: string;
+  firstname: string;
+  lastname: string;
   email: string;
-  sector: string;
+  phone: string;
+  company: string;
+  jobtitle: string;
 }
 
 interface FormErrors {
-  phone?: string;
+  firstname?: string;
+  lastname?: string;
   email?: string;
-  sector?: string;
+  phone?: string;
+  company?: string;
+  jobtitle?: string;
 }
 
 export default function WaitlistForm() {
   const [formData, setFormData] = useState<FormData>({
-    phone: "",
+    firstname: "",
+    lastname: "",
     email: "",
-    sector: "",
+    phone: "",
+    company: "",
+    jobtitle: "",
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [status, setStatus] = useState<
@@ -36,26 +45,33 @@ export default function WaitlistForm() {
   const validate = (): boolean => {
     const newErrors: FormErrors = {};
 
-    const phoneRegex = /^[67]\d{7}$/;
-    if (!formData.phone) newErrors.phone = "El número es requerido.";
-    else if (!phoneRegex.test(formData.phone))
-      newErrors.phone = "Ingrese celular válido (8 dígitos).";
+    if (!formData.firstname.trim())
+      newErrors.firstname = "El nombre es requerido.";
+
+    if (!formData.lastname.trim())
+      newErrors.lastname = "El apellido es requerido.";
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.email) newErrors.email = "El correo es requerido.";
     else if (!emailRegex.test(formData.email))
       newErrors.email = "Correo electrónico inválido.";
 
-    if (!formData.sector.trim()) newErrors.sector = "Describa su sector.";
-    else if (formData.sector.length < 5) newErrors.sector = "Muy corta.";
+    const phoneRegex = /^[67]\d{7}$/;
+    if (!formData.phone) newErrors.phone = "El número es requerido.";
+    else if (!phoneRegex.test(formData.phone))
+      newErrors.phone = "Ingrese celular válido (8 dígitos).";
+
+    if (!formData.company.trim())
+      newErrors.company = "La empresa es requerida.";
+
+    if (!formData.jobtitle.trim())
+      newErrors.jobtitle = "El cargo es requerido.";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     if (name === "phone" && value && !/^\d*$/.test(value)) return;
 
@@ -68,37 +84,78 @@ export default function WaitlistForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validate()) {
-      return;
-    }
+    if (!validate()) return;
 
     setStatus("loading");
 
-    const payload = {
-      phone: `+591${formData.phone}`,
-      email: formData.email,
-      sector: formData.sector,
-      createdAt: serverTimestamp(),
-    };
+    const fullPhone = `+591 ${formData.phone}`;
 
     try {
-      await addDoc(collection(db, "waitlist"), payload);
+      // 1. Save to Firebase "contacts" collection
+      await addDoc(collection(db, "contacts"), {
+        firstname: formData.firstname,
+        lastname: formData.lastname,
+        email: formData.email,
+        phone: fullPhone,
+        company: formData.company,
+        jobtitle: formData.jobtitle,
+        createdAt: serverTimestamp(),
+      });
+
+      // 2. Send to HubSpot via server-side proxy (avoids CORS)
+      const hubspotRes = await fetch("/api/hubspot", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          properties: {
+            firstname: formData.firstname,
+            lastname: formData.lastname,
+            email: formData.email,
+            phone: fullPhone,
+            company: formData.company,
+            jobtitle: formData.jobtitle,
+            registration_source: "landing page",
+          },
+        }),
+      });
+
+      if (!hubspotRes.ok) {
+        const err = await hubspotRes.json().catch(() => ({}));
+        console.error("HubSpot error:", err);
+        // We don't throw here — Firebase already saved, HubSpot is best-effort.
+        // Remove the comment below if you want strict failure instead:
+        // throw new Error("HubSpot failed");
+      }
 
       setStatus("success");
-      setFormData({ phone: "", email: "", sector: "" });
+      setFormData({
+        firstname: "",
+        lastname: "",
+        email: "",
+        phone: "",
+        company: "",
+        jobtitle: "",
+      });
     } catch (error: any) {
-      console.error("❌ 5. ERROR CRÍTICO AL GUARDAR EN FIREBASE:");
-      console.error("-> Código del error:", error.code);
-      console.error("-> Mensaje:", error.message);
-      console.error("-> Objeto de error completo:", error);
+      console.error("Error al guardar contacto:", error);
       setStatus("error");
     }
   };
 
+  const inputClass = (field: keyof FormErrors) =>
+    `w-full px-3 py-1.5 text-sm rounded-lg outline-none transition-colors bg-surface/20 text-text border ${
+      errors[field] ? "border-danger" : "border-primary/30 focus:border-primary"
+    }`;
+
   return (
     <div className="animate-item w-full max-w-md mx-auto p-4 md:p-4 rounded-2xl border border-primary/20 backdrop-blur-sm relative overflow-hidden bg-transparent">
+      {/* Success banner */}
       <div
-        className={`absolute top-0 left-0 w-full p-3 flex flex-col items-center justify-center bg-surface z-20 transition-all duration-500 ease-in-out border-b border-primary ${status === "success" ? "translate-y-0 opacity-100" : "-translate-y-full opacity-0"}`}
+        className={`absolute top-0 left-0 w-full p-3 flex flex-col items-center justify-center bg-surface z-20 transition-all duration-500 ease-in-out border-b border-primary ${
+          status === "success"
+            ? "translate-y-0 opacity-100"
+            : "-translate-y-full opacity-0"
+        }`}
       >
         <div className="w-7 h-7 mb-1 rounded-full flex items-center justify-center bg-primary/20 text-primary">
           <svg
@@ -121,6 +178,68 @@ export default function WaitlistForm() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-3">
+        {/* Nombre + Apellido — 2 columns */}
+        <div className="grid grid-cols-2 gap-2">
+          <div>
+            <label className="block text-[13px] font-medium mb-0.5 text-text">
+              Nombre
+            </label>
+            <input
+              type="text"
+              name="firstname"
+              value={formData.firstname}
+              onChange={handleChange}
+              placeholder="Jane"
+              className={inputClass("firstname")}
+            />
+            {errors.firstname && (
+              <p className="mt-0.5 text-[11px] text-danger-light">
+                {errors.firstname}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-[13px] font-medium mb-0.5 text-text">
+              Apellido
+            </label>
+            <input
+              type="text"
+              name="lastname"
+              value={formData.lastname}
+              onChange={handleChange}
+              placeholder="Doe"
+              className={inputClass("lastname")}
+            />
+            {errors.lastname && (
+              <p className="mt-0.5 text-[11px] text-danger-light">
+                {errors.lastname}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Email — full width */}
+        <div>
+          <label className="block text-[13px] font-medium mb-0.5 text-text">
+            Correo Electrónico
+          </label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="tu@empresa.com"
+            className={inputClass("email")}
+          />
+          {errors.email && (
+            <p className="mt-0.5 text-[11px] text-danger-light">
+              {errors.email}
+            </p>
+          )}
+        </div>
+
+        {/* Phone — full width with prefix */}
         <div>
           <label className="block text-[13px] font-medium mb-0.5 text-text">
             Número de Celular
@@ -137,7 +256,11 @@ export default function WaitlistForm() {
               value={formData.phone}
               onChange={handleChange}
               placeholder="71234567"
-              className={`w-full pl-[76px] pr-3 py-1.5 text-sm rounded-lg outline-none transition-colors bg-surface/20 text-text border ${errors.phone ? "border-danger" : "border-primary/30 focus:border-primary"}`}
+              className={`w-full pl-[76px] pr-3 py-1.5 text-sm rounded-lg outline-none transition-colors bg-surface/20 text-text border ${
+                errors.phone
+                  ? "border-danger"
+                  : "border-primary/30 focus:border-primary"
+              }`}
             />
           </div>
           {errors.phone && (
@@ -147,44 +270,48 @@ export default function WaitlistForm() {
           )}
         </div>
 
-        <div>
-          <label className="block text-[13px] font-medium mb-0.5 text-text">
-            Correo Electrónico
-          </label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="tu@empresa.com"
-            className={`w-full px-3 py-1.5 text-sm rounded-lg outline-none transition-colors bg-surface/20 text-text border ${errors.email ? "border-danger" : "border-primary/30 focus:border-primary"}`}
-          />
-          {errors.email && (
-            <p className="mt-0.5 text-[11px] text-danger-light">
-              {errors.email}
-            </p>
-          )}
+        {/* Empresa + Cargo — 2 columns */}
+        <div className="grid grid-cols-2 gap-2">
+          <div>
+            <label className="block text-[13px] font-medium mb-0.5 text-text">
+              Empresa
+            </label>
+            <input
+              type="text"
+              name="company"
+              value={formData.company}
+              onChange={handleChange}
+              placeholder="Acme S.A."
+              className={inputClass("company")}
+            />
+            {errors.company && (
+              <p className="mt-0.5 text-[11px] text-danger-light">
+                {errors.company}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label className="block text-[13px] font-medium mb-0.5 text-text">
+              Cargo
+            </label>
+            <input
+              type="text"
+              name="jobtitle"
+              value={formData.jobtitle}
+              onChange={handleChange}
+              placeholder="CEO"
+              className={inputClass("jobtitle")}
+            />
+            {errors.jobtitle && (
+              <p className="mt-0.5 text-[11px] text-danger-light">
+                {errors.jobtitle}
+              </p>
+            )}
+          </div>
         </div>
 
-        <div>
-          <label className="block text-[13px] font-medium mb-0.5 text-text">
-            Sector o Industria
-          </label>
-          <textarea
-            name="sector"
-            value={formData.sector}
-            onChange={handleChange}
-            placeholder="Ej. Retail, Minería..."
-            rows={1}
-            className={`w-full px-3 py-1.5 text-sm rounded-lg outline-none transition-colors resize-none bg-surface/20 text-text border ${errors.sector ? "border-danger" : "border-primary/30 focus:border-primary"}`}
-          />
-          {errors.sector && (
-            <p className="mt-0.5 text-[11px] text-danger-light">
-              {errors.sector}
-            </p>
-          )}
-        </div>
-
+        {/* Error general */}
         {status === "error" && (
           <p className="text-[11px] text-danger-light bg-danger-light/10 p-2 rounded-lg">
             Hubo un problema de conexión. Por favor, intenta de nuevo.
@@ -209,12 +336,12 @@ export default function WaitlistForm() {
                 r="10"
                 stroke="currentColor"
                 strokeWidth="4"
-              ></circle>
+              />
               <path
                 className="opacity-75"
                 fill="currentColor"
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-              ></path>
+              />
             </svg>
           ) : (
             "Reserva un Espacio"
