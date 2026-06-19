@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../../firebase/client";
+import { splitFullName } from "../../utils/NameSplitter";
 
 interface FormData {
-  firstname: string;
-  lastname: string;
+  fullname: string;
   email: string;
   phone: string;
   company: string;
@@ -12,8 +12,7 @@ interface FormData {
 }
 
 interface FormErrors {
-  firstname?: string;
-  lastname?: string;
+  fullname?: string;
   email?: string;
   phone?: string;
   company?: string;
@@ -22,8 +21,7 @@ interface FormErrors {
 
 export default function WaitlistForm() {
   const [formData, setFormData] = useState<FormData>({
-    firstname: "",
-    lastname: "",
+    fullname: "",
     email: "",
     phone: "",
     company: "",
@@ -45,11 +43,8 @@ export default function WaitlistForm() {
   const validate = (): boolean => {
     const newErrors: FormErrors = {};
 
-    if (!formData.firstname.trim())
-      newErrors.firstname = "El nombre es requerido.";
-
-    if (!formData.lastname.trim())
-      newErrors.lastname = "El apellido es requerido.";
+    if (!formData.fullname.trim())
+      newErrors.fullname = "El nombre completo es requerido.";
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!formData.email) newErrors.email = "El correo es requerido.";
@@ -63,9 +58,6 @@ export default function WaitlistForm() {
 
     if (!formData.company.trim())
       newErrors.company = "La empresa es requerida.";
-
-    if (!formData.jobtitle.trim())
-      newErrors.jobtitle = "El cargo es requerido.";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -89,16 +81,17 @@ export default function WaitlistForm() {
     setStatus("loading");
 
     const fullPhone = `+591 ${formData.phone}`;
+    const { firstNames, lastNames } = splitFullName(formData.fullname);
+    const finalJobTitle = formData.jobtitle.trim() || "No especificado";
 
     try {
-      // 1. Save to Firebase "contacts" collection
       await addDoc(collection(db, "contacts"), {
-        firstname: formData.firstname,
-        lastname: formData.lastname,
+        firstname: firstNames,
+        lastname: lastNames,
         email: formData.email,
         phone: fullPhone,
         company: formData.company,
-        jobtitle: formData.jobtitle,
+        jobtitle: finalJobTitle,
         createdAt: serverTimestamp(),
       });
 
@@ -106,12 +99,12 @@ export default function WaitlistForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          firstname: formData.firstname,
-          lastname: formData.lastname,
+          firstname: firstNames,
+          lastname: lastNames,
           email: formData.email,
           phone: `+591${formData.phone}`,
           company: formData.company,
-          jobtitle: formData.jobtitle,
+          jobtitle: finalJobTitle,
         }),
       });
 
@@ -119,8 +112,7 @@ export default function WaitlistForm() {
 
       setStatus("success");
       setFormData({
-        firstname: "",
-        lastname: "",
+        fullname: "",
         email: "",
         phone: "",
         company: "",
@@ -139,7 +131,6 @@ export default function WaitlistForm() {
 
   return (
     <div className="animate-item w-full max-w-md mx-auto p-4 md:p-4 rounded-2xl border border-primary/20 backdrop-blur-sm relative overflow-hidden bg-transparent text-left">
-      {/* Success banner */}
       <div
         className={`absolute top-0 left-0 w-full p-3 flex flex-col items-center justify-center bg-surface z-20 transition-all duration-500 ease-in-out border-b border-primary ${
           status === "success"
@@ -168,48 +159,25 @@ export default function WaitlistForm() {
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-3">
-        {/* Nombre + Apellido — 2 columns */}
-        <div className="grid grid-cols-2 gap-2">
-          <div>
-            <label className="block text-[13px] font-medium mb-0.5 text-text">
-              Nombre
-            </label>
-            <input
-              type="text"
-              name="firstname"
-              value={formData.firstname}
-              onChange={handleChange}
-              placeholder="Jane"
-              className={inputClass("firstname")}
-            />
-            {errors.firstname && (
-              <p className="mt-0.5 text-[11px] text-danger-light">
-                {errors.firstname}
-              </p>
-            )}
-          </div>
-
-          <div>
-            <label className="block text-[13px] font-medium mb-0.5 text-text">
-              Apellido
-            </label>
-            <input
-              type="text"
-              name="lastname"
-              value={formData.lastname}
-              onChange={handleChange}
-              placeholder="Doe"
-              className={inputClass("lastname")}
-            />
-            {errors.lastname && (
-              <p className="mt-0.5 text-[11px] text-danger-light">
-                {errors.lastname}
-              </p>
-            )}
-          </div>
+        <div>
+          <label className="block text-[13px] font-medium mb-0.5 text-text">
+            Nombre Completo
+          </label>
+          <input
+            type="text"
+            name="fullname"
+            value={formData.fullname}
+            onChange={handleChange}
+            placeholder="Jane Doe"
+            className={inputClass("fullname")}
+          />
+          {errors.fullname && (
+            <p className="mt-0.5 text-[11px] text-danger-light">
+              {errors.fullname}
+            </p>
+          )}
         </div>
 
-        {/* Email — full width */}
         <div>
           <label className="block text-[13px] font-medium mb-0.5 text-text">
             Correo Electrónico
@@ -229,7 +197,6 @@ export default function WaitlistForm() {
           )}
         </div>
 
-        {/* Phone — full width with prefix */}
         <div>
           <label className="block text-[13px] font-medium mb-0.5 text-text">
             Número de Celular
@@ -260,7 +227,6 @@ export default function WaitlistForm() {
           )}
         </div>
 
-        {/* Empresa + Cargo — 2 columns */}
         <div className="grid grid-cols-2 gap-2">
           <div>
             <label className="block text-[13px] font-medium mb-0.5 text-text">
@@ -290,7 +256,7 @@ export default function WaitlistForm() {
               name="jobtitle"
               value={formData.jobtitle}
               onChange={handleChange}
-              placeholder="CEO"
+              placeholder="Gerente"
               className={inputClass("jobtitle")}
             />
             {errors.jobtitle && (
@@ -301,7 +267,6 @@ export default function WaitlistForm() {
           </div>
         </div>
 
-        {/* Error general */}
         {status === "error" && (
           <p className="text-[11px] text-danger-light bg-danger-light/10 p-2 rounded-lg">
             Hubo un problema de conexión. Por favor, intenta de nuevo.
