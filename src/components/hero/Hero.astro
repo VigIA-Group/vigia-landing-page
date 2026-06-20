@@ -130,7 +130,7 @@ const services = ServicesDb as Services;
 
           if (videos.length > 0) {
             videoEl.src = videos[currentVideoIndex];
-            videoEl.playbackRate = 1.3;
+            videoEl.playbackRate = 1;
             videoEl.play().catch((e) => console.warn("Autoplay bloqueado:", e));
 
             videoEl.addEventListener("ended", () => {
