@@ -3,16 +3,16 @@ import ServicesDb from "../../database/services.json";
 import type { Services } from "../../models/Service";
 import CompanyDb from "../../database/company.json";
 import type { Company } from "../../models/Company";
-import waitingListBenefitsDb from "../../database/waitingListBenefits.json";
-import type { WaitingList } from "../../models/WaitingList";
+import contactCallActionsDb from "../../database/contactCallActions.json";
+import type { ContactCallActions } from "../../models/ContactCallActions";
 
 import ShaderBackground from "../hero/ShaderBackground";
-import WaitlistForm from "../waiting_list/WaitlistForm";
+import ContactsForm from "../contacts/ContactsForm";
 import Footer from "../navigation/Footer.astro";
 
 const services = ServicesDb as Services;
 const company = CompanyDb as Company;
-const waitingListBenefits = waitingListBenefitsDb as WaitingList;
+const contactCallActions = contactCallActionsDb as ContactCallActions;
 
 const GRID_COUNT = Math.max(6, services.length);
 const FEAT_HEIGHT = 520;
@@ -272,7 +272,7 @@ const clientData = JSON.stringify(
     id="waitlist-section"
     class="min-h-screen flex items-center justify-center p-4 relative z-10 bg-transparent"
   >
-    <WaitlistForm data={waitingListBenefits} client:load />
+    <ContactsForm client:load />
   </section>
   <Footer />
 </div>

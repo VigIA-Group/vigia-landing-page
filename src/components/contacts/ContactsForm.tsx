@@ -19,7 +19,7 @@ interface FormErrors {
   jobtitle?: string;
 }
 
-export default function WaitlistForm() {
+export default function ContactsForm() {
   const [formData, setFormData] = useState<FormData>({
     fullname: "",
     email: "",

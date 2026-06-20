@@ -49,8 +49,6 @@ export default function RecentWaitlistUsers() {
     fetchWaitlist();
   }, []);
 
-
-
   return (
     <div className="animate-item mt-8 flex items-center gap-3">
       <div className="flex -space-x-3">

@@ -1,0 +1,75 @@
+---
+import contactCallActionsDb from "../../database/contactCallActions.json";
+import type { ContactCallActions } from "../../models/ContactCallActions";
+import RecentWaitlistUsers from "./RecentContacts";
+import ContactsForm from "./ContactsForm";
+
+const contactCallActions = contactCallActionsDb as ContactCallActions;
+---
+
+<section
+  class="bg-background text-text py-24 px-6 relative overflow-hidden font-sans"
+>
+  <div
+    class="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-primary/10 blur-[120px] rounded-full pointer-events-none -z-10"
+  >
+  </div>
+
+  <div
+    id="waitlist-container"
+    class="max-w-3xl w-full mx-auto flex flex-col gap-10 items-center text-center"
+  >
+    <div class="flex flex-col items-center">
+      <h2
+        class="animate-item text-4xl md:text-5xl font-display font-bold mb-4 text-text leading-tight"
+      >
+        {contactCallActions.title}
+      </h2>
+      <p class="animate-item mb-8 text-base md:text-lg text-muted max-w-xl">
+        {contactCallActions.description}
+      </p>
+
+      <ul
+        class="animate-item space-y-4 text-base md:text-lg text-left w-full max-w-lg"
+      >
+        {
+          contactCallActions.benefits.map((benefit) => (
+            <li class="flex items-start gap-3">
+              <span class="text-primary mt-0.5 font-bold">✓</span>
+              <span>{benefit}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="animate-item">
+        <RecentWaitlistUsers client:visible />
+      </div>
+    </div>
+
+    <div class="w-full max-w-lg">
+      <ContactsForm client:visible />
+    </div>
+  </div>
+</section>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const container = document.querySelector("#waitlist-container");
+  if (container) {
+    gsap.from("#waitlist-container .animate-item", {
+      y: 40,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.15,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: container,
+        start: "top 85%",
+      },
+    });
+  }
+</script>
