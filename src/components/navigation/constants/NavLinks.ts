@@ -11,15 +11,19 @@ export const NAV_LINKS = [
     href: LANDING_ROUTES.services,
   },
   {
-    name: "¿Por qué nosotros?",
+    name: "Precios",
+    href: PRICE_ROUTES.calculator,
+  },
+  {
+    name: "Logo",
     href: LANDING_ROUTES.whyToUse,
   },
   {
-    name: "Contacto",
-    href: LANDING_ROUTES.footer,
+    name: "¿Por qué VigIA?",
+    href: LANDING_ROUTES.whyToUse,
   },
   {
-    name: "Precios",
-    href: PRICE_ROUTES.calculator,
+    name: "Nosotros",
+    href: LANDING_ROUTES.footer,
   },
 ];
