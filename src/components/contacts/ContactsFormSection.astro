@@ -1,0 +1,65 @@
+---
+import contactCallActionsDb from "../../database/contactCallActions.json";
+import type { ContactCallActions } from "../../models/ContactCallActions";
+
+import ContactsForm from "./ContactsForm";
+import RecentWaitlistUsers from "./RecentContacts";
+
+const contactCallActions = contactCallActionsDb as ContactCallActions;
+---
+
+<section
+  id="waitlist-section"
+  class="min-h-screen flex items-center justify-center p-4 relative z-10 bg-transparent"
+>
+  <div
+    id="waitlist-container"
+    class="max-w-5xl w-full mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center"
+  >
+    <div class="flex flex-col justify-center">
+      <h2 class="animate-item text-3xl font-display font-bold mb-3 text-text">
+        {contactCallActions.title}
+      </h2>
+      <p class="animate-item mb-6 text-sm text-muted">
+        {contactCallActions.description}
+      </p>
+
+      <ul class="animate-item space-y-3 text-sm text-text/85">
+        {
+          contactCallActions.benefits.map((benefit) => (
+            <li class="flex items-start gap-2">
+              <span class="text-primary mt-0.5">✓</span>
+              <span>{benefit}</span>
+            </li>
+          ))
+        }
+      </ul>
+
+      <RecentWaitlistUsers client:load />
+    </div>
+
+    <ContactsForm client:load />
+  </div>
+</section>
+
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const container = document.querySelector("#waitlist-container");
+  if (container) {
+    gsap.from("#waitlist-container .animate-item", {
+      y: 40,
+      opacity: 0,
+      duration: 0.8,
+      stagger: 0.15,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: container,
+        start: "top 85%",
+      },
+    });
+  }
+</script>
