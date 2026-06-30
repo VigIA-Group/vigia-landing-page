@@ -1,14 +1,9 @@
 ---
 import CompanyDb from "../../database/company.json";
 import type { Company } from "../../models/Company";
-
-import ServicesDb from "../../database/services.json";
-import type { Services } from "../../models/Service";
 import ContactCallActionButton from "../contacts/ContactCallActionButton.astro";
-import DownArrow from "../../icons/DownArrow.astro";
 
 const company: Company = CompanyDb;
-const services = ServicesDb as Services;
 ---
 
 <section
@@ -17,7 +12,7 @@ const services = ServicesDb as Services;
 >
   <video
     id="hero-video"
-    class="absolute top-1/2 left-1/2 w-[98%] h-[95%] -translate-x-1/2 -translate-y-1/2 object-cover object-top rounded-2xl z-0"
+    class="absolute inset-0 w-full h-full object-cover object-top z-0"
     muted
     playsinline
     data-videos={JSON.stringify(company.videos)}
@@ -26,186 +21,82 @@ const services = ServicesDb as Services;
 
   <div class="absolute inset-0 z-10 pointer-events-none">
     <div
-      class="absolute inset-0 bg-gradient-to-b from-background/30 via-transparent to-background/85"
+      class="absolute inset-0 bg-gradient-to-b from-background/70 via-transparent to-background/80"
     >
     </div>
     <div
       class="absolute inset-0 bg-gradient-to-r from-background/40 via-transparent to-background/40"
     >
     </div>
-    <div class="absolute inset-0 bg-background/50 md:hidden"></div>
+    <div class="absolute inset-0 bg-background/90 md:hidden"></div>
   </div>
 
   <div
-    class="hidden md:grid absolute z-20 bottom-0 left-0 right-0 h-[42%] grid-cols-[25%_50%_25%] items-end [padding-left:clamp(1.5rem,3vw,3rem)] [padding-right:clamp(1.5rem,3vw,3rem)] pb-12 gap-0"
+    class="absolute z-20 bottom-2 md:bottom-6 left-6 md:left-[clamp(1.5rem,3vw,3rem)] right-6 md:right-[clamp(1.5rem,3vw,3rem)] flex flex-col md:flex-row items-start md:items-end justify-between gap-6 pointer-events-auto pb-4 md:pb-12"
   >
-    <div class="flex flex-col items-start justify-end gap-2 pr-6">
+    <div class="flex flex-col items-start justify-end gap-3 md:gap-4 max-w-2xl">
       <img
         src={company.logos.iconTitleRow}
         alt={`Logo de ${company.name}`}
-        class="hero-logo w-36 md:w-36 lg:w-44 h-auto"
+        class="hero-logo w-48 md:w-56 lg:w-72 h-auto"
       />
+
       <p
-        class="hero-slogan text-base md:text-xl lg:text-1xl font-semibold leading-snug text-text/90 m-0 tracking-tight"
+        class="hero-slogan text-xl md:text-3xl lg:text-5xl font-semibold leading-snug text-text/90 m-0 tracking-tight text-left"
       >
         La diferencia entre mirar y
         <strong class="text-[var(--color-primary)]">entender</strong>
       </p>
-    </div>
 
-    <div
-      onclick="document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })"
-      class="hero-center flex flex-col items-center justify-end gap-3 cursor-pointer group"
-    >
-      <DownArrow />
-      <div class="flex flex-col items-center text-center gap-[3px]">
-        {
-          services.map((service) => (
-            <span class="block text-[0.6rem] md:text-[0.65rem] font-light uppercase tracking-[0.18em] text-text/55 group-hover:text-text/80 transition-colors leading-tight">
-              {service.serviceName}
-            </span>
-          ))
-        }
-      </div>
-    </div>
-
-    <div class="flex flex-col items-start justify-end gap-4 pl-6">
       <p
-        class="hero-description text-sm md:text-base font-normal text-text/80 leading-relaxed m-0"
+        class="hero-description text-base md:text-lg font-normal text-text/80 leading-relaxed m-0 text-left"
       >
         {company.shortDescription}
       </p>
+    </div>
 
+    <div class="hero-cta flex-shrink-0 mt-2 md:mt-0">
       <ContactCallActionButton size="lg" />
     </div>
   </div>
 
-  <div
-    class="flex md:hidden absolute z-20 inset-0 flex-col items-center justify-center px-6 gap-4"
-  >
-    <img
-      src={company.logos.iconTitleRow}
-      alt={`Logo de ${company.name}`}
-      class="hero-logo-mobile w-36 h-auto"
-    />
-    <p
-      class="hero-slogan-mobile text-sm font-semibold leading-snug text-text/90 m-0 tracking-tight text-center"
-    >
-      {company.slogan}
-    </p>
-    <p
-      class="hero-description-mobile text-[0.7rem] font-light text-text/70 leading-relaxed m-0 text-center max-w-[260px]"
-    >
-      {company.shortDescription}
-    </p>
+  <script>
+    import gsap from "gsap";
 
-    <ContactCallActionButton size="md" />
-    <div
-      onclick="document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' })"
-      class="hero-center-mobile flex flex-col items-center gap-2 cursor-pointer group mt-2"
-    >
-      <div
-        class="flex flex-row flex-wrap items-center justify-center gap-x-3 gap-y-0.5"
-      >
-        {
-          services.map((service) => (
-            <span class="text-[0.55rem] font-light uppercase tracking-[0.18em] text-text/50 group-hover:text-text/75 transition-colors leading-tight">
-              {service.serviceName}
-            </span>
-          ))
-        }
-      </div>
-      <DownArrow />
-    </div>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Lógica del Video
+      const videoEl = document.getElementById("hero-video") as HTMLVideoElement;
+      if (videoEl) {
+        const videos: string[] = JSON.parse(videoEl.dataset.videos || "[]");
+        let currentVideoIndex = 0;
 
-    <script>
-      import gsap from "gsap";
+        if (videos.length > 0) {
+          videoEl.src = videos[currentVideoIndex];
+          videoEl.playbackRate = 1;
+          videoEl.play().catch((e) => console.warn("Autoplay bloqueado:", e));
 
-      document.addEventListener("DOMContentLoaded", () => {
-        const videoEl = document.getElementById(
-          "hero-video",
-        ) as HTMLVideoElement;
-        if (videoEl) {
-          const videos: string[] = JSON.parse(videoEl.dataset.videos || "[]");
-          let currentVideoIndex = 0;
-
-          if (videos.length > 0) {
+          videoEl.addEventListener("ended", () => {
+            currentVideoIndex = (currentVideoIndex + 1) % videos.length;
             videoEl.src = videos[currentVideoIndex];
-            videoEl.playbackRate = 1;
-            videoEl.play().catch((e) => console.warn("Autoplay bloqueado:", e));
-
-            videoEl.addEventListener("ended", () => {
-              currentVideoIndex = (currentVideoIndex + 1) % videos.length;
-              videoEl.src = videos[currentVideoIndex];
-              videoEl.play();
-            });
-          }
-        }
-
-        const isMobile = window.innerWidth < 768;
-
-        if (isMobile) {
-          gsap.set(
-            [
-              ".hero-logo-mobile",
-              ".hero-slogan-mobile",
-              ".hero-description-mobile",
-              "#hero-cta-btn-mobile",
-              ".hero-center-mobile",
-            ],
-            { opacity: 0, visibility: "visible" },
-          );
-
-          const tl = gsap.timeline({
-            defaults: { ease: "power3.out", duration: 1.2 },
-          });
-          tl.to(".hero-logo-mobile", { opacity: 1, duration: 1.2, delay: 0.2 })
-            .to(".hero-slogan-mobile", { opacity: 1, duration: 1.2 }, "-=1")
-            .to(
-              ".hero-description-mobile",
-              { opacity: 1, duration: 1.2 },
-              "-=1",
-            )
-            .to("#hero-cta-btn-mobile", { opacity: 1, duration: 1.0 }, "-=0.9")
-            .to(".hero-center-mobile", { opacity: 1, duration: 1.0 }, "-=0.8");
-
-          gsap.to(".scroll-arrow-mobile", {
-            y: 6,
-            duration: 1.5,
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut",
-          });
-        } else {
-          gsap.set(
-            [
-              ".hero-logo",
-              ".hero-slogan",
-              ".hero-center",
-              ".hero-description",
-              "#hero-cta-btn",
-            ],
-            { opacity: 0, visibility: "visible" },
-          );
-
-          const tl = gsap.timeline({
-            defaults: { ease: "power3.out", duration: 1.2 },
-          });
-          tl.to(".hero-logo", { y: 0, opacity: 1, duration: 1.2, delay: 0.2 })
-            .to(".hero-slogan", { y: 0, opacity: 1, duration: 1.2 }, "-=1")
-            .to(".hero-center", { y: 0, opacity: 1, duration: 1.2 }, "-=1")
-            .to(".hero-description", { y: 0, opacity: 1, duration: 1.2 }, "-=1")
-            .to("#hero-cta-btn", { y: 0, opacity: 1, duration: 1.0 }, "-=0.9");
-
-          gsap.to(".scroll-arrow", {
-            y: 10,
-            duration: 1.5,
-            repeat: -1,
-            yoyo: true,
-            ease: "sine.inOut",
+            videoEl.play();
           });
         }
+      }
+
+      // Lógica de Animación GSAP Unificada
+      gsap.set(
+        [".hero-logo", ".hero-slogan", ".hero-description", ".hero-cta"],
+        { y: 20, opacity: 0, visibility: "visible" },
+      );
+
+      const tl = gsap.timeline({
+        defaults: { ease: "power3.out", duration: 1.2 },
       });
-    </script>
-  </div>
+
+      tl.to(".hero-logo", { y: 0, opacity: 1, duration: 1.2, delay: 0.2 })
+        .to(".hero-slogan", { y: 0, opacity: 1, duration: 1.2 }, "-=1")
+        .to(".hero-description", { y: 0, opacity: 1, duration: 1.2 }, "-=1")
+        .to(".hero-cta", { y: 0, opacity: 1, duration: 1.0 }, "-=0.9");
+    });
+  </script>
 </section>
