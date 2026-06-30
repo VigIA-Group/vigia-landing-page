@@ -168,7 +168,7 @@ export default function ContactsForm() {
             name="fullname"
             value={formData.fullname}
             onChange={handleChange}
-            placeholder="Jane Doe"
+            placeholder="Daniel Paredes"
             className={inputClass("fullname")}
           />
           {errors.fullname && (
