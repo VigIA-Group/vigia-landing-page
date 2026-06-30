@@ -8,19 +8,62 @@ interface Props {
 const { size = "md" } = Astro.props;
 
 const sizeClasses = {
-  sm: "pl-3 pr-0.5 py-0.5 text-xs gap-1.5",
-  md: "pl-4 pr-1 py-1 text-sm gap-2",
-  lg: "pl-5 pr-1.5 py-1.5 text-base gap-2.5",
+  sm: "px-3.5 py-0.5 text-xs",
+  md: "px-5 py-1 text-sm",
+  lg: "px-6 py-2 text-base",
 };
 ---
 
 <a
   href={CONTACT_ROUTES.form}
   id="go-to-register"
-  class={`inline-flex items-center rounded-full font-semibold tracking-wide
-    bg-text/8 text-text/90 border border-text/15
-    hover:border-text/30 hover:text-text hover:bg-text/12 transition-all duration-200 flex-shrink-0
+  class={`cta-gradient inline-flex items-center rounded-full font-semibold tracking-wide
+    text-white shadow-lg transition-all duration-300
+    hover:scale-[1.02] hover:shadow-xl
+    active:scale-[0.98]
+    flex-shrink-0
     ${sizeClasses[size]}`}
 >
-  Reserva un Espacio
+  Agendar Demo
 </a>
+
+<style>
+  .cta-gradient {
+    background: linear-gradient(135deg, #02209a, #0a4ce8, #056efa, #2198f4);
+
+    background-size: 200% 200%;
+
+    animation:
+      gradient-flow 6s ease infinite,
+      pulse-glow 4s ease-in-out infinite;
+
+    color: white;
+  }
+
+  @keyframes gradient-flow {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  @keyframes pulse-glow {
+    0%,
+    100% {
+      box-shadow:
+        0 0 0 0 rgba(5, 110, 250, 0.4),
+        0 8px 20px rgba(2, 32, 154, 0.25);
+    }
+
+    50% {
+      box-shadow:
+        0 0 0 10px rgba(5, 110, 250, 0),
+        0 12px 30px rgba(33, 152, 244, 0.4);
+    }
+  }
+</style>
