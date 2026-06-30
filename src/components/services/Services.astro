@@ -27,29 +27,6 @@ const services = ServicesDb as Services;
               <p class="service-anim-text text-base md:text-xl font-light text-text/80 leading-relaxed m-0 max-w-2xl">
                 {service.description}
               </p>
-
-              <div
-                class="service-anim-text mt-8 flex items-center gap-4 text-text/60 cursor-pointer nav-btn"
-                data-target-index="1"
-              >
-                <span class="text-xs md:text-sm tracking-[0.15em] uppercase hover:text-text transition-colors">
-                  Ver Detalles
-                </span>
-                <div class="w-16 h-[1px] bg-text/30" />
-                <svg
-                  class="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="1.5"
-                    d="M17 8l4 4m0 0l-4 4m4-4H3"
-                  />
-                </svg>
-              </div>
             </div>
           </div>
 
@@ -70,54 +47,6 @@ const services = ServicesDb as Services;
                     <p class="feature-anim-text text-sm md:text-base font-light text-text/70 leading-relaxed m-0">
                       {feature.description}
                     </p>
-
-                    <div class="feature-anim-text flex gap-6 mt-4 lg:mt-8">
-                      <button
-                        class="nav-btn group flex items-center gap-2 text-text/50 hover:text-text transition-colors"
-                        data-target-index={panelIndex - 1}
-                      >
-                        <svg
-                          class="w-4 h-4 transform group-hover:-translate-x-1 transition-transform"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="1.5"
-                            d="M15 19l-7-7 7-7"
-                          />
-                        </svg>
-                        <span class="text-xs tracking-widest uppercase">
-                          Anterior
-                        </span>
-                      </button>
-
-                      {!isLastPanel && (
-                        <button
-                          class="nav-btn group flex items-center gap-2 text-text/50 hover:text-text transition-colors"
-                          data-target-index={panelIndex + 1}
-                        >
-                          <span class="text-xs tracking-widest uppercase">
-                            Siguiente
-                          </span>
-                          <svg
-                            class="w-4 h-4 transform group-hover:translate-x-1 transition-transform"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="1.5"
-                              d="M9 5l7 7-7 7"
-                            />
-                          </svg>
-                        </button>
-                      )}
-                    </div>
                   </div>
 
                   <div class="flex flex-row items-center justify-center gap-3 md:gap-6 lg:gap-12 w-full lg:w-auto h-[35vh] md:h-[45vh] lg:h-[75vh] lg:pr-12">
