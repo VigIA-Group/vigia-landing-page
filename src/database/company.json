@@ -3,10 +3,10 @@
   "slogan": "La diferencia entre mirar y entender.",
   "shortDescription": "Transformamos cámaras de seguridad en sistemas de inteligencia activa.",
   "logos": {
-    "icon": "/logos/icon.png",
-    "iconTitle": "/logos/icon-title.png",
-    "iconTitleRow": "/logos/icon-title-row.png",
-    "title": "/logos/title.png"
+    "icon": "/logos/dark/isotipo.png",
+    "iconTitle": "/logos/dark/vertical_logo.png",
+    "iconTitleRow": "/logos/dark/horizontal_logo.png",
+    "title": "/logos/dark/wordmark.png"
   },
   "whyToUse": [
     {

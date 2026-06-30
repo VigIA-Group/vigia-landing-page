@@ -168,7 +168,7 @@ export default function ContactsForm() {
             name="fullname"
             value={formData.fullname}
             onChange={handleChange}
-            placeholder="Jane Doe"
+            placeholder="Daniel Paredes"
             className={inputClass("fullname")}
           />
           {errors.fullname && (
@@ -299,7 +299,7 @@ export default function ContactsForm() {
               />
             </svg>
           ) : (
-            "Reserva un Espacio"
+            "Agendar Demo"
           )}
         </button>
       </form>
