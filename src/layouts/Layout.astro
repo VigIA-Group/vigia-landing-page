@@ -7,7 +7,7 @@ import "../styles/global.css";
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/png" href="/public/circle-icon.png">
+    <link rel="icon" type="image/png" href="/public/circle-icon.png" />
     <meta name="generator" content={Astro.generator} />
     <title>VigIA</title>
   </head>
@@ -15,6 +15,57 @@ import "../styles/global.css";
     <slot />
     <script>
       import "../firebase/client.js";
+      import gsap from "gsap";
+      import ScrollToPlugin from "gsap/ScrollToPlugin";
+      import ScrollTrigger from "gsap/ScrollTrigger";
+
+      gsap.registerPlugin(ScrollToPlugin, ScrollTrigger);
+
+      if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+          anchor.addEventListener("click", function (e) {
+            const targetId = this.getAttribute("href");
+            if (
+              targetId &&
+              targetId !== "#" &&
+              document.querySelector(targetId)
+            ) {
+              e.preventDefault();
+              gsap.to(window, {
+                scrollTo: { y: targetId, autoKill: true },
+                duration: 1.2,
+                ease: "power3.inOut",
+              });
+              history.pushState(null, "", targetId);
+            }
+          });
+        });
+
+        const hash = window.location.hash;
+        if (hash && document.querySelector(hash)) {
+          window.scrollTo(0, 0);
+
+          const scrollToHash = () => {
+            ScrollTrigger.refresh();
+
+            gsap.to(window, {
+              scrollTo: { y: hash, autoKill: true },
+              duration: 1.2,
+              ease: "power3.inOut",
+            });
+          };
+
+          if (document.readyState === "complete") {
+            scrollToHash();
+          } else {
+            window.addEventListener("load", scrollToHash);
+          }
+        }
+      });
     </script>
   </body>
 </html>
