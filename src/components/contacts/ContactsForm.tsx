@@ -299,7 +299,7 @@ export default function ContactsForm() {
               />
             </svg>
           ) : (
-            "Reserva un Espacio"
+            "Agendar Demo"
           )}
         </button>
       </form>
