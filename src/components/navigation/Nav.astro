@@ -4,72 +4,144 @@ import Burger from "../../icons/Burger.astro";
 import type { Company } from "../../models/Company";
 import ContactCallActionButton from "../contacts/ContactCallActionButton.astro";
 import { NAV_LINKS } from "./constants/NavLinks";
-import NavSeparator from "./NavSeparator.astro";
-import NavSocialMedia from "./NavSocialMedia.astro";
+
+// Iconos de redes sociales
+import LinedIn from "../../icons/LinkedIn.astro";
+import Instagram from "../../icons/Instagram.astro";
+import Tiktok from "../../icons/Tiktok.astro";
+import Facebook from "../../icons/Facebook.astro";
+
 const company = CompanyDb as Company;
 ---
 
-<div
+<header
   id="floating-nav"
-  class="fixed top-2 md:top-4 left-1/2 -translate-x-1/2 z-50 flex items-center
-         bg-background py-1.5 px-3 md:px-4 whitespace-nowrap rounded-full transition-all"
+  class="fixed top-0 md:top-4 left-0 md:left-1/2 md:-translate-x-1/2 z-50 flex items-center justify-between md:justify-center w-full md:w-max bg-transparent pt-4 pb-3 px-6 md:py-1 md:px-3 rounded-none md:rounded-full transition-all duration-300"
 >
-  <div
-    class="flex items-center gap-2 w-full md:w-max justify-between md:justify-center"
-  >
-    <button
-      id="menu-toggle"
-      class="md:hidden flex items-center justify-center p-1.5 text-text/70 hover:text-text rounded-full hover:bg-text/8 transition-colors focus:outline-none"
-      aria-label="Abrir menú"
-    >
-      <Burger />
-    </button>
+  <a href="/" class="md:hidden flex items-center z-50">
+    <img class="h-6 w-auto" src={company.logos.title} alt={company.name} />
+  </a>
 
-    <div
-      id="nav-links-container"
-      class="absolute top-[calc(100%+8px)] left-1/2 -translate-x-1/2 md:static md:translate-x-0 md:top-auto md:left-auto
-             flex-col md:flex-row items-center
-             bg-background md:bg-transparent shadow-[0_6px_24px_rgba(0,0,0,0.6)] md:shadow-none
-             p-4 md:p-0 rounded-[20px] md:rounded-none
-             hidden md:flex w-[85vw] max-w-[320px] md:w-max md:max-w-none transition-all duration-300"
+  <button
+    id="menu-toggle"
+    class="md:hidden flex items-center justify-center p-1.5 text-text/70 hover:text-text rounded-full transition-colors focus:outline-none z-50"
+    aria-label="Abrir menú"
+  >
+    <Burger />
+  </button>
+
+  <div
+    id="nav-links-container"
+    class="absolute md:static top-0 left-0 w-full h-screen md:w-max md:h-auto flex-col md:flex-row items-start md:items-center bg-background md:bg-transparent pt-24 px-8 md:p-0 hidden md:flex transition-all duration-300 -z-10 md:z-auto overflow-y-auto md:overflow-visible"
+  >
+    <nav
+      class="flex flex-col md:flex-row items-start md:items-center gap-5 md:gap-0.5 w-full md:w-max"
     >
-      <nav
-        class="flex flex-col md:flex-row items-center gap-2 md:gap-1 w-full md:w-max"
-      >
-        {
-          NAV_LINKS.map((link) => {
-            if (link.name === "Logo") {
-              return (
-                <img
-                  class="h-6 md:h-5 w-auto mx-1 md:mx-2"
-                  src={company.logos.title}
-                  alt={company.name}
-                />
-              );
-            }
+      {
+        NAV_LINKS.map((link) => {
+          if (link.name === "Logo") {
             return (
-              <a
-                href={link.href}
-                class="mobile-link w-full md:w-auto text-center px-3 md:px-2.5 py-1.5 md:py-1 text-base md:text-[14px] font-medium tracking-wide text-text/60 hover:text-text rounded-full hover:bg-text/8 transition-all duration-200"
-              >
-                {link.name}
-              </a>
+              <img
+                class="hidden md:block h-5 w-auto mx-1.5"
+                src={company.logos.title}
+                alt={company.name}
+              />
             );
-          })
-        }
-        <div class="flex items-center gap-2 md:gap-1.5 md:ml-1 mt-2 md:mt-0">
-          <NavSocialMedia />
+          }
+          return (
+            <a
+              href={link.href}
+              class="mobile-link w-full md:w-auto text-left md:text-center px-0 md:px-2 py-1 text-2xl md:text-[13px] font-medium tracking-wide text-text/60 hover:text-text transition-colors duration-200"
+            >
+              {link.name}
+            </a>
+          );
+        })
+      }
+
+      <div class="hidden md:flex items-center gap-1.5 ml-1">
+        <div class="relative group">
+          <button
+            class="px-2 py-1 text-[13px] font-medium tracking-wide text-text/60 hover:text-text transition-colors flex items-center gap-1 cursor-pointer"
+          >
+            Redes
+            <svg
+              class="w-3 h-3 transition-transform duration-200 group-hover:rotate-180"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"></path>
+            </svg>
+          </button>
+
+          <div
+            class="absolute top-[calc(100%+0.5rem)] left-1/2 -translate-x-1/2 w-max min-w-[140px] bg-background shadow-[0_6px_24px_rgba(0,0,0,0.15)] rounded-2xl flex-col hidden group-hover:flex overflow-hidden py-2 z-50 transition-opacity"
+          >
+            {
+              company.socialMedia?.map((social) => (
+                <a
+                  href={social?.url}
+                  aria-label={social?.name}
+                  class="flex items-center gap-3 px-4 py-2 text-[14px] text-text/70 hover:text-text hover:bg-text/5 transition-colors"
+                >
+                  <span class="w-4 h-4 flex items-center justify-center">
+                    {social.name.toLowerCase() === "linkedin" && <LinedIn />}
+                    {social.name.toLowerCase() === "instagram" && <Instagram />}
+                    {social.name.toLowerCase() === "tiktok" && <Tiktok />}
+                    {social.name.toLowerCase() === "facebook" && <Facebook />}
+                  </span>
+                  <span>{social.name}</span>
+                  {social?.icon}
+                </a>
+              ))
+            }
+          </div>
+        </div>
+
+        <ContactCallActionButton size="sm" />
+      </div>
+
+      <div class="flex md:hidden flex-col w-full mt-6 pb-10">
+        <span class="text-text/80 text-lg font-medium mb-3">Redes Sociales</span
+        >
+        <div class="flex flex-col gap-4 pl-6 border-l-2 border-text/10 ml-1">
+          {
+            company.socialMedia?.map((social) => (
+              <a
+                href={social?.url}
+                aria-label={social?.name}
+                class="mobile-link flex items-center gap-3 text-text/60 hover:text-text text-lg transition-colors"
+              >
+                <span class="w-5 h-5 flex items-center justify-center">
+                  {social.name.toLowerCase() === "linkedin" && <LinedIn />}
+                  {social.name.toLowerCase() === "instagram" && <Instagram />}
+                  {social.name.toLowerCase() === "tiktok" && <Tiktok />}
+                  {social.name.toLowerCase() === "facebook" && <Facebook />}
+                </span>
+                <span>{social.name}</span>
+                {social?.icon}
+              </a>
+            ))
+          }
+        </div>
+        <div class="mt-8">
           <ContactCallActionButton size="sm" />
         </div>
-      </nav>
-    </div>
+      </div>
+    </nav>
   </div>
-</div>
+</header>
 
 <script>
   import { logEvent } from "firebase/analytics";
   import { analytics } from "../../firebase/client";
 
+  // --- Analítica ---
   const boton = document.getElementById("go-to-register");
   if (boton) {
     boton.addEventListener("click", () => {
@@ -80,21 +152,61 @@ const company = CompanyDb as Company;
     });
   }
 
+  // --- Lógica del Navbar ---
+  const header = document.getElementById("floating-nav");
   const menuToggle = document.getElementById("menu-toggle");
   const navContainer = document.getElementById("nav-links-container");
   const mobileLinks = document.querySelectorAll(".mobile-link");
 
+  let isMenuOpen = false;
+
+  function updateHeaderStyle() {
+    if (!header) return;
+
+    const isScrolled = window.scrollY > 10;
+
+    if (isScrolled || isMenuOpen) {
+      header.classList.remove("bg-transparent", "md:py-1");
+      header.classList.add(
+        "bg-background",
+        "shadow-[0_6px_24px_rgba(0,0,0,0.4)]",
+        "py-3",
+        "md:py-1",
+      );
+    } else {
+      header.classList.add("bg-transparent");
+      header.classList.remove(
+        "bg-background",
+        "shadow-[0_6px_24px_rgba(0,0,0,0.4)]",
+      );
+    }
+  }
+
+  window.addEventListener("scroll", updateHeaderStyle);
+
   if (menuToggle && navContainer) {
     menuToggle.addEventListener("click", () => {
+      isMenuOpen = !isMenuOpen;
       navContainer.classList.toggle("hidden");
       navContainer.classList.toggle("flex");
+
+      updateHeaderStyle();
+
+      if (isMenuOpen && window.innerWidth < 768) {
+        document.body.style.overflow = "hidden";
+      } else {
+        document.body.style.overflow = "";
+      }
     });
 
     mobileLinks.forEach((link) => {
       link.addEventListener("click", () => {
         if (window.innerWidth < 768) {
+          isMenuOpen = false;
           navContainer.classList.add("hidden");
           navContainer.classList.remove("flex");
+          document.body.style.overflow = "";
+          updateHeaderStyle();
         }
       });
     });
