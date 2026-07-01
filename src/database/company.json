@@ -12,17 +12,17 @@
     {
       "reason": "Tus cámaras se vuelven inteligentes",
       "icon": "camera",
-      "description": "Transforma tus cámaras de seguridad existentes en sistemas de monitoreo inteligente con analítica y alertas en tiempo real."
+      "description": "Transforma tus cámaras de seguridad actuales en un sistema de monitoreo inteligente, con analítica y alertas en tiempo real, sin comprar equipos nuevos."
     },
     {
       "reason": "Alertas en tiempo real",
       "icon": "bell",
-      "description": "Recibe notificaciones instantáneas de eventos detectados, asegurando que nunca te pierdas los momentos críticos."
+      "description": "Recibe notificaciones instantáneas cuando ocurre algo relevante, para que nunca te pierdas un momento crítico."
     },
     {
       "reason": "Integración sencilla",
       "icon": "plug",
-      "description": "Conecta tus cámaras a nuestra plataforma en minutos, sin configuraciones complejas ni necesidad de expertos técnicos."
+      "description": "Conecta tus cámaras a nuestra plataforma en minutos, sin configuraciones complejas ni conocimientos técnicos."
     }
   ],
   "videos": [
