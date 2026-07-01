@@ -20,6 +20,7 @@ const company: Company = CompanyDb;
   </video>
 
   <div class="absolute inset-0 z-10 pointer-events-none">
+    <div class="absolute inset-0 bg-background/25 hidden md:block"></div>
     <div
       class="absolute inset-0 bg-gradient-to-b from-background/70 via-transparent to-background/80"
     >
@@ -28,7 +29,8 @@ const company: Company = CompanyDb;
       class="absolute inset-0 bg-gradient-to-r from-background/40 via-transparent to-background/40"
     >
     </div>
-    <div class="absolute inset-0 bg-background/90 md:hidden"></div>
+
+    <div class="absolute inset-0 bg-background/80 md:hidden"></div>
   </div>
 
   <div
@@ -42,14 +44,14 @@ const company: Company = CompanyDb;
       />
 
       <p
-        class="hero-slogan text-xl md:text-3xl lg:text-5xl font-semibold leading-snug text-text/90 m-0 tracking-tight text-left"
+        class="hero-slogan text-xl md:text-3xl lg:text-5xl font-semibold leading-[0.90] text-text/90 m-0 tracking-tight text-left"
       >
         La diferencia entre mirar y
         <strong class="text-[var(--color-primary)]">entender</strong>
       </p>
 
       <p
-        class="hero-description text-base md:text-lg font-normal text-text/80 leading-relaxed m-0 text-left"
+        class="hero-description text-base md:text-lg font-normal leading-relaxed m-0 text-left max-w-[500px]"
       >
         {company.shortDescription}
       </p>
