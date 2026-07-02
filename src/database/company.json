@@ -1,7 +1,7 @@
 {
   "name": "VigIA",
   "slogan": "La diferencia entre mirar y entender.",
-  "shortDescription": "Transformamos cámaras de seguridad en sistemas de inteligencia activa.",
+  "shortDescription": "Tu cámara actual, ahora con inteligencia artificial que monitorea tu negocio 24/7.",
   "logos": {
     "icon": "/logos/dark/isotipo.png",
     "iconTitle": "/logos/dark/vertical_logo.png",
@@ -12,17 +12,17 @@
     {
       "reason": "Tus cámaras se vuelven inteligentes",
       "icon": "camera",
-      "description": "Transforma tus cámaras de seguridad existentes en sistemas de monitoreo inteligente con analítica y alertas en tiempo real."
+      "description": "Transforma tus cámaras de seguridad actuales en un sistema de monitoreo inteligente, con analítica y alertas en tiempo real, sin comprar equipos nuevos."
     },
     {
       "reason": "Alertas en tiempo real",
       "icon": "bell",
-      "description": "Recibe notificaciones instantáneas de eventos detectados, asegurando que nunca te pierdas los momentos críticos."
+      "description": "Recibe notificaciones instantáneas cuando ocurre algo relevante, para que nunca te pierdas un momento crítico."
     },
     {
       "reason": "Integración sencilla",
       "icon": "plug",
-      "description": "Conecta tus cámaras a nuestra plataforma en minutos, sin configuraciones complejas ni necesidad de expertos técnicos."
+      "description": "Conecta tus cámaras a nuestra plataforma en minutos, sin configuraciones complejas ni conocimientos técnicos."
     }
   ],
   "videos": [
@@ -32,19 +32,24 @@
   ],
   "socialMedia": [
     {
+      "name": "LinkedIn",
+      "url": "https://www.linkedin.com/company/vigia-tech",
+      "icon": "linkedin"
+    },
+    {
       "name": "Instagram",
       "url": "https://www.instagram.com/vigia.vision/",
-      "icon": "/images/instagram.png"
+      "icon": "instagram"
     },
     {
       "name": "Tiktok",
       "url": "https://www.tiktok.com/@vigia.vision",
-      "icon": "/images/tiktok.png"
+      "icon": "tiktok"
     },
     {
       "name": "Facebook",
       "url": "https://www.facebook.com/people/Vigia-Anal%C3%ADtica-de-Video/61590126478377",
-      "icon": "/images/facebook.png"
+      "icon": "facebook"
     }
   ]
 }
