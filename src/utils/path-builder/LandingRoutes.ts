@@ -2,6 +2,6 @@ export const LANDING_ROUTES = {
   hero: "/#hero",
   services: "/#services",
   whyToUse: "/#why-us",
-  contacts: "/#contacts",
+  contacts: "/#waitlist-section",
   footer: "#footer",
 };

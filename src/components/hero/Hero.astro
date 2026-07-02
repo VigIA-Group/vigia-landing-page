@@ -1,6 +1,7 @@
 ---
 import CompanyDb from "../../database/company.json";
 import type { Company } from "../../models/Company";
+import { LANDING_ROUTES } from "../../utils/path-builder/LandingRoutes";
 import ContactCallActionButton from "../contacts/ContactCallActionButton.astro";
 
 const company: Company = CompanyDb;
@@ -58,7 +59,10 @@ const company: Company = CompanyDb;
     </div>
 
     <div class="hero-cta flex-shrink-0 mt-2 md:mt-0">
-      <ContactCallActionButton size="lg" />
+      <ContactCallActionButton
+        size="lg"
+        redirectionLink={LANDING_ROUTES.contacts}
+      />
     </div>
   </div>
 

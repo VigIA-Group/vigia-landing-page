@@ -47,7 +47,10 @@ const contactCallActions = contactCallActionsDb as ContactCallActions;
     </div>
 
     <div class="w-full max-w-lg">
-      <ContactsForm client:visible />
+      <ContactsForm
+        client:visible
+        callAction={contactCallActions.call_to_action}
+      />
     </div>
   </div>
 </section>

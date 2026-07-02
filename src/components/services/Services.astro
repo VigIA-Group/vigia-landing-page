@@ -16,6 +16,7 @@ const services = ServicesDb as Services;
               <img
                 src={service.image}
                 alt={service.serviceName}
+                loading="lazy"
                 class="w-full h-full object-cover opacity-30"
               />
               <div class="absolute inset-0 bg-gradient-to-r from-background/90 via-background/80 to-background/90" />
@@ -71,6 +72,7 @@ const services = ServicesDb as Services;
                           <img
                             src={img}
                             alt={feature.featureName}
+                            loading="lazy"
                             class={`feature-anim-img object-contain rounded-md shadow-xl lg:shadow-2xl h-full lg:max-w-none 
                               ${isMultiple ? "flex-1 min-w-0 max-w-full lg:flex-none lg:w-auto" : "w-auto max-w-[85vw] lg:w-auto"} 
                               ${transformClass}`}

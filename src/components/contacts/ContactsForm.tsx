@@ -19,7 +19,11 @@ interface FormErrors {
   jobtitle?: string;
 }
 
-export default function ContactsForm() {
+interface Props {
+  callAction: string;
+}
+
+export default function ContactsForm({ callAction }: Props) {
   const [formData, setFormData] = useState<FormData>({
     fullname: "",
     email: "",
@@ -276,7 +280,21 @@ export default function ContactsForm() {
         <button
           type="submit"
           disabled={status === "loading"}
-          className="w-full mt-2 py-2 px-4 text-sm font-medium rounded-lg transition-colors flex justify-center items-center disabled:opacity-70 disabled:cursor-not-allowed bg-primary hover:bg-primary-dark text-text shadow-sm hover:shadow-md"
+          className="
+    cta-gradient-form w-full mt-2 px-5 py-2 text-sm font-semibold rounded-lg
+    shadow-sm
+    transition-all
+    duration-300
+    hover:scale-[1.01]
+    hover:shadow-md
+    active:scale-[0.99]
+    flex
+    justify-center
+    items-center
+    disabled:opacity-70
+    disabled:cursor-not-allowed
+    disabled:hover:scale-100
+  "
         >
           {status === "loading" ? (
             <svg
@@ -299,7 +317,7 @@ export default function ContactsForm() {
               />
             </svg>
           ) : (
-            "Agendar Demo"
+            callAction
           )}
         </button>
       </form>
