@@ -1,6 +1,7 @@
 ---
 import ServicesDb from "../../database/services.json";
 import type { Services } from "../../models/Service";
+import { formatText } from "../../utils/formatText";
 
 const services = ServicesDb as Services;
 ---
@@ -15,18 +16,21 @@ const services = ServicesDb as Services;
               <img
                 src={service.image}
                 alt={service.serviceName}
+                loading="lazy"
                 class="w-full h-full object-cover opacity-30"
               />
               <div class="absolute inset-0 bg-gradient-to-r from-background/90 via-background/80 to-background/90" />
             </div>
 
             <div class="relative z-10 w-full max-w-4xl flex flex-col items-start gap-4 md:gap-6">
-              <h2 class="service-anim-text text-4xl md:text-6xl lg:text-8xl font-semibold leading-tight m-0">
-                {service.serviceName}
-              </h2>
-              <p class="service-anim-text text-base md:text-xl font-light text-text/80 leading-relaxed m-0 max-w-2xl">
-                {service.description}
-              </p>
+              <h2
+                class="service-anim-text text-4xl md:text-6xl lg:text-8xl font-semibold leading-tight m-0"
+                set:html={formatText(service.serviceName)}
+              />
+              <p
+                class="service-anim-text text-lg md:text-2xl font-normal text-text leading-relaxed m-0 max-w-2xl"
+                set:html={formatText(service.description)}
+              />
             </div>
           </div>
 
@@ -41,12 +45,14 @@ const services = ServicesDb as Services;
                     <span class="feature-anim-text text-[0.65rem] md:text-xs tracking-[0.2em] text-text/50 uppercase">
                       {service.serviceName}
                     </span>
-                    <h3 class="feature-anim-text text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight m-0">
-                      {feature.featureName}
-                    </h3>
-                    <p class="feature-anim-text text-sm md:text-base font-light text-text/70 leading-relaxed m-0">
-                      {feature.description}
-                    </p>
+                    <h3
+                      class="feature-anim-text text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight m-0"
+                      set:html={formatText(feature.featureName)}
+                    />
+                    <p
+                      class="feature-anim-text text-base md:text-lg font-normal text-text leading-relaxed m-0"
+                      set:html={formatText(feature.description)}
+                    />
                   </div>
 
                   <div class="flex flex-row items-center justify-center gap-3 md:gap-6 lg:gap-12 w-full lg:w-auto h-[35vh] md:h-[45vh] lg:h-[75vh] lg:pr-12">
@@ -62,12 +68,11 @@ const services = ServicesDb as Services;
                               : "lg:translate-y-8";
                         }
 
-                        // Lógica clave: Si hay múltiples imágenes en móvil, usan flex-1 min-w-0 para dividirse el espacio sin desbordar.
-                        // En desktop (lg:), recuperan su tamaño original con lg:flex-none y lg:w-auto.
                         return (
                           <img
                             src={img}
                             alt={feature.featureName}
+                            loading="lazy"
                             class={`feature-anim-img object-contain rounded-md shadow-xl lg:shadow-2xl h-full lg:max-w-none 
                               ${isMultiple ? "flex-1 min-w-0 max-w-full lg:flex-none lg:w-auto" : "w-auto max-w-[85vw] lg:w-auto"} 
                               ${transformClass}`}

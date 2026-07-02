@@ -66,7 +66,7 @@ export default function RecentWaitlistUsers() {
       </div>
       <div className="flex flex-col">
         <span className="text-sm font-semibold text-text">+ 50</span>
-        <span className="text-xs text-muted">interesados en VigIA</span>
+        <span className="text-sm text-muted">Interesados en VigIA</span>
       </div>
     </div>
   );
