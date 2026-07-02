@@ -21,9 +21,10 @@ interface FormErrors {
 
 interface Props {
   callAction: string;
+  size?: "md" | "lg";
 }
 
-export default function ContactsForm({ callAction }: Props) {
+export default function ContactsForm({ callAction, size = "md" }: Props) {
   const [formData, setFormData] = useState<FormData>({
     fullname: "",
     email: "",
@@ -128,23 +129,65 @@ export default function ContactsForm({ callAction }: Props) {
     }
   };
 
+  // Mantiene los mismos márgenes compactos, pero sube el tamaño de la fuente
+  const s = {
+    md: {
+      container: "max-w-md p-4 rounded-2xl",
+      formGap: "space-y-3",
+      gridGap: "gap-2",
+      label: "text-[13px] mb-0.5",
+      input: "px-3 py-1.5 text-sm rounded-lg",
+      error: "mt-0.5 text-[11px]",
+      phonePrefixW: "w-[72px]",
+      phonePrefixPl: "pl-[76px]",
+      phoneIconText: "text-sm mr-1",
+      phoneCodeText: "text-xs",
+      button: "mt-2 px-5 py-2 text-sm rounded-lg",
+      successBanner: "p-3",
+      successIcon: "w-7 h-7 mb-1",
+      successText: "text-sm",
+    },
+    lg: {
+      container: "max-w-lg p-5 rounded-2xl", // Mantiene el padding contenido
+      formGap: "space-y-3.5", // Espaciado ajustado
+      gridGap: "gap-3", // Gap de columnas contenido
+      label: "text-[15px] mb-0.5", // Fuente más grande, mismo margen inferor
+      input: "px-3.5 py-2 text-base rounded-lg", // Input con fuente base y padding justo
+      error: "mt-0.5 text-xs",
+      phonePrefixW: "w-[80px]", // Ancho ajustado para el prefijo de país grande
+      phonePrefixPl: "pl-[84px]",
+      phoneIconText: "text-base mr-1.5",
+      phoneCodeText: "text-[13px]",
+      button: "mt-2.5 px-5 py-2.5 text-base font-semibold rounded-lg",
+      successBanner: "p-4",
+      successIcon: "w-8 h-8 mb-1",
+      successText: "text-base font-medium",
+    },
+  }[size];
+
   const inputClass = (field: keyof FormErrors) =>
-    `w-full px-3 py-1.5 text-sm rounded-lg outline-none transition-colors bg-surface/20 text-text border ${
+    `w-full outline-none transition-colors bg-surface/20 text-text border ${s.input} ${
       errors[field] ? "border-danger" : "border-primary/30 focus:border-primary"
     }`;
 
   return (
-    <div className="animate-item w-full max-w-md mx-auto p-4 md:p-4 rounded-2xl border border-primary/20 backdrop-blur-sm relative overflow-hidden bg-transparent text-left">
+    <div
+      className={`animate-item w-full mx-auto border border-primary/20 backdrop-blur-sm relative overflow-hidden bg-transparent text-left ${s.container}`}
+    >
       <div
-        className={`absolute top-0 left-0 w-full p-3 flex flex-col items-center justify-center bg-surface z-20 transition-all duration-500 ease-in-out border-b border-primary ${
+        className={`absolute top-0 left-0 w-full flex flex-col items-center justify-center bg-surface z-20 transition-all duration-500 ease-in-out border-b border-primary ${
+          s.successBanner
+        } ${
           status === "success"
             ? "translate-y-0 opacity-100"
             : "-translate-y-full opacity-0"
         }`}
       >
-        <div className="w-7 h-7 mb-1 rounded-full flex items-center justify-center bg-primary/20 text-primary">
+        <div
+          className={`rounded-full flex items-center justify-center bg-primary/20 text-primary ${s.successIcon}`}
+        >
           <svg
-            className="w-4 h-4"
+            className="w-[55%] h-[55%]"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -152,19 +195,19 @@ export default function ContactsForm({ callAction }: Props) {
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth={2}
+              strokeWidth={2.5}
               d="M5 13l4 4L19 7"
             />
           </svg>
         </div>
-        <span className="font-medium text-sm text-text">
+        <span className={`text-text ${s.successText}`}>
           ¡Súper! Te has unido a la lista.
         </span>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-3">
+      <form onSubmit={handleSubmit} className={s.formGap}>
         <div>
-          <label className="block text-[13px] font-medium mb-0.5 text-text">
+          <label className={`block font-medium text-text ${s.label}`}>
             Nombre Completo
           </label>
           <input
@@ -176,14 +219,12 @@ export default function ContactsForm({ callAction }: Props) {
             className={inputClass("fullname")}
           />
           {errors.fullname && (
-            <p className="mt-0.5 text-[11px] text-danger-light">
-              {errors.fullname}
-            </p>
+            <p className={`text-danger-light ${s.error}`}>{errors.fullname}</p>
           )}
         </div>
 
         <div>
-          <label className="block text-[13px] font-medium mb-0.5 text-text">
+          <label className={`block font-medium text-text ${s.label}`}>
             Correo Electrónico
           </label>
           <input
@@ -195,20 +236,22 @@ export default function ContactsForm({ callAction }: Props) {
             className={inputClass("email")}
           />
           {errors.email && (
-            <p className="mt-0.5 text-[11px] text-danger-light">
-              {errors.email}
-            </p>
+            <p className={`text-danger-light ${s.error}`}>{errors.email}</p>
           )}
         </div>
 
         <div>
-          <label className="block text-[13px] font-medium mb-0.5 text-text">
+          <label className={`block font-medium text-text ${s.label}`}>
             Número de Celular
           </label>
           <div className="relative flex items-center">
-            <div className="absolute left-0 inset-y-0 flex items-center pl-2 pr-1 border-r border-primary/20 bg-surface/30 rounded-l-lg pointer-events-none w-[72px] justify-center">
-              <span className="text-sm mr-1">🇧🇴</span>
-              <span className="text-xs font-medium text-text">+591</span>
+            <div
+              className={`absolute left-0 inset-y-0 flex items-center pl-2 pr-1 border-r border-primary/20 bg-surface/30 rounded-l-lg pointer-events-none justify-center ${s.phonePrefixW}`}
+            >
+              <span className={s.phoneIconText}>🇧🇴</span>
+              <span className={`font-medium text-text ${s.phoneCodeText}`}>
+                +591
+              </span>
             </div>
             <input
               type="tel"
@@ -217,7 +260,9 @@ export default function ContactsForm({ callAction }: Props) {
               value={formData.phone}
               onChange={handleChange}
               placeholder="71234567"
-              className={`w-full pl-[76px] pr-3 py-1.5 text-sm rounded-lg outline-none transition-colors bg-surface/20 text-text border ${
+              className={`w-full pr-3 outline-none transition-colors bg-surface/20 text-text border ${
+                s.phonePrefixPl
+              } ${s.input} ${
                 errors.phone
                   ? "border-danger"
                   : "border-primary/30 focus:border-primary"
@@ -225,15 +270,13 @@ export default function ContactsForm({ callAction }: Props) {
             />
           </div>
           {errors.phone && (
-            <p className="mt-0.5 text-[11px] text-danger-light">
-              {errors.phone}
-            </p>
+            <p className={`text-danger-light ${s.error}`}>{errors.phone}</p>
           )}
         </div>
 
-        <div className="grid grid-cols-2 gap-2">
+        <div className={`grid grid-cols-2 ${s.gridGap}`}>
           <div>
-            <label className="block text-[13px] font-medium mb-0.5 text-text">
+            <label className={`block font-medium text-text ${s.label}`}>
               Empresa
             </label>
             <input
@@ -245,14 +288,12 @@ export default function ContactsForm({ callAction }: Props) {
               className={inputClass("company")}
             />
             {errors.company && (
-              <p className="mt-0.5 text-[11px] text-danger-light">
-                {errors.company}
-              </p>
+              <p className={`text-danger-light ${s.error}`}>{errors.company}</p>
             )}
           </div>
 
           <div>
-            <label className="block text-[13px] font-medium mb-0.5 text-text">
+            <label className={`block font-medium text-text ${s.label}`}>
               Cargo
             </label>
             <input
@@ -264,7 +305,7 @@ export default function ContactsForm({ callAction }: Props) {
               className={inputClass("jobtitle")}
             />
             {errors.jobtitle && (
-              <p className="mt-0.5 text-[11px] text-danger-light">
+              <p className={`text-danger-light ${s.error}`}>
                 {errors.jobtitle}
               </p>
             )}
@@ -272,7 +313,7 @@ export default function ContactsForm({ callAction }: Props) {
         </div>
 
         {status === "error" && (
-          <p className="text-[11px] text-danger-light bg-danger-light/10 p-2 rounded-lg">
+          <p className="text-[12px] text-danger-light bg-danger-light/10 p-2.5 rounded-lg">
             Hubo un problema de conexión. Por favor, intenta de nuevo.
           </p>
         )}
@@ -280,21 +321,13 @@ export default function ContactsForm({ callAction }: Props) {
         <button
           type="submit"
           disabled={status === "loading"}
-          className="
-    cta-gradient-form w-full mt-2 px-5 py-2 text-sm font-semibold rounded-lg
-    shadow-sm
-    transition-all
-    duration-300
-    hover:scale-[1.01]
-    hover:shadow-md
-    active:scale-[0.99]
-    flex
-    justify-center
-    items-center
-    disabled:opacity-70
-    disabled:cursor-not-allowed
-    disabled:hover:scale-100
-  "
+          className={`
+            cta-gradient-form w-full shadow-sm transition-all duration-300
+            hover:scale-[1.01] hover:shadow-md active:scale-[0.99]
+            flex justify-center items-center
+            disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100
+            ${s.button}
+          `}
         >
           {status === "loading" ? (
             <svg
