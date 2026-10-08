@@ -55,7 +55,10 @@ const services = ServicesDb as Services;
           if (link.name === "Servicios") {
             return (
               <>
-                <div class="relative hidden md:block" id="desktop-services-dropdown-container">
+                <div
+                  class="relative hidden md:block"
+                  id="desktop-services-dropdown-container"
+                >
                   <button
                     id="desktop-services-dropdown-btn"
                     class="px-2 py-1 text-[15px] font-medium tracking-wide text-text hover:text-[var(--color-primary)] transition-colors flex items-center gap-1 cursor-pointer"
@@ -81,7 +84,7 @@ const services = ServicesDb as Services;
 
                   <div
                     id="desktop-services-dropdown-menu"
-                    class="absolute top-[calc(100%+0.5rem)] left-1/2 -translate-x-1/2 w-max min-w-[210px] bg-background shadow-[0_6px_24px_rgba(0,0,0,0.35)] border border-border/30 rounded-2xl flex-col hidden overflow-hidden py-2 z-50 transition-opacity"
+                    class="absolute top-[calc(100%+0.5rem)] left-1/2 -translate-x-1/2 w-max min-w-[210px] bg-background shadow-[0_6px_24px_rgba(0,0,0,0.35)] border-border/30 rounded-2xl flex-col hidden overflow-hidden py-2 z-50 transition-opacity"
                   >
                     {services.map((service) => {
                       const targetId = getServiceId(service.serviceName);
@@ -91,7 +94,6 @@ const services = ServicesDb as Services;
                           data-target-id={targetId}
                           class="service-dropdown-link flex items-center gap-2.5 px-4 py-2.5 text-[14px] text-text hover:text-[var(--color-primary)] hover:bg-text/5 transition-colors"
                         >
-                          <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-tertiary)] flex-shrink-0" />
                           <span>{service.serviceName}</span>
                         </a>
                       );
@@ -133,7 +135,6 @@ const services = ServicesDb as Services;
                           data-target-id={targetId}
                           class="mobile-link service-dropdown-link flex items-center gap-3 text-text/80 hover:text-[var(--color-primary)] text-[1.25rem] transition-colors py-0.5"
                         >
-                          <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-tertiary)] flex-shrink-0" />
                           <span>{service.serviceName}</span>
                         </a>
                       );
@@ -276,9 +277,7 @@ const services = ServicesDb as Services;
     "mobile-services-toggle",
   );
   const mobileServicesList = document.getElementById("mobile-services-list");
-  const mobileServicesArrow = document.getElementById(
-    "mobile-services-arrow",
-  );
+  const mobileServicesArrow = document.getElementById("mobile-services-arrow");
 
   let isMenuOpen = false;
 
@@ -343,7 +342,10 @@ const services = ServicesDb as Services;
       dropdownArrow.classList.toggle("rotate-180");
 
       // Cerrar servicios si está abierto
-      if (servicesDropdownMenu && !servicesDropdownMenu.classList.contains("hidden")) {
+      if (
+        servicesDropdownMenu &&
+        !servicesDropdownMenu.classList.contains("hidden")
+      ) {
         servicesDropdownMenu.classList.add("hidden");
         servicesDropdownMenu.classList.remove("flex");
         servicesDropdownArrow?.classList.remove("rotate-180");
@@ -352,11 +354,7 @@ const services = ServicesDb as Services;
   }
 
   // Servicios dropdown desktop
-  if (
-    servicesDropdownBtn &&
-    servicesDropdownMenu &&
-    servicesDropdownArrow
-  ) {
+  if (servicesDropdownBtn && servicesDropdownMenu && servicesDropdownArrow) {
     servicesDropdownBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       servicesDropdownMenu.classList.toggle("hidden");
