@@ -38,7 +38,7 @@ const services = ServicesDb as Services;
 
               <div class="relative z-10 w-full max-w-4xl flex flex-col items-start gap-4 md:gap-6">
                 <h2
-                  class="service-anim-title text-gradient-brand text-4xl md:text-6xl lg:text-8xl font-semibold leading-tight m-0"
+                  class="service-anim-title text-gradient-brand-animated text-4xl md:text-6xl lg:text-8xl font-semibold leading-tight m-0"
                   set:html={formatText(service.serviceName)}
                 />
                 <p
@@ -132,10 +132,7 @@ const services = ServicesDb as Services;
 
   gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, SplitText);
 
-  // Colores solicitados:
-  // Wave Color Shift: --color-primary-dark (#0a4ce8, azul oscuro)
   // Scroll Highlight: --color-text (#ffffff, blanco)
-  const WAVE_COLOR = "#0a4ce8";
   const HIGHLIGHT_COLOR = "#ffffff";
 
   let initialized = false;
@@ -192,20 +189,13 @@ const services = ServicesDb as Services;
       // 2. Panel 0: Presentación del servicio
       const panel0 = panels[0];
       if (panel0) {
-        // Wave Color Shift con azul oscuro (--color-primary-dark: #0a4ce8)
+        // Entrada del título del servicio (conserva la animación del degradé fluido en CSS)
         const title0 = panel0.querySelector(".service-anim-title");
         if (title0) {
-          const splitTitle = SplitText.create(title0, {
-            type: "chars",
-            smartWrap: true,
-          });
-
-          gsap.from(splitTitle.chars, {
+          gsap.from(title0, {
             y: 35,
-            color: WAVE_COLOR,
             opacity: 0,
-            stagger: { each: 0.03, from: "start" },
-            duration: 0.6,
+            duration: 0.8,
             ease: "sine.out",
             scrollTrigger: {
               trigger: container,
@@ -221,12 +211,23 @@ const services = ServicesDb as Services;
           const splitDesc = SplitText.create(desc0, { type: "words" });
 
           splitDesc.words.forEach((w) => {
-            const origColor = window.getComputedStyle(w).color || "#ffffff";
-            w.dataset.origColor = origColor;
-            w.style.backgroundImage = `linear-gradient(${HIGHLIGHT_COLOR}, ${HIGHLIGHT_COLOR})`;
-            w.style.backgroundSize = "100% 100%";
-            w.style.backgroundRepeat = "no-repeat";
-            w.style.color = "transparent";
+            const isGradient = !!w.closest(".text-gradient-brand");
+            w.dataset.isGradient = isGradient ? "true" : "false";
+            if (!isGradient) {
+              const origColor = window.getComputedStyle(w).color || "#ffffff";
+              w.dataset.origColor = origColor;
+              w.style.backgroundImage = `linear-gradient(${HIGHLIGHT_COLOR}, ${HIGHLIGHT_COLOR})`;
+              w.style.backgroundSize = "100% 100%";
+              w.style.backgroundRepeat = "no-repeat";
+              w.style.color = "transparent";
+            } else {
+              w.style.backgroundImage = `linear-gradient(${HIGHLIGHT_COLOR}, ${HIGHLIGHT_COLOR}), var(--gradient-brand-text)`;
+              w.style.backgroundSize = "100% 100%, 100% 100%";
+              w.style.backgroundRepeat = "no-repeat";
+              w.style.webkitBackgroundClip = "text";
+              w.style.backgroundClip = "text";
+              w.style.webkitTextFillColor = "transparent";
+            }
             w.style.padding = "1px 2px";
             w.style.borderRadius = "2px";
             w.style.display = "inline-block";
@@ -241,25 +242,37 @@ const services = ServicesDb as Services;
           });
 
           splitDesc.words.forEach((w, i) => {
-            const origColor = w.dataset.origColor || "#fff";
-            tlDesc0
-              .to(
+            if (w.dataset.isGradient === "true") {
+              tlDesc0.to(
                 w,
                 {
-                  backgroundSize: "0% 100%",
+                  backgroundSize: "0% 100%, 100% 100%",
                   duration: 0.12,
                   ease: "power2.in",
                 },
                 i * 0.025,
-              )
-              .to(w, { color: origColor, duration: 0.1 }, i * 0.025 + 0.02);
+              );
+            } else {
+              const origColor = w.dataset.origColor || "#fff";
+              tlDesc0
+                .to(
+                  w,
+                  {
+                    backgroundSize: "0% 100%",
+                    duration: 0.12,
+                    ease: "power2.in",
+                  },
+                  i * 0.025,
+                )
+                .to(w, { color: origColor, duration: 0.1 }, i * 0.025 + 0.02);
+            }
           });
         }
       }
 
       // 3. Paneles 1..N: Módulos del servicio
       panels.slice(1).forEach((panel) => {
-        // Wave Color Shift con azul oscuro (#0a4ce8)
+        // Entrada de títulos de módulos (Wave)
         const featureTitle = panel.querySelector(".feature-anim-title");
         if (featureTitle) {
           const splitFeatureTitle = SplitText.create(featureTitle, {
@@ -269,7 +282,6 @@ const services = ServicesDb as Services;
 
           gsap.from(splitFeatureTitle.chars, {
             y: 35,
-            color: WAVE_COLOR,
             opacity: 0,
             stagger: { each: 0.03, from: "start" },
             duration: 0.6,
@@ -291,12 +303,23 @@ const services = ServicesDb as Services;
           });
 
           splitFeatureDesc.words.forEach((w) => {
-            const origColor = window.getComputedStyle(w).color || "#ffffff";
-            w.dataset.origColor = origColor;
-            w.style.backgroundImage = `linear-gradient(${HIGHLIGHT_COLOR}, ${HIGHLIGHT_COLOR})`;
-            w.style.backgroundSize = "100% 100%";
-            w.style.backgroundRepeat = "no-repeat";
-            w.style.color = "transparent";
+            const isGradient = !!w.closest(".text-gradient-brand");
+            w.dataset.isGradient = isGradient ? "true" : "false";
+            if (!isGradient) {
+              const origColor = window.getComputedStyle(w).color || "#ffffff";
+              w.dataset.origColor = origColor;
+              w.style.backgroundImage = `linear-gradient(${HIGHLIGHT_COLOR}, ${HIGHLIGHT_COLOR})`;
+              w.style.backgroundSize = "100% 100%";
+              w.style.backgroundRepeat = "no-repeat";
+              w.style.color = "transparent";
+            } else {
+              w.style.backgroundImage = `linear-gradient(${HIGHLIGHT_COLOR}, ${HIGHLIGHT_COLOR}), var(--gradient-brand-text)`;
+              w.style.backgroundSize = "100% 100%, 100% 100%";
+              w.style.backgroundRepeat = "no-repeat";
+              w.style.webkitBackgroundClip = "text";
+              w.style.backgroundClip = "text";
+              w.style.webkitTextFillColor = "transparent";
+            }
             w.style.padding = "1px 2px";
             w.style.borderRadius = "2px";
             w.style.display = "inline-block";
@@ -312,18 +335,30 @@ const services = ServicesDb as Services;
           });
 
           splitFeatureDesc.words.forEach((w, i) => {
-            const origColor = w.dataset.origColor || "#fff";
-            tlFeatureDesc
-              .to(
+            if (w.dataset.isGradient === "true") {
+              tlFeatureDesc.to(
                 w,
                 {
-                  backgroundSize: "0% 100%",
+                  backgroundSize: "0% 100%, 100% 100%",
                   duration: 0.12,
                   ease: "power2.in",
                 },
                 i * 0.025,
-              )
-              .to(w, { color: origColor, duration: 0.1 }, i * 0.025 + 0.02);
+              );
+            } else {
+              const origColor = w.dataset.origColor || "#fff";
+              tlFeatureDesc
+                .to(
+                  w,
+                  {
+                    backgroundSize: "0% 100%",
+                    duration: 0.12,
+                    ease: "power2.in",
+                  },
+                  i * 0.025,
+                )
+                .to(w, { color: origColor, duration: 0.1 }, i * 0.025 + 0.02);
+            }
           });
         }
 
