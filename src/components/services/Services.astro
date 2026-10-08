@@ -209,8 +209,9 @@ const services = ServicesDb as Services;
         const desc0 = panel0.querySelector(".service-anim-desc");
         if (desc0) {
           const splitDesc = SplitText.create(desc0, { type: "words" });
+          const descWords = splitDesc.words as HTMLElement[];
 
-          splitDesc.words.forEach((w) => {
+          descWords.forEach((w) => {
             const isGradient = !!w.closest(".text-gradient-brand");
             w.dataset.isGradient = isGradient ? "true" : "false";
             if (!isGradient) {
@@ -241,7 +242,7 @@ const services = ServicesDb as Services;
             },
           });
 
-          splitDesc.words.forEach((w, i) => {
+          descWords.forEach((w, i) => {
             if (w.dataset.isGradient === "true") {
               tlDesc0.to(
                 w,
@@ -301,8 +302,9 @@ const services = ServicesDb as Services;
           const splitFeatureDesc = SplitText.create(featureDesc, {
             type: "words",
           });
+          const featureWords = splitFeatureDesc.words as HTMLElement[];
 
-          splitFeatureDesc.words.forEach((w) => {
+          featureWords.forEach((w) => {
             const isGradient = !!w.closest(".text-gradient-brand");
             w.dataset.isGradient = isGradient ? "true" : "false";
             if (!isGradient) {
@@ -334,7 +336,7 @@ const services = ServicesDb as Services;
             },
           });
 
-          splitFeatureDesc.words.forEach((w, i) => {
+          featureWords.forEach((w, i) => {
             if (w.dataset.isGradient === "true") {
               tlFeatureDesc.to(
                 w,
