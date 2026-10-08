@@ -25,18 +25,19 @@
   --color-text: #ffffff;
   --color-muted: #b8c5d9;
 
+  /* =========================
+   * GRADIENTS
+   * ========================= */
+  --gradient-brand-text: linear-gradient(
+    90deg,
+    var(--color-primary-dark) 0%,
+    var(--color-primary) 55%,
+    var(--color-tertiary) 100%
+  );
+
   /* States */
   --color-danger: #ef4444;
   --color-danger-light: #f87171;
-
-  /* Brand gradient */
-  --color-gradient-start: #02209a;
-  --color-gradient-mid: #0a4ce8;
-  --color-gradient-end: #2198f4;
-
-  /* Borders */
-  --color-border: rgba(33, 152, 244, 0.2);
-  --color-border-active: #2198f4;
 
   /* Typography */
   --font-sans: "Plus Jakarta Sans", sans-serif;
@@ -58,10 +59,6 @@
 
   --color-danger: #dc2626;
   --color-danger-light: #ef4444;
-
-  --color-gradient-start: #60a5fa;
-  --color-gradient-mid: #3b82f6;
-  --color-gradient-end: #1d4ed8;
 
   --font-sans: "Inter", sans-serif;
   --font-display: "Blinker", sans-serif;
@@ -142,4 +139,13 @@ html {
       0 0 0 4px rgba(5, 110, 250, 0),
       0 4px 12px rgba(33, 152, 244, 0.18);
   }
+}
+
+.text-gradient-brand {
+  background-image: var(--gradient-brand-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  display: inline-block;
 }

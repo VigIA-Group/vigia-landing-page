@@ -3,53 +3,64 @@ interface Props {
   direction: "prev" | "next";
   targetServiceName: string;
   targetId: string;
+  size?: "sm" | "md";
 }
 
-const { direction, targetServiceName, targetId } = Astro.props;
+const { direction, targetServiceName, targetId, size = "sm" } = Astro.props;
 const isNext = direction === "next";
+
+const sizeClasses = {
+  sm: "px-3.5 py-0.5 text-xs gap-1",
+  md: "px-5 py-1 text-sm gap-1.5",
+};
 ---
 
 <button
   type="button"
-  class="service-nav-jump-btn group flex items-center gap-2 py-2 px-1 text-text/50 hover:text-[var(--color-tertiary)] bg-transparent border-none shadow-none transition-all duration-300 pointer-events-auto cursor-pointer"
+  class={`service-nav-jump-btn group inline-flex items-center rounded-full flex-shrink-0
+    font-semibold tracking-wide
+    text-text/50 hover:text-[var(--color-tertiary)]
+    bg-transparent border-none shadow-none
+    transition-all duration-300 cursor-pointer pointer-events-auto
+    hover:scale-[1.02] active:scale-[0.98]
+    ${sizeClasses[size]}`}
   data-target-id={targetId}
   aria-label={`${isNext ? "Ir al siguiente servicio" : "Ir al servicio anterior"}: ${targetServiceName}`}
 >
   {
     !isNext && (
       <svg
-        class="w-4 h-4 text-text/40 transition-all duration-300 group-hover:text-[var(--color-tertiary)] group-hover:-translate-x-1.5"
+        class="w-3 h-3 transition-transform duration-300 group-hover:-translate-x-1"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
+        aria-hidden="true"
       >
         <path
           stroke-linecap="round"
           stroke-linejoin="round"
-          stroke-width="2"
+          stroke-width="2.5"
           d="M15 19l-7-7 7-7"
         />
       </svg>
     )
   }
 
-  <span class="relative text-xs md:text-sm font-medium tracking-wide transition-colors duration-300 py-0.5">
-    Ir a {targetServiceName}
-    <span class="absolute bottom-0 left-0 w-0 h-[1.5px] bg-[var(--color-tertiary)] transition-all duration-300 ease-out group-hover:w-full"></span>
-  </span>
+  <span>{targetServiceName}</span>
 
   {
     isNext && (
       <svg
-        class="w-4 h-4 text-text/40 transition-all duration-300 group-hover:text-[var(--color-tertiary)] group-hover:translate-x-1.5"
+        class="w-3 h-3 transition-transform duration-300 group-hover:translate-x-1"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
+        aria-hidden="true"
       >
         <path
           stroke-linecap="round"
           stroke-linejoin="round"
-          stroke-width="2"
+          stroke-width="2.5"
           d="M9 5l7 7-7 7"
         />
       </svg>
