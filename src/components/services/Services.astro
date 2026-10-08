@@ -165,10 +165,8 @@ const services = ServicesDb as Services;
       const navButtons = container.querySelectorAll(".nav-btn");
 
       navButtons.forEach((btn) => {
-        btn.addEventListener("click", function () {
-          const targetIndex = parseInt(
-            (this as HTMLElement).dataset.targetIndex || "0",
-          );
+        btn.addEventListener("click", function (this: HTMLElement) {
+          const targetIndex = parseInt(this.dataset.targetIndex || "0");
           const targetPanel = panels[targetIndex];
           const st = scrollTween.scrollTrigger;
 
