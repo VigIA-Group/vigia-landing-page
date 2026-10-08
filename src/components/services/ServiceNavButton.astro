@@ -1,0 +1,99 @@
+---
+interface Props {
+  direction: "prev" | "next";
+  targetServiceName: string;
+  targetId: string;
+}
+
+const { direction, targetServiceName, targetId } = Astro.props;
+const isNext = direction === "next";
+---
+
+<button
+  type="button"
+  class="service-nav-jump-btn group flex items-center gap-2 py-2 px-1 text-text/50 hover:text-[var(--color-tertiary)] bg-transparent border-none shadow-none transition-all duration-300 pointer-events-auto cursor-pointer"
+  data-target-id={targetId}
+  aria-label={`${isNext ? "Ir al siguiente servicio" : "Ir al servicio anterior"}: ${targetServiceName}`}
+>
+  {
+    !isNext && (
+      <svg
+        class="w-4 h-4 text-text/40 transition-all duration-300 group-hover:text-[var(--color-tertiary)] group-hover:-translate-x-1.5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M15 19l-7-7 7-7"
+        />
+      </svg>
+    )
+  }
+
+  <span class="relative text-xs md:text-sm font-medium tracking-wide transition-colors duration-300 py-0.5">
+    Ir a {targetServiceName}
+    <span class="absolute bottom-0 left-0 w-0 h-[1.5px] bg-[var(--color-tertiary)] transition-all duration-300 ease-out group-hover:w-full"></span>
+  </span>
+
+  {
+    isNext && (
+      <svg
+        class="w-4 h-4 text-text/40 transition-all duration-300 group-hover:text-[var(--color-tertiary)] group-hover:translate-x-1.5"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M9 5l7 7-7 7"
+        />
+      </svg>
+    )
+  }
+</button>
+
+<script>
+  import gsap from "gsap";
+  import ScrollToPlugin from "gsap/ScrollToPlugin";
+
+  gsap.registerPlugin(ScrollToPlugin);
+
+  function bindNavJumpButtons() {
+    const buttons = document.querySelectorAll<HTMLButtonElement>(
+      ".service-nav-jump-btn",
+    );
+
+    buttons.forEach((btn) => {
+      if (btn.dataset.bound === "true") return;
+      btn.dataset.bound = "true";
+
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const targetId = btn.dataset.targetId;
+        if (!targetId) return;
+
+        const targetEl = document.getElementById(targetId);
+        if (targetEl) {
+          gsap.to(window, {
+            scrollTo: { y: targetEl, autoKill: true },
+            duration: 1.2,
+            ease: "power3.inOut",
+          });
+        }
+      });
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", bindNavJumpButtons);
+  if (
+    document.readyState === "complete" ||
+    document.readyState === "interactive"
+  ) {
+    bindNavJumpButtons();
+  }
+</script>

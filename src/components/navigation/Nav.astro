@@ -4,6 +4,9 @@ import Burger from "../../icons/Burger.astro";
 import type { Company } from "../../models/Company";
 import ContactCallActionButton from "../contacts/ContactCallActionButton.astro";
 import { NAV_LINKS } from "./constants/NavLinks";
+import ServicesDb from "../../database/services.json";
+import type { Services } from "../../models/Service";
+import { getServiceId } from "../../utils/serviceId";
 
 import LinedIn from "../../icons/LinkedIn.astro";
 import Instagram from "../../icons/Instagram.astro";
@@ -11,6 +14,7 @@ import Tiktok from "../../icons/Tiktok.astro";
 import Facebook from "../../icons/Facebook.astro";
 
 const company = CompanyDb as Company;
+const services = ServicesDb as Services;
 ---
 
 <header
@@ -47,6 +51,99 @@ const company = CompanyDb as Company;
               />
             );
           }
+
+          if (link.name === "Servicios") {
+            return (
+              <>
+                <div class="relative hidden md:block" id="desktop-services-dropdown-container">
+                  <button
+                    id="desktop-services-dropdown-btn"
+                    class="px-2 py-1 text-[15px] font-medium tracking-wide text-text hover:text-[var(--color-primary)] transition-colors flex items-center gap-1 cursor-pointer"
+                    type="button"
+                    aria-expanded="false"
+                  >
+                    Servicios
+                    <svg
+                      id="services-dropdown-arrow"
+                      class="w-3 h-3 transition-transform duration-200"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+
+                  <div
+                    id="desktop-services-dropdown-menu"
+                    class="absolute top-[calc(100%+0.5rem)] left-1/2 -translate-x-1/2 w-max min-w-[210px] bg-background shadow-[0_6px_24px_rgba(0,0,0,0.35)] border border-border/30 rounded-2xl flex-col hidden overflow-hidden py-2 z-50 transition-opacity"
+                  >
+                    {services.map((service) => {
+                      const targetId = getServiceId(service.serviceName);
+                      return (
+                        <a
+                          href={`/#${targetId}`}
+                          data-target-id={targetId}
+                          class="service-dropdown-link flex items-center gap-2.5 px-4 py-2.5 text-[14px] text-text hover:text-[var(--color-primary)] hover:bg-text/5 transition-colors"
+                        >
+                          <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-tertiary)] flex-shrink-0" />
+                          <span>{service.serviceName}</span>
+                        </a>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                <div class="flex md:hidden flex-col w-full">
+                  <button
+                    id="mobile-services-toggle"
+                    type="button"
+                    class="flex items-center justify-between w-full text-left px-0 py-1 text-[1.65rem] font-medium tracking-wide text-text hover:text-[var(--color-primary)] transition-colors"
+                  >
+                    <span>Servicios</span>
+                    <svg
+                      id="mobile-services-arrow"
+                      class="w-5 h-5 transition-transform duration-200"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+                  <div
+                    id="mobile-services-list"
+                    class="flex flex-col gap-3 pl-6 border-l-2 border-text/10 ml-1 mt-2 mb-2"
+                  >
+                    {services.map((service) => {
+                      const targetId = getServiceId(service.serviceName);
+                      return (
+                        <a
+                          href={`/#${targetId}`}
+                          data-target-id={targetId}
+                          class="mobile-link service-dropdown-link flex items-center gap-3 text-text/80 hover:text-[var(--color-primary)] text-[1.25rem] transition-colors py-0.5"
+                        >
+                          <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-tertiary)] flex-shrink-0" />
+                          <span>{service.serviceName}</span>
+                        </a>
+                      );
+                    })}
+                  </div>
+                </div>
+              </>
+            );
+          }
+
           return (
             <a
               href={link.href}
@@ -162,6 +259,27 @@ const company = CompanyDb as Company;
     "desktop-dropdown-container",
   );
 
+  const servicesDropdownBtn = document.getElementById(
+    "desktop-services-dropdown-btn",
+  );
+  const servicesDropdownMenu = document.getElementById(
+    "desktop-services-dropdown-menu",
+  );
+  const servicesDropdownArrow = document.getElementById(
+    "services-dropdown-arrow",
+  );
+  const servicesDropdownContainer = document.getElementById(
+    "desktop-services-dropdown-container",
+  );
+
+  const mobileServicesToggle = document.getElementById(
+    "mobile-services-toggle",
+  );
+  const mobileServicesList = document.getElementById("mobile-services-list");
+  const mobileServicesArrow = document.getElementById(
+    "mobile-services-arrow",
+  );
+
   let isMenuOpen = false;
 
   function updateHeaderStyle() {
@@ -216,22 +334,110 @@ const company = CompanyDb as Company;
     });
   }
 
+  // Social media dropdown
   if (dropdownBtn && dropdownMenu && dropdownArrow) {
     dropdownBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       dropdownMenu.classList.toggle("hidden");
       dropdownMenu.classList.toggle("flex");
       dropdownArrow.classList.toggle("rotate-180");
+
+      // Cerrar servicios si está abierto
+      if (servicesDropdownMenu && !servicesDropdownMenu.classList.contains("hidden")) {
+        servicesDropdownMenu.classList.add("hidden");
+        servicesDropdownMenu.classList.remove("flex");
+        servicesDropdownArrow?.classList.remove("rotate-180");
+      }
     });
   }
 
+  // Servicios dropdown desktop
+  if (
+    servicesDropdownBtn &&
+    servicesDropdownMenu &&
+    servicesDropdownArrow
+  ) {
+    servicesDropdownBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      servicesDropdownMenu.classList.toggle("hidden");
+      servicesDropdownMenu.classList.toggle("flex");
+      servicesDropdownArrow.classList.toggle("rotate-180");
+
+      // Cerrar redes si está abierto
+      if (dropdownMenu && !dropdownMenu.classList.contains("hidden")) {
+        dropdownMenu.classList.add("hidden");
+        dropdownMenu.classList.remove("flex");
+        dropdownArrow?.classList.remove("rotate-180");
+      }
+    });
+  }
+
+  // Servicios accordion mobile
+  if (mobileServicesToggle && mobileServicesList && mobileServicesArrow) {
+    mobileServicesToggle.addEventListener("click", (e) => {
+      e.stopPropagation();
+      mobileServicesList.classList.toggle("hidden");
+      mobileServicesArrow.classList.toggle("rotate-180");
+    });
+  }
+
+  // Click outside to close desktop dropdowns
   document.addEventListener("click", (e) => {
+    const target = e.target as Node;
+
     if (dropdownMenu && !dropdownMenu.classList.contains("hidden")) {
-      if (dropdownContainer && !dropdownContainer.contains(e.target as Node)) {
+      if (dropdownContainer && !dropdownContainer.contains(target)) {
         dropdownMenu.classList.add("hidden");
         dropdownMenu.classList.remove("flex");
         dropdownArrow?.classList.remove("rotate-180");
       }
     }
+
+    if (
+      servicesDropdownMenu &&
+      !servicesDropdownMenu.classList.contains("hidden")
+    ) {
+      if (
+        servicesDropdownContainer &&
+        !servicesDropdownContainer.contains(target)
+      ) {
+        servicesDropdownMenu.classList.add("hidden");
+        servicesDropdownMenu.classList.remove("flex");
+        servicesDropdownArrow?.classList.remove("rotate-180");
+      }
+    }
+  });
+
+  // Smooth scroll click handler for service links
+  const serviceDropdownLinks = document.querySelectorAll<HTMLElement>(
+    ".service-dropdown-link",
+  );
+  serviceDropdownLinks.forEach((link) => {
+    link.addEventListener("click", (e) => {
+      const targetId = link.dataset.targetId;
+      if (!targetId) return;
+
+      const targetEl = document.getElementById(targetId);
+      if (targetEl) {
+        e.preventDefault();
+
+        // Close dropdown
+        servicesDropdownMenu?.classList.add("hidden");
+        servicesDropdownMenu?.classList.remove("flex");
+        servicesDropdownArrow?.classList.remove("rotate-180");
+
+        // Close mobile menu if open
+        if (window.innerWidth < 768 && navContainer) {
+          isMenuOpen = false;
+          navContainer.classList.add("hidden");
+          navContainer.classList.remove("flex");
+          document.body.style.overflow = "";
+          updateHeaderStyle();
+        }
+
+        targetEl.scrollIntoView({ behavior: "smooth" });
+        history.pushState(null, "", `/#${targetId}`);
+      }
+    });
   });
 </script>
