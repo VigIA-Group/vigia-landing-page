@@ -29,14 +29,16 @@ const services = ServicesDb as Services;
                   src={service.image}
                   alt={service.serviceName}
                   loading="eager"
-                  class="w-full max-w-[100vw] h-full object-cover opacity-30"
+                  class="w-full max-w-[100vw] h-full object-cover object-right opacity-80"
+                  style="mask-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.7) 65%, rgba(0, 0, 0, 1) 100%); -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.7) 65%, rgba(0, 0, 0, 1) 100%);"
                 />
-                <div class="absolute inset-0 bg-gradient-to-r from-background/95 via-background/85 to-background/95" />
+                <div class="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-transparent" />
+                <div class="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-background/40" />
               </div>
 
               <div class="relative z-10 w-full max-w-4xl flex flex-col items-start gap-4 md:gap-6">
                 <h2
-                  class="service-anim-title text-4xl md:text-6xl lg:text-8xl font-semibold leading-tight m-0"
+                  class="service-anim-title text-gradient-brand text-4xl md:text-6xl lg:text-8xl font-semibold leading-tight m-0"
                   set:html={formatText(service.serviceName)}
                 />
                 <p
