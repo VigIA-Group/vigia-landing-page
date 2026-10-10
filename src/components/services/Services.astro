@@ -2,60 +2,70 @@
 import ServicesDb from "../../database/services.json";
 import type { Services } from "../../models/Service";
 import { formatText } from "../../utils/formatText";
+import ServiceNavButton from "./ServiceNavButton.astro";
+import { getServiceId } from "../../utils/serviceId";
 
 const services = ServicesDb as Services;
 ---
 
 <section id="services" class="bg-background text-text overflow-hidden">
   {
-    services.map((service) => (
-      <div class="service-pin-container relative h-screen w-full overflow-hidden">
-        <div class="horizontal-track relative flex h-full w-max will-change-transform">
-          <div class="panel w-screen h-screen flex-shrink-0 relative flex flex-col justify-center px-6 md:px-24">
-            <div class="absolute inset-0 z-0">
-              <img
-                src={service.image}
-                alt={service.serviceName}
-                loading="lazy"
-                class="w-full h-full object-cover opacity-30"
-              />
-              <div class="absolute inset-0 bg-gradient-to-r from-background/90 via-background/80 to-background/90" />
+    services.map((service, sIndex) => {
+      const serviceId = getServiceId(service.serviceName);
+      const prevService = sIndex > 0 ? services[sIndex - 1] : null;
+      const nextService =
+        sIndex < services.length - 1 ? services[sIndex + 1] : null;
+
+      return (
+        <div
+          id={serviceId}
+          class="service-pin-container relative h-screen w-full overflow-hidden"
+        >
+          <div class="horizontal-track relative flex h-full w-max will-change-transform">
+            <!-- Panel 0: Presentación del Servicio (ancho máximo 100vw) -->
+            <div class="panel w-screen max-w-[100vw] h-screen flex-shrink-0 relative flex flex-col justify-center px-6 md:px-24 overflow-hidden">
+              <div class="absolute inset-0 z-0 w-full max-w-[100vw] h-full overflow-hidden pointer-events-none">
+                <img
+                  src={service.image}
+                  alt={service.serviceName}
+                  loading="eager"
+                  class="w-full max-w-[100vw] h-full object-cover object-right opacity-80"
+                  style="mask-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.7) 65%, rgba(0, 0, 0, 1) 100%); -webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 30%, rgba(0, 0, 0, 0.7) 65%, rgba(0, 0, 0, 1) 100%);"
+                />
+                <div class="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-transparent" />
+                <div class="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-background/40" />
+              </div>
+
+              <div class="relative z-10 w-full max-w-4xl flex flex-col items-start gap-4 md:gap-6">
+                <h2
+                  class="service-anim-title text-gradient-brand-animated text-4xl md:text-6xl lg:text-8xl font-semibold leading-tight m-0"
+                  set:html={formatText(service.serviceName)}
+                />
+                <p
+                  class="service-anim-desc text-lg md:text-2xl font-normal text-text leading-relaxed m-0 max-w-2xl"
+                  set:html={formatText(service.description)}
+                />
+              </div>
             </div>
 
-            <div class="relative z-10 w-full max-w-4xl flex flex-col items-start gap-4 md:gap-6">
-              <h2
-                class="service-anim-text text-4xl md:text-6xl lg:text-8xl font-semibold leading-tight m-0"
-                set:html={formatText(service.serviceName)}
-              />
-              <p
-                class="service-anim-text text-lg md:text-2xl font-normal text-text leading-relaxed m-0 max-w-2xl"
-                set:html={formatText(service.description)}
-              />
-            </div>
-          </div>
-
-          {service.features.map((feature, fIndex) => {
-            const panelIndex = fIndex + 1;
-            const isLastPanel = fIndex === service.features.length - 1;
-
-            return (
-              <div class="panel w-screen lg:w-max h-screen flex-shrink-0 relative flex items-center justify-center px-6 lg:px-16 bg-background border-l border-text/10">
-                <div class="h-full flex flex-col lg:flex-row gap-6 md:gap-10 lg:gap-20 items-center justify-center w-full py-8 md:py-12 lg:py-0">
-                  <div class="flex flex-col items-start gap-4 md:gap-6 w-full lg:w-[350px] xl:w-[450px] flex-shrink-0">
-                    <span class="feature-anim-text text-[0.65rem] md:text-xs tracking-[0.2em] text-text/50 uppercase">
-                      {service.serviceName}
-                    </span>
+            <!-- Paneles 1..N: Módulos del servicio (ocupan solo el ancho necesario, sin separadores ni título redundante) -->
+            {service.features.map((feature) => (
+              <div class="panel w-max h-screen flex-shrink-0 relative flex items-center justify-center px-8 md:px-14 lg:px-20 bg-background overflow-hidden">
+                <div class="h-full flex flex-col lg:flex-row gap-6 md:gap-10 lg:gap-14 items-center justify-center py-8 md:py-12 lg:py-0">
+                  <!-- Columna de texto -->
+                  <div class="flex flex-col items-start gap-4 md:gap-6 w-full lg:w-[350px] xl:w-[420px] flex-shrink-0 z-10">
                     <h3
-                      class="feature-anim-text text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight m-0"
+                      class="feature-anim-title text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight m-0 text-white"
                       set:html={formatText(feature.featureName)}
                     />
                     <p
-                      class="feature-anim-text text-base md:text-lg font-normal text-text leading-relaxed m-0"
+                      class="feature-anim-desc text-base md:text-lg font-normal text-text leading-relaxed m-0"
                       set:html={formatText(feature.description)}
                     />
                   </div>
 
-                  <div class="flex flex-row items-center justify-center gap-3 md:gap-6 lg:gap-12 w-full lg:w-auto h-[35vh] md:h-[45vh] lg:h-[75vh] lg:pr-12">
+                  <!-- Columna de imágenes: altura máxima con ancho proporcional a la imagen -->
+                  <div class="flex flex-row items-center justify-center gap-4 md:gap-6 lg:gap-8 h-[35vh] md:h-[45vh] lg:h-[70vh] z-10">
                     {feature.images &&
                       feature.images.map((img, imgIndex) => {
                         const isMultiple = feature.images.length > 1;
@@ -64,29 +74,53 @@ const services = ServicesDb as Services;
                         if (isMultiple) {
                           transformClass =
                             imgIndex % 2 === 0
-                              ? "lg:-translate-y-8"
-                              : "lg:translate-y-8";
+                              ? "lg:-translate-y-6"
+                              : "lg:translate-y-6";
                         }
 
                         return (
-                          <img
-                            src={img}
-                            alt={feature.featureName}
-                            loading="lazy"
-                            class={`feature-anim-img object-contain rounded-md shadow-xl lg:shadow-2xl h-full lg:max-w-none 
-                              ${isMultiple ? "flex-1 min-w-0 max-w-full lg:flex-none lg:w-auto" : "w-auto max-w-[85vw] lg:w-auto"} 
-                              ${transformClass}`}
-                          />
+                          <div
+                            class={`h-full flex items-center justify-center ${transformClass}`}
+                          >
+                            <img
+                              src={img}
+                              alt={feature.featureName}
+                              loading="eager"
+                              class="feature-anim-img object-contain rounded-md shadow-xl lg:shadow-2xl h-full w-auto max-w-none"
+                            />
+                          </div>
                         );
                       })}
                   </div>
                 </div>
               </div>
-            );
-          })}
+            ))}
+          </div>
+
+          <!-- Botones flotantes entre servicios (discretos y minimalistas) -->
+          <div class="service-nav-floating pointer-events-none absolute bottom-6 md:bottom-8 left-6 md:left-12 right-6 md:right-12 z-30 flex items-center justify-between">
+            <div class="flex items-center">
+              {prevService && (
+                <ServiceNavButton
+                  direction="prev"
+                  targetServiceName={prevService.serviceName}
+                  targetId={getServiceId(prevService.serviceName)}
+                />
+              )}
+            </div>
+            <div class="flex items-center ml-auto">
+              {nextService && (
+                <ServiceNavButton
+                  direction="next"
+                  targetServiceName={nextService.serviceName}
+                  targetId={getServiceId(nextService.serviceName)}
+                />
+              )}
+            </div>
+          </div>
         </div>
-      </div>
-    ))
+      );
+    })
   }
 </section>
 
@@ -94,11 +128,22 @@ const services = ServicesDb as Services;
   import gsap from "gsap";
   import ScrollTrigger from "gsap/ScrollTrigger";
   import ScrollToPlugin from "gsap/ScrollToPlugin";
+  import { SplitText } from "gsap/SplitText";
 
-  gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+  gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, SplitText);
 
-  document.addEventListener("DOMContentLoaded", () => {
-    const pinContainers = document.querySelectorAll(".service-pin-container");
+  // Scroll Highlight: --color-text (#ffffff, blanco)
+  const HIGHLIGHT_COLOR = "#ffffff";
+
+  let initialized = false;
+
+  function initServices() {
+    if (initialized) return;
+    initialized = true;
+
+    const pinContainers = document.querySelectorAll<HTMLElement>(
+      ".service-pin-container",
+    );
 
     pinContainers.forEach((container) => {
       const track = container.querySelector(".horizontal-track") as HTMLElement;
@@ -108,9 +153,16 @@ const services = ServicesDb as Services;
         container.querySelectorAll(".panel"),
       ) as HTMLElement[];
 
-      const getScrollAmount = () => track.scrollWidth - window.innerWidth;
+      const totalPanels = panels.length;
+      if (totalPanels === 0) return;
 
-      // 1. Animación Horizontal
+      // Cálculo de desplazamiento horizontal exacto según el ancho real acumulado
+      const getScrollAmount = () => track.scrollWidth - window.innerWidth;
+      // Duración de scroll vertical proporcional
+      const getPinDuration = () =>
+        Math.max(window.innerHeight * (totalPanels - 0.5), getScrollAmount());
+
+      // 1. Animación Horizontal con Pin
       const scrollTween = gsap.to(track, {
         x: () => -getScrollAmount(),
         ease: "none",
@@ -118,78 +170,246 @@ const services = ServicesDb as Services;
           trigger: container,
           pin: true,
           scrub: 1,
-          end: () => `+=${getScrollAmount()}`,
+          start: "top top",
+          end: () => `+=${getPinDuration()}`,
           invalidateOnRefresh: true,
         },
       });
 
-      // 2. Animaciones de Entrada (Textos e Imágenes escalonadas)
-      panels.forEach((panel) => {
-        const texts = panel.querySelectorAll(".feature-anim-text");
-        const images = panel.querySelectorAll(".feature-anim-img");
-
-        if (texts.length > 0) {
-          gsap.from(texts, {
-            y: 30,
-            autoAlpha: 0,
-            stagger: 0.1,
-            duration: 0.8,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: panel,
-              containerAnimation: scrollTween,
-              start: "left 75%",
-              toggleActions: "play none none reverse",
-            },
-          });
-        }
-
-        if (images.length > 0) {
-          gsap.from(images, {
-            x: 50,
-            autoAlpha: 0,
-            stagger: 0.15,
-            duration: 1,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: panel,
-              containerAnimation: scrollTween,
-              start: "left 75%",
-              toggleActions: "play none none reverse",
-            },
+      // Recalcular posiciones cuando las imágenes del track terminen de cargar
+      const trackImages = container.querySelectorAll("img");
+      trackImages.forEach((img) => {
+        if (!img.complete) {
+          img.addEventListener("load", () => {
+            ScrollTrigger.refresh();
           });
         }
       });
 
-      // 3. Navegación Exacta entre Paneles de Ancho Variable
-      const navButtons = container.querySelectorAll(".nav-btn");
+      // 2. Panel 0: Presentación del servicio
+      const panel0 = panels[0];
+      if (panel0) {
+        // Entrada del título del servicio (conserva la animación del degradé fluido en CSS)
+        const title0 = panel0.querySelector(".service-anim-title");
+        if (title0) {
+          gsap.from(title0, {
+            y: 35,
+            opacity: 0,
+            duration: 0.8,
+            ease: "sine.out",
+            scrollTrigger: {
+              trigger: container,
+              start: "top 75%",
+              toggleActions: "play none none reverse",
+            },
+          });
+        }
 
-      navButtons.forEach((btn) => {
-        btn.addEventListener("click", function () {
-          const targetIndex = parseInt(
-            (this as HTMLElement).dataset.targetIndex || "0",
-          );
-          const targetPanel = panels[targetIndex];
-          const st = scrollTween.scrollTrigger;
+        // Scroll Highlight con blanco (--color-text: #ffffff)
+        const desc0 = panel0.querySelector(".service-anim-desc");
+        if (desc0) {
+          const splitDesc = SplitText.create(desc0, { type: "words" });
+          const descWords = splitDesc.words as HTMLElement[];
 
-          if (targetPanel && st) {
-            // Obtenemos la distancia exacta del panel respecto al inicio del track
-            const targetX = targetPanel.offsetLeft;
+          descWords.forEach((w) => {
+            const isGradient = !!w.closest(".text-gradient-brand");
+            w.dataset.isGradient = isGradient ? "true" : "false";
+            if (!isGradient) {
+              const origColor = window.getComputedStyle(w).color || "#ffffff";
+              w.dataset.origColor = origColor;
+              w.style.backgroundImage = `linear-gradient(${HIGHLIGHT_COLOR}, ${HIGHLIGHT_COLOR})`;
+              w.style.backgroundSize = "100% 100%";
+              w.style.backgroundRepeat = "no-repeat";
+              w.style.color = "transparent";
+            } else {
+              w.style.backgroundImage = `linear-gradient(${HIGHLIGHT_COLOR}, ${HIGHLIGHT_COLOR}), var(--gradient-brand-text)`;
+              w.style.backgroundSize = "100% 100%, 100% 100%";
+              w.style.backgroundRepeat = "no-repeat";
+              w.style.webkitBackgroundClip = "text";
+              w.style.backgroundClip = "text";
+              w.style.webkitTextFillColor = "transparent";
+            }
+            w.style.padding = "1px 2px";
+            w.style.borderRadius = "2px";
+            w.style.display = "inline-block";
+          });
 
-            // Calculamos cuánto representa esa distancia en progreso (0 a 1)
-            const progress = targetX / getScrollAmount();
+          const tlDesc0 = gsap.timeline({
+            scrollTrigger: {
+              trigger: container,
+              start: "top 75%",
+              toggleActions: "play none none reverse",
+            },
+          });
 
-            // Calculamos el scroll vertical equivalente
-            const targetScroll = st.start + (st.end - st.start) * progress;
+          descWords.forEach((w, i) => {
+            if (w.dataset.isGradient === "true") {
+              tlDesc0.to(
+                w,
+                {
+                  backgroundSize: "0% 100%, 100% 100%",
+                  duration: 0.12,
+                  ease: "power2.in",
+                },
+                i * 0.025,
+              );
+            } else {
+              const origColor = w.dataset.origColor || "#fff";
+              tlDesc0
+                .to(
+                  w,
+                  {
+                    backgroundSize: "0% 100%",
+                    duration: 0.12,
+                    ease: "power2.in",
+                  },
+                  i * 0.025,
+                )
+                .to(w, { color: origColor, duration: 0.1 }, i * 0.025 + 0.02);
+            }
+          });
+        }
+      }
 
-            gsap.to(window, {
-              scrollTo: { y: targetScroll, autoKill: true },
-              duration: 1.2,
-              ease: "power3.inOut",
+      // 3. Paneles 1..N: Módulos del servicio
+      panels.slice(1).forEach((panel) => {
+        // Entrada de títulos de módulos (Wave)
+        const featureTitle = panel.querySelector(".feature-anim-title");
+        if (featureTitle) {
+          const splitFeatureTitle = SplitText.create(featureTitle, {
+            type: "chars",
+            smartWrap: true,
+          });
+
+          gsap.from(splitFeatureTitle.chars, {
+            y: 35,
+            opacity: 0,
+            stagger: { each: 0.03, from: "start" },
+            duration: 0.6,
+            ease: "sine.out",
+            scrollTrigger: {
+              trigger: panel,
+              containerAnimation: scrollTween,
+              start: "left 85%",
+              toggleActions: "play none none reverse",
+            },
+          });
+        }
+
+        // Scroll Highlight con blanco (#ffffff)
+        const featureDesc = panel.querySelector(".feature-anim-desc");
+        if (featureDesc) {
+          const splitFeatureDesc = SplitText.create(featureDesc, {
+            type: "words",
+          });
+          const featureWords = splitFeatureDesc.words as HTMLElement[];
+
+          featureWords.forEach((w) => {
+            const isGradient = !!w.closest(".text-gradient-brand");
+            w.dataset.isGradient = isGradient ? "true" : "false";
+            if (!isGradient) {
+              const origColor = window.getComputedStyle(w).color || "#ffffff";
+              w.dataset.origColor = origColor;
+              w.style.backgroundImage = `linear-gradient(${HIGHLIGHT_COLOR}, ${HIGHLIGHT_COLOR})`;
+              w.style.backgroundSize = "100% 100%";
+              w.style.backgroundRepeat = "no-repeat";
+              w.style.color = "transparent";
+            } else {
+              w.style.backgroundImage = `linear-gradient(${HIGHLIGHT_COLOR}, ${HIGHLIGHT_COLOR}), var(--gradient-brand-text)`;
+              w.style.backgroundSize = "100% 100%, 100% 100%";
+              w.style.backgroundRepeat = "no-repeat";
+              w.style.webkitBackgroundClip = "text";
+              w.style.backgroundClip = "text";
+              w.style.webkitTextFillColor = "transparent";
+            }
+            w.style.padding = "1px 2px";
+            w.style.borderRadius = "2px";
+            w.style.display = "inline-block";
+          });
+
+          const tlFeatureDesc = gsap.timeline({
+            scrollTrigger: {
+              trigger: panel,
+              containerAnimation: scrollTween,
+              start: "left 85%",
+              toggleActions: "play none none reverse",
+            },
+          });
+
+          featureWords.forEach((w, i) => {
+            if (w.dataset.isGradient === "true") {
+              tlFeatureDesc.to(
+                w,
+                {
+                  backgroundSize: "0% 100%, 100% 100%",
+                  duration: 0.12,
+                  ease: "power2.in",
+                },
+                i * 0.025,
+              );
+            } else {
+              const origColor = w.dataset.origColor || "#fff";
+              tlFeatureDesc
+                .to(
+                  w,
+                  {
+                    backgroundSize: "0% 100%",
+                    duration: 0.12,
+                    ease: "power2.in",
+                  },
+                  i * 0.025,
+                )
+                .to(w, { color: origColor, duration: 0.1 }, i * 0.025 + 0.02);
+            }
+          });
+        }
+
+        // Animación de Imágenes: super pequeña -> REBOTE al llegar a normal -> super pequeña
+        const featureImages = panel.querySelectorAll(".feature-anim-img");
+        if (featureImages.length > 0) {
+          const imgTl = gsap.timeline({
+            scrollTrigger: {
+              trigger: panel,
+              containerAnimation: scrollTween,
+              start: "left right",
+              end: "right left",
+              scrub: true,
+            },
+          });
+
+          imgTl
+            .fromTo(
+              featureImages,
+              { scale: 0.15, opacity: 0.2, transformOrigin: "center center" },
+              {
+                scale: 1,
+                opacity: 1,
+                transformOrigin: "center center",
+                duration: 1,
+                ease: "back.out(2.5)", // Efecto rebote elástico al alcanzar tamaño normal
+              },
+            )
+            .to(featureImages, {
+              scale: 0.15,
+              opacity: 0.2,
+              transformOrigin: "center center",
+              duration: 1,
+              ease: "power1.in",
             });
-          }
-        });
+        }
       });
     });
-  });
+
+    window.addEventListener("load", () => {
+      ScrollTrigger.refresh();
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", initServices);
+  if (
+    document.readyState === "complete" ||
+    document.readyState === "interactive"
+  ) {
+    initServices();
+  }
 </script>
