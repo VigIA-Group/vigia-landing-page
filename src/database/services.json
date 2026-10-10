@@ -35,7 +35,7 @@
       {
         "featureName": "Conteo Automático de Producción",
         "description": "Olvídate de destinar personal al conteo manual. La IA cuenta automáticamente unidades, cajas o botellas por turno.[/line-break]Así [bold][primary-color]ahorras horas de trabajo operativo y mides exactamente contra tu meta diaria[/primary-color][/bold].",
-        "images": ["/images/services/smart_production/auto-counting.jpg"]
+        "images": ["/images/services/smart_production/auto-counting.png"]
       },
       {
         "featureName": "Control de Flujo y Detenciones",
@@ -62,12 +62,12 @@
       {
         "featureName": "Control de EPP por Zonas",
         "description": "Verifica automáticamente el uso correcto de cascos, chalecos o guantes dependiendo del área específica.[/line-break]Reduce accidentes y [bold][primary-color]garantiza que tu equipo trabaje protegido bajo las normativas industriales[/primary-color][/bold].",
-        "images": ["/images/services/smart_operations/epp-control.jpg"]
+        "images": ["/images/services/smart_operations/epp-control.png"]
       },
       {
         "featureName": "Supervisión de Puestos y Atención",
         "description": "Detecta si un puesto de cobro está vacío con clientes esperando o el uso indebido de celulares en horario de trabajo.[/line-break]Mejora tu servicio al instante y [bold][primary-color]evita perder ventas por descuidos del personal[/primary-color][/bold].",
-        "images": ["/images/services/smart_operations/attention-monitoring.jpg"]
+        "images": ["/images/services/smart_operations/attention-monitoring.png"]
       }
     ]
   },
