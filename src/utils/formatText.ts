@@ -88,7 +88,7 @@ function render(nodes: Node[]): string {
         case "extra-bold":
           return `<strong class="font-extrabold">${render(node.children)}</strong>`;
         case "primary-color":
-          return `<span class="text-[var(--color-tertiary)]">${render(node.children)}</span>`;
+          return `<span class="text-gradient-brand">${render(node.children)}</span>`;
       }
     })
     .join("");

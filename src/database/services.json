@@ -1,6 +1,6 @@
 [
   {
-    "serviceName": "Analitica de Personas",
+    "serviceName": "Analítica de Personas",
     "description": "¿Sabes realmente cómo se mueven las personas dentro de tu negocio?[/line-break]Nuestra IA convierte lo que antes era invisible en información clara sobre cómo actúan tus clientes, para que [bold][primary-color]tomes decisiones basadas en hechos, no en suposiciones[/primary-color][/bold].",
     "image": "/images/services/people_analytics/image1.png",
     "features": [
@@ -28,29 +28,71 @@
     ]
   },
   {
-    "serviceName": "Detección de Intrusos",
-    "description": "¿Qué pasaría si pudieras enterarte de una amenaza antes de que sea un problema?[/line-break]Nuestra IA vigila por ti las 24 horas, para que [bold][primary-color]actúes con calma y confianza[/primary-color][/bold], sin depender de estar mirando una pantalla.",
-    "image": "/images/services/intrusion_detection/image1.png",
+    "serviceName": "Producción Inteligente",
+    "description": "¿Sabes realmente cuánto se está produciendo y a qué ritmo?[/line-break]Utiliza las cámaras de tu planta para medir y supervisar procesos en tiempo real, para que [bold][primary-color]tengas visibilidad total de tu línea sin depender de conteos manuales[/primary-color][/bold].",
+    "image": "/images/services/smart_production/image1.png",
     "features": [
       {
-        "featureName": "Definición de Áreas",
-        "description": "Tú decides qué zonas realmente importan — una entrada, un estacionamiento, una sala restringida.[/line-break]Al enfocarse solo en esos lugares, la IA te avisa [bold][primary-color]solo cuando de verdad importa[/primary-color][/bold], sin alarmas innecesarias.",
-        "images": ["/images/services/intrusion_detection/area-selector.png"]
+        "featureName": "Conteo Automático de Producción",
+        "description": "Olvídate de destinar personal al conteo manual. La IA cuenta automáticamente unidades, cajas o botellas por turno.[/line-break]Así [bold][primary-color]ahorras horas de trabajo operativo y mides exactamente contra tu meta diaria[/primary-color][/bold].",
+        "images": ["/images/services/smart_production/auto-counting.png"]
+      },
+      {
+        "featureName": "Control de Flujo y Detenciones",
+        "description": "Descubre el momento exacto en el que una línea se detiene o empieza a acumular productos.[/line-break]Reacciona en minutos para [bold][primary-color]resolver cuellos de botella y mantener tu eficiencia operativa al máximo[/primary-color][/bold].",
+        "images": ["/images/services/smart_production/flow-control.jpg"]
+      },
+      {
+        "featureName": "Detección de Anomalías Visuales",
+        "description": "Supervisa tus productos en busca de fallos visuales en etiquetas, envases o posicionamiento.[/line-break]Detecta irregularidades rápidamente y [bold][primary-color]asegura que todo salga de fábrica cumpliendo tu estándar de calidad[/primary-color][/bold].",
+        "images": ["/images/services/smart_production/visual-anomalies.jpg"]
+      }
+    ]
+  },
+  {
+    "serviceName": "Operaciones Inteligentes",
+    "description": "¿Tus procesos se cumplen correctamente cuando no estás mirando?[/line-break]Supervisa de forma automática el cumplimiento de protocolos y estándares de trabajo, para que [bold][primary-color]garantices la excelencia operativa en cada planta o sucursal[/primary-color][/bold].",
+    "image": "/images/services/smart_operations/image1.png",
+    "features": [
+      {
+        "featureName": "Score Operativo Consolidado",
+        "description": "Unifica la puntualidad de apertura, cumplimiento de normas y supervisión en un solo panel.[/line-break]Con este indicador, [bold][primary-color]auditas el rendimiento real de todas tus sucursales en vivo y desde un solo lugar[/primary-color][/bold].",
+        "images": ["/images/services/smart_operations/operational-score.jpg"]
+      },
+      {
+        "featureName": "Control de EPP por Zonas",
+        "description": "Verifica automáticamente el uso correcto de cascos, chalecos o guantes dependiendo del área específica.[/line-break]Reduce accidentes y [bold][primary-color]garantiza que tu equipo trabaje protegido bajo las normativas industriales[/primary-color][/bold].",
+        "images": ["/images/services/smart_operations/epp-control.png"]
+      },
+      {
+        "featureName": "Supervisión de Puestos y Atención",
+        "description": "Detecta si un puesto de cobro está vacío con clientes esperando o el uso indebido de celulares en horario de trabajo.[/line-break]Mejora tu servicio al instante y [bold][primary-color]evita perder ventas por descuidos del personal[/primary-color][/bold].",
+        "images": ["/images/services/smart_operations/attention-monitoring.png"]
+      }
+    ]
+  },
+  {
+    "serviceName": "Seguridad Inteligente",
+    "description": "¿Qué pasaría si pudieras enterarte de una amenaza antes de que sea un problema?[/line-break]Nuestra IA no es solo una cámara, analiza el video en tiempo real para que [bold][primary-color]actúes con rapidez y complementes eficientemente a tu personal de seguridad[/primary-color][/bold].",
+    "image": "/images/services/smart_security/image1.png",
+    "features": [
+      {
+        "featureName": "Zonas Restringidas e Intrusión",
+        "description": "Tú decides qué áreas importan y en qué horarios nadie debería tener acceso.[/line-break]Al enfocarse solo en zonas críticas, la IA te avisa [bold][primary-color]solo cuando hay una amenaza real[/primary-color][/bold], reduciendo las falsas alarmas.",
+        "images": ["/images/services/smart_security/area-selector.png"]
       },
       {
         "featureName": "Alertas en [bold][primary-color]Tiempo Real[/primary-color][/bold]",
-        "description": "En cuanto algo sale de lo normal, recibes en tu celular una notificación con imagen o video del momento exacto.[/line-break]Así puedes [bold][primary-color]reaccionar de inmediato, estés donde estés[/primary-color][/bold].",
+        "description": "En cuanto ocurre un cruce de línea no autorizado, recibes en tu celular una notificación con la imagen del incidente.[/line-break]Así puedes [bold][primary-color]escalar el problema de inmediato, estés donde estés[/primary-color][/bold].",
         "images": [
-          "/images/services/intrusion_detection/intruder-alert.jpg",
-          "/images/services/intrusion_detection/intruder_detected.png"
+          "/images/services/smart_security/intruder-alert.jpg",
+          "/images/services/smart_security/intruder_detected.png"
         ]
       },
       {
-        "featureName": "Cámaras Inteligentes",
-        "description": "Cuando la IA detecta un intruso, la cámara lo sigue sola, sin que nadie tenga que moverla.[/line-break]Así obtienes [bold][primary-color]grabaciones claras que facilitan identificar quién fue[/primary-color][/bold], sin esfuerzo de tu parte.",
-        "images": [
-          "/images/services/intrusion_detection/ptz-area-config-propagator.png"
-        ]
+        "featureName": "Protección contra Sabotaje (Tampering)",
+        "description": "Si alguien intenta tapar, girar o bloquear la señal de una de tus cámaras, el sistema genera una alerta instantánea.[/line-break]Garantiza que los ojos de tu negocio [bold][primary-color]nunca dejen de funcionar sin que tú lo sepas[/primary-color][/bold].",
+        "images": ["/images/services/smart_security/tampering-alert.png"]
       }
     ]
   }
